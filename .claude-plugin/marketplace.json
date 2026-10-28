@@ -9,5 +9,8 @@
       "source": "./",
       "description": "Step-by-step production handbook for videos and visual assets."
     }
-  ]
+  ],
+  "metadata": {
+    "description": "Local marketplace for the Production Playbook plugin."
+  }
 }
