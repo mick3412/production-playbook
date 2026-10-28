@@ -1,0 +1,1669 @@
+[00:00] A super important and ultra important announcement I'm supposed to tell everybody.
+[00:03] You have a chance to win something, right?
+[00:05] So you want to listen to this one.
+[00:07] So you're going to have to watch along, follow along in the live stream,
+[00:10] because our Brockbot Galaxy live stream challenge is now live.
+[00:15] So we're going to break pretty much.
+[00:16] I know this is exciting.
+[00:18] I hear woo's time.
+[00:19] The main things we wanted to cover were just kind of like the layout,
+[00:22] how this is all going to work, the contest.
+[00:25] And now we can just start talking a little bit about what we're planning to do.
+[00:29] And I also want to give you guys a little bit more background on who we are,
+[00:32] like what we do day to day, because that can be ambiguous,
+[00:36] and it's never really clearly laid out.
+[00:38] So our goal is to show you all basically how AI can help you get more stuff done.
+[00:44] And more importantly, how AI can free up your time so that you're not bogged down
+[00:48] by all the menial tasks and the boring stuff that we all have to do every day,
+[00:52] that we've done for our entire lives, most of us, right?
+[00:54] Whether that's like digging through Excel sheets or trying to figure out
+[00:57] where that one message went that you think somebody sent you last night,
+[01:00] but you can't quite remember.
+[01:02] Or, you know, actually writing code and automating some of the more manual parts
+[01:07] of software, but not just software.
+[01:09] Knowledge work, making slides, making designs.
+[01:12] And the key message, I think, really, is that AI frees you up to do the stuff
+[01:17] you actually care about.
+[01:18] And so maybe we could just go around and I'll tell you a little bit more about myself.
+[01:22] I'll give you a little intro and what I do.
+[01:25] And I would love for the rest of the team to share, because, I mean,
+[01:28] presumably if you're watching this, you're going to be spending some time with us
+[01:30] over the next 72 hours.
+[01:32] Over the next 78 hours.
+[01:33] A few hours, yeah.
+[01:33] And we're trying to go from sort of really nothing to a fully functioning company.
+[01:38] And shortly, we'll also lay out exactly what we mean when we say company, right?
+[01:43] Because there's actually a lot of confusion on this online.
+[01:45] It's like, oh, they're building a business.
+[01:47] I saw some quote tweets.
+[01:48] They're like, they're building a startup.
+[01:50] They're building a multi-billion dollar company.
+[01:51] We could maybe do all of that, though.
+[01:52] I don't know.
+[01:54] We could try.
+[01:55] We could try, yeah.
+[01:55] Someone told us Twitter handles up.
+[01:57] Yeah, we should bring this up somewhere.
+[01:58] At Matty P.
+[01:59] That's all you got to know.
+[02:01] Nice thing.
+[02:02] But I think this one was pretty cool.
+[02:04] I set up GrokBot, basically, to do the process of, like, trying out new technologies.
+[02:08] So it goes on my X bookmarks, finds, like, a cool package or a cool technology.
+[02:14] So I'll, like, bookmark, oh, like, here's a cool NPM package that can, like, make maps
+[02:18] or make, like, a rotating globe.
+[02:21] And then it's like, okay, I have to find the time to sit down, spin up that repo, like,
+[02:25] actually have this thing running to, like, understand really what it is or read the documentation
+[02:29] or whatever.
+[02:30] And so this GrokBot looks at my X bookmarks and finds things like that.
+[02:34] It will fire up a cursor cloud agent to start building with that technology.
+[02:38] And then I configured the repo using GrokBot, actually, to do preview deploys.
+[02:43] I think using Cloudflare or something.
+[02:45] And so every morning I just get a message from the GrokBot and says, hey, here's this
+[02:49] technology that was in your bookmarks that you thought was cool.
+[02:51] And here's, like, a deployed version of it.
+[02:54] That's super cool.
+[02:54] Yeah, I have a walkthrough on my Twitter page of, like, how to do that.
+[02:57] So, yeah, that was maybe my favorite.
+[02:59] I like that a lot.
+[03:00] I'm glad I asked.
+[03:01] I feel like, again, this is, like, I always learn something any time I talk to someone.
+[03:03] It's cooler than the stuff I do.
+[03:04] We've got that.
+[03:05] You've, like, built GrokBot.
+[03:07] Are you kidding me?
+[03:09] Okay, well, I guess I'll go next.
+[03:11] I'm Roshan.
+[03:12] I work on product at SpaceX AI.
+[03:14] And I don't know, I feel like the product role has really changed in the last few months
+[03:18] and maybe year plus where, I don't know, depending on sort of which philosophy you subscribe
+[03:24] to, everyone is sort of a builder now.
+[03:26] But I don't know.
+[03:27] I think a lot of what I spend my time thinking about is how to build the right things for customers
+[03:31] and how to kind of bring that customer.
+[03:33] Really crazy things, I think, like, really random things.
+[03:37] So a couple weeks back, I tweeted out this kind of a joke where I said, like, if you want
+[03:44] to summon me on X, just say potato, potato, potato.
+[03:48] And then, like, I will just appear and say something.
+[03:51] Of course, I had to automate that because there's no way I could respond to so many mentions.
+[03:56] So I used GraphBot for that.
+[04:00] I also do a lot of engineering work on GraphBot.
+[04:04] So I think coming on the live stream and talking to you all and working together, it's going
+[04:08] to be really fun because usually I feel like I'm stuck in my cave, my goblin cave at home,
+[04:14] you know, just coding.
+[04:16] I work on GraphBot.
+[04:17] So I'm really obsessed about performance.
+[04:19] And so I'm just constantly just working on making the app faster and faster and faster.
+[04:25] So I really love doing that.
+[04:27] We're all thankful for this.
+[04:28] Yeah.
+[04:28] And another thing I really like or I spent a lot of time on is setting up the GrokBot code
+[04:33] base so that anyone, right, like whether you're a PM or a designer, to contribute to the code
+[04:39] and have it be good by default.
+[04:41] So I'm looking forward to like setting something up like that here too so that, you know, all
+[04:46] three of us can be building and iterating really quickly together on, well, I don't even know
+[04:52] what we're going to build, but I think it'll be a lot of fun.
+[04:54] Yeah.
+[04:54] Oh, I'm excited for that.
+[04:56] It's because I love the GrokBot devX just like coming in from the outside.
+[04:59] It's super easy to understand the way you lay things out.
+[05:02] We have like, you know, channels where if there's an issue, we just post what the issue
+[05:05] is and like some cloud agent somewhere.
+[05:07] Yeah.
+[05:07] And also usually you, like it's kind of shocking how fast you like appear when issues.
+[05:12] Yeah.
+[05:12] I don't know.
+[05:12] For me, it's like, I think you want to make something useful.
+[05:15] I don't know.
+[05:15] I kind of go back to the build something people want mentality, right?
+[05:18] I think we need to build something useful, something people want, maybe something we'd
+[05:21] use ourselves.
+[05:22] Yeah.
+[05:23] You know, that's often a good way to like, I think we'll have a lot of empathy for what
+[05:25] we're doing if it's something that we'd want to build and use ourselves to.
+[05:28] What do you guys think?
+[05:30] I like the dog fooding part because for me, one of the, you know, the thing, one of the things
+[05:34] I really love about working on GrokBot is that I use it to work on itself.
+[05:38] So it's just a really nice loop of being able to dog food your own product and make it better,
+[05:44] you know, be the ultimate power user of your own thing.
+[05:46] So I feel like we definitely want to have something like that for our business idea.
+[05:50] But yeah, when it comes to business, I guess, I don't know.
+[05:54] I think it definitely involves maybe making a little bit of money.
+[06:00] Oh, we should make money.
+[06:02] Okay.
+[06:02] All right.
+[06:03] The team wants to make money.
+[06:04] It's not a real business until we got to have it, you know, see the dollar flowing into the
+[06:08] bank account.
+[06:08] Okay.
+[06:08] That's going to be great.
+[06:09] So business, dollars to bank accounts, building, dog fooding, testing out the product, building
+[06:15] something people want.
+[06:17] Yeah.
+[06:18] If I was going to add anything, I would just say that I think it's easy to forget, especially
+[06:22] in like, we're all terminally online.
+[06:24] Like if you're watching the stream, you're part of like X, which is where people go.
+[06:27] They want to know stuff, right?
+[06:28] Like that's where X is where people go.
+[06:30] But that also means a lot of people are online a lot on X.
+[06:33] I am the biggest, I'm the most guilty of this.
+[06:35] I'm on Twitter X way too much.
+[06:38] But like what it means to build a business is ultimately to serve humans.
+[06:41] Right.
+[06:42] And they're, you know, even if agents, well, serve humans or agents potentially, but the
+[06:47] person asking agents, but you're more than welcome to follow along.
+[06:51] Yes.
+[06:51] I think the process of like human connection is something we'll explore the process of like
+[06:55] physicality.
+[06:57] Like, I don't know.
+[06:57] Do we build a digital product?
+[06:59] Do we build like a place where you can, I don't know, go buy like coffee beans and have
+[07:03] them delivered to you?
+[07:03] Do you like, or do we create something in person?
+[07:05] Like we're in San Francisco, like Dreamforce is going on right now.
+[07:09] There are like 50,000 people in the city here all excited.
+[07:11] That's wild.
+[07:12] Never seen so many people in our lives.
+[07:14] 50,000 additional people like in this block, like their streets closed.
+[07:17] It was hard to get here.
+[07:18] The whole nine.
+[07:19] And so to me, it would be really cool if we could like take something digital and then
+[07:24] use that to manifest something in the real world that even you all can interact with.
+[07:28] Um, and so like, I think if I'm taking that away, like that would a hundred percent be
+[07:32] my goal, um, for this week, but we don't know.
+[07:35] Like, is that possible?
+[07:36] We'll be able to do it.
+[07:37] I'm just talking and like, I feel like we're wasting time.
+[07:40] Uh, so yeah, I don't know.
+[07:42] I'm excited to see where it goes and, and, uh, like we're going to keep it super casual.
+[07:46] You're going to see us at our, at our highs and at our lows.
+[07:48] And it's going to be absolutely, hopefully, hopefully entertaining.
+[07:52] I don't know.
+[07:52] Yeah.
+[07:53] Yeah.
+[07:53] Yeah.
+[07:53] I don't know.
+[07:54] I think the part of the fun is going to be, you know, we have three days, which is a lot
+[07:57] of time, but also not much time.
+[07:59] But I think we'll need to, you know, there'll be a bunch of stuff we have to set up.
+[08:01] Like I'm just starting to think ahead to, we probably need a Slack channel for our team
+[08:05] to chat in and maybe our bots to chat in too.
+[08:09] Um, we need like a notion space.
+[08:11] Yeah.
+[08:11] We might Slack.
+[08:12] No, I mean, what do we use at work?
+[08:13] Slack.
+[08:13] Awesome tool.
+[08:14] Notion.
+[08:14] Awesome tool.
+[08:15] Um, maybe linear for tickets.
+[08:17] Yeah.
+[08:17] We could check out linear.
+[08:18] Yeah.
+[08:18] Or something like that.
+[08:19] Do you like linear or how do you, how do you like prioritize like work?
+[08:22] Um, I think we can try it, but I'm also wanting to two and a half thousand PRs of PSAC into
+[08:29] production.
+[08:30] Uh, and I don't think I caused any bugs.
+[08:32] I hope, I hope I didn't.
+[08:34] Uh, so yeah, if you haven't tried out PSAC yet, you can go to the Grokbot marketplace and
+[08:40] search for PSAC and try it out and let me know what you think.
+[08:43] I just did the math.
+[08:44] 2,500 PRs in a month is 83 PRs a day.
+[08:47] Yes.
+[08:47] And we have three days.
+[08:48] So, um, times threes, 250 PRs.
+[08:52] I think I can do more than that.
+[08:53] Is like the give or take PR count.
+[08:54] Okay.
+[08:54] I can do more than that.
+[08:55] We should have like a PR meter on the screen.
+[08:57] I have that track.
+[08:57] Actually, I'm not even going to open PRs.
+[08:59] I'm going to merge to main.
+[09:00] Oh yeah.
+[09:01] There we go.
+[09:01] Just letting you know.
+[09:02] All right.
+[09:03] We'll call it a commit meter.
+[09:05] We'll have a commit meter somewhere on the screen.
+[09:06] Where we're going, we don't need pull requests.
+[09:07] Yeah.
+[09:08] Yeah.
+[09:09] Oh my gosh.
+[09:10] Yeah.
+[09:11] Yeah.
+[09:11] I have like concerns.
+[09:12] The entire team is like, oh boy.
+[09:14] No.
+[09:14] And I mean, I feel like sometimes you say like 2,000 PRs and people are like, oh, like that's
+[09:18] just something they say on stream.
+[09:20] But like I physically have, like I've sat over your shoulder and seen you do some of this
+[09:23] stuff.
+[09:23] And it's like Grokbot, the app is built by people at SpaceX that are using tools like this
+[09:28] to rapidly iterate.
+[09:29] And so hopefully, like we'll be able to show you that process and we'll be able to show
+[09:34] you that product as it goes from like quite literally nothing we're ideating right now
+[09:38] to something that we're shipping to you all.
+[09:41] So yeah.
+[09:42] Yeah.
+[09:42] I mean, we're talking about tools before, right?
+[09:43] So it sounds like we're going to go Slack, Notion, kind of stack.
+[09:46] We got maybe linear if we decide we need that.
+[09:49] We can just start shipping directly to main.
+[09:53] I mean, we're going to be here talking to each other.
+[09:55] Yeah.
+[09:55] What else do you really need?
+[09:56] Anything else?
+[09:57] I mean, we have-
+[09:58] Some database tech maybe.
+[09:59] Yeah.
+[09:59] We'll need some like infra that we can set up.
+[10:01] We need the systems.
+[10:02] So we might need a database.
+[10:03] A little bit and kind of let you interact with them a little bit.
+[10:06] And then, yeah, I think we want to treat this like a separate business and entity, right?
+[10:09] So I have a GitHub org that I made that's a completely blank org.
+[10:13] Nothing in it.
+[10:14] No repos.
+[10:15] So we can use that if we like as our starting point.
+[10:17] What's the name of the GitHub org?
+[10:18] It's called Ship by Thursday.
+[10:21] Ship by Thursday.
+[10:21] I love it.
+[10:21] Yeah.
+[10:22] Maybe we should open source some stuff too if people want to follow along.
+[10:24] It's just github.com slash shipbythursday.
+[10:26] It's completely empty right now.
+[10:28] So if you go there, you will see nothing.
+[10:29] But we could, we'll need to put some stuff there.
+[10:31] Maybe we'll like open source some Easter eggs.
+[10:33] I don't know.
+[10:34] Do you see?
+[10:34] Yeah, we should.
+[10:34] No, I'm a member of the org.
+[10:36] Actually, we literally haven't said it.
+[10:38] So like we didn't do any work beforehand.
+[10:39] So like none of this exists.
+[10:41] Yeah.
+[10:41] Yeah.
+[10:41] Yeah.
+[10:41] But we will start to make things available as possible.
+[10:45] And yeah, our goal is to make this as live, like as real as possible.
+[10:49] Yeah.
+[10:49] So we're starting with a completely blank slate, right?
+[10:51] So we have a GitHub org.
+[10:53] We have GrokBot accounts with zero bots in them right now.
+[10:56] Brand new accounts.
+[10:57] Brand new accounts.
+[10:58] And so we'll walk you through from scratch, you know, like how we'd install Pstack to get
+[11:01] set up for development.
+[11:02] Maybe, you know, in a few minutes we can kind of do some market research like Matt was
+[11:06] talking about.
+[11:07] You know, I have some user research bots and we actually have a whole template of bots
+[11:10] in our marketplace too.
+[11:11] So we can find some useful ones there and kind of pull them in.
+[11:13] I mean, we need to also like hire like a founding engineer, probably.
+[11:17] Right.
+[11:17] Founding engineer bot.
+[11:18] We just like hire the bot.
+[11:19] We definitely need to hire a bot.
+[11:21] Or two.
+[11:21] Two bots.
+[11:22] Intern bot.
+[11:23] I'm actually also wondering as part of market research, do we want to have our bots actually
+[11:27] like kind of like the idea you had where you have your GrokBot build something for
+[11:30] you every day?
+[11:32] Like maybe we could have some quick throwaway prototypes or something so we can visualize people.
+[11:36] Like a prototype machine.
+[11:37] People's ideas.
+[11:37] Something like that.
+[11:38] Oh, that's a really cool idea.
+[11:39] Yeah.
+[11:40] Yeah.
+[11:40] I feel like you have.
+[11:41] We need to start like hiring bots.
+[11:42] So maybe in that 45 minutes we'll like come up with a hiring plan.
+[11:46] Yeah.
+[11:46] I like that.
+[11:47] I like that.
+[11:47] We're going to need a bunch of bots.
+[11:49] Okay.
+[11:49] For sure.
+[11:50] And we're going to bring you all along for it.
+[11:52] We're not sharing our screens right now, but like we have everything hooked up so you'll
+[11:54] be able to see exactly what we do.
+[11:56] You'll be able to see like how we use the product in a clean demo environment.
+[12:01] The one thing we did do before we got together is like we actually like downloaded GrokBot.
+[12:05] But if you're starting a company, I guess, you know, that's the first thing.
+[12:08] It's the only thing you have to do really.
+[12:09] Yeah.
+[12:10] Yeah.
+[12:11] And I'm excited.
+[12:11] So a little bit about the session that's coming up and like some housekeeping stuff.
+[12:16] To recap, if you're new to the stream, we're going to build a company.
+[12:20] We got 72 hours.
+[12:21] We haven't done anything.
+[12:23] I mean, we just spent the last 20 minutes yapping.
+[12:25] We shouldn't be waiting.
+[12:26] We haven't done anything.
+[12:27] We haven't done anything.
+[12:29] If you're watching, there is currently the GrokBot Galaxy livestream challenge going on.
+[12:33] If you share a template with us all and your template is like the most, it's like if a
+[12:39] lot of people like your template, basically, you have a chance to win a trip to Starbase.
+[12:43] Like watch a starship launch, which is pretty sick.
+[12:46] Runners up get a trip to Hawthorne where they actually like build some of this cool stuff,
+[12:49] which is also great.
+[12:51] And yeah, you know, when we think about a business, we think about something that people want.
+[12:56] It creates value for people.
+[12:57] That's what we're going to try to build.
+[12:58] With a human touch.
+[12:59] With a human touch.
+[13:00] Most importantly, that's something we're going to try to build this week.
+[13:02] We're going to bring in different guests.
+[13:03] We're going to bring on guests of companies that we like, guests of people on the internet
+[13:08] that we like.
+[13:09] We're going to bring in SpaceX employees that are really great.
+[13:12] They're all really great.
+[13:13] I don't pick favorites, but we're going to bring in some especially great employees who are
+[13:16] going to show us their workflows.
+[13:17] We're just about 80,000-ish views right now.
+[13:21] And so, yeah, a lot of people out there who are really excited.
+[13:25] And we're really excited to hear from you and ask for your help in crafting what we do here.
+[13:30] So, yeah.
+[13:31] But one thing, definitely recommend installing GrokBot if you haven't already, signing up.
+[13:35] We have a free trial, so you can try it out.
+[13:37] And maybe follow along with us as we build and show you some of our pro tips.
+[13:42] We're going to tell you exactly how we do it.
+[13:44] So if you just download GrokBot, we're going to give you the plugins, the templates, all that stuff.
+[13:47] And most importantly, stream, we're going continuously live from 8.30 to 6.30.
+[13:52] You'll have to check the schedule.
+[13:54] Tune in here anytime.
+[13:55] We're going to cut to workshops.
+[13:57] So if you download GrokBot, if you install the product, you're going to be able to follow along with exactly how it works.
+[14:02] If you were like, oh, man, I want to learn GrokBot, but I have to pay for this course.
+[14:06] No, no courses, no payment, all free.
+[14:08] Just watch this stream.
+[14:10] This is the course.
+[14:10] Someone told us, I got 25 seconds before we go live, but someone told us their boss said, you have to watch this live stream all 30 hours.
+[14:19] And I'm sorry.
+[14:20] You're probably watching right now.
+[14:21] I'm sorry about that, but you're going to learn a lot.
+[14:23] So we're going to go to GrokBot 101 with Roman and Amrita, two amazing, intelligent, beautiful, smart, high-achieving, functioning people that actually built GrokBot.
+[14:33] So we're going to kick it over there, and they're going to teach you a little bit about GrokBot.
+[14:41] Cool.
+[14:42] Are we good?
+[14:43] Whew.
+[14:45] Well, you know, that was, okay, we got the nerves shaking out.
+[14:49] It's huge.
+[14:53] The types of products that really meet the moment.
+[14:58] I think the ways that we need to change our ways and how we do work day to day to really maximally get the most out of what AI can do inside of a company.
+[15:07] And then I think what will come after that is kind of this weird world of AI teammates and human teammates that collaborate together inside of companies.
+[15:16] And where you're not just delegating a discrete task and saying, hey, go from point A to point B.
+[15:21] You're actually doing a lot more kind of what you would do with an actual human colleague.
+[15:26] They're not a collection of tasks that you kind of outsource, but they own outcomes, and they have responsibilities.
+[15:32] And you trust them to kind of own a discrete part of a company and kind of do that work for you.
+[15:39] And I think this is really where GrokBot originated from.
+[15:43] And I want to talk a little bit about some of the product decisions that we made to get there.
+[15:47] So if you haven't used GrokBot, this is what it looks like.
+[15:50] And I think there were a few things that we chose to do with GrokBot that are a bit different from other AI tools on the market that you maybe have used before or familiar with.
+[16:00] I think the first one is we really wanted GrokBot to feel a lot like you're working with teammates and colleagues.
+[16:08] And so as a result, it feels kind of simple and chat-like and almost like you're messaging your coworkers or teams of colleagues.
+[16:16] So you have on the left all of these bots, in this case sales outbound and an inbox manager, that each have specific roles and different kind of lanes of work.
+[16:25] And the idea is not that you create a chat for each task that you want to take on.
+[16:30] You actually create a bot for a unit of work that AI can take off of your plate.
+[16:35] And I think it feels really different when you work with AI that can do those things versus can't.
+[16:40] And the difference between getting kind of 90% of the way there of like almost having the job be done versus the thing just being done end-to-end, kind of hands-off, you trust that your bot can do it, feels very different, feels really magical.
+[16:52] And then the last thing is everything runs in the cloud.
+[16:56] It doesn't run on your computer.
+[16:57] And I think there's kind of in this weird moment in AI right now where a lot of the workflows that people rely so much on AI for, it runs on their local laptop, which is kind of strange.
+[17:08] And so if you're like asleep and your computer's closed, you know, the automation that you set up to run at 2 a.m. doesn't fire.
+[17:15] And you wake up in the morning and you're confused and you want to kick something off from your phone, but it's tethered to your laptop back in your office.
+[17:22] It's just all this weirdness.
+[17:23] And we wanted to just jump right past that to a future where you have these very smart colleagues, these teammates, these bots that live in the cloud.
+[17:32] And you can interact with them anywhere you work.
+[17:35] It might be on your phone.
+[17:35] It might be on your laptop.
+[17:36] In the future, it might be something entirely different.
+[17:39] And that really informed all of the decisions we made for the product was those three things.
+[17:43] It feels like interacting with teammates.
+[17:46] Everything runs in the cloud.
+[17:48] And your bots have access to a computer that they can drive and manipulate just like you can.
+[17:52] And I think part of the reason we really felt the desire and the excitement to build something like Rockbot is from what we've seen in coding.
+[18:01] And I think from the past two years, we've seen the job of a developer completely transform.
+[18:06] And I think a very stark bot does it.
+[18:09] You give it something even more ambitious.
+[18:11] And you just kind of keep going through that process until you feel the limits of maybe where current AI capabilities are.
+[18:17] And our bet is these models are going to keep getting smarter.
+[18:21] We want to give them a safe environment to run in to really maximally be useful to employees of companies.
+[18:28] So it's very simple.
+[18:29] It's always on.
+[18:30] You know, it's this teammate in the cloud that you can always depend on and rely on and never goes down even when you're asleep or when your computer is closed.
+[18:39] And it really finishes the work.
+[18:40] You give it outcomes.
+[18:41] It delivers.
+[18:42] And I think the next step of this will be how this works inside of teams.
+[18:46] I think right now AI is largely a single player game.
+[18:50] You know, you work with your personal AI assistant on various things.
+[18:52] I think we're really excited about what shared AI colleagues could look like and what the future of internal tooling even becomes.
+[19:00] So with that, very excited to pass it off to Amrita to talk a bit more about concrete ways that people are using GrokBot and ways that we're using GrokBot.
+[19:07] Amazing.
+[19:08] Thank you, Roman.
+[19:10] So you'll see on the agenda and also for the rest of the week, we have a lot of sessions about how to use GrokBot at the enterprise level.
+[19:16] So you'll see GrokBot for GTM, for engineering, for marketing, and then for admins.
+[19:22] Today's session is going to take one of these, actually, and then do a live demo with you all so you can see exactly what Roman mentioned, which is agents acting as colleagues, agents using their own computer, and then also having memory and an ability to learn from what you've taught them.
+[19:37] One thing I do want to highlight is if you haven't registered for any of the sessions already, please go on to, I think, x.ai slash galaxy and check out a little bit about them later.
+[19:48] But what I want to do with you all today is I want to create a bot from scratch so you all can kind of see that, you know, workflow.
+[19:54] And this is the bot we're going to create is Data Dan.
+[19:57] So I'm going to call Data Dan.
+[19:59] I'm just going to create him there.
+[20:00] And when you create a bot, actually what GrokBot will do is it will give some idea of maybe what you want to use the bot for just based on the name.
+[20:09] So if you create a bot called, you know, workflow builder, it'll automatically kind of have an idea of what it's meant to do.
+[20:15] You'll notice here that it gives some options of what do you mainly want me for, which is great.
+[20:20] But I'm going to start by actually asking it to create a Google form for me.
+[20:24] And the reason I choose Google form is, first of all, I don't know if anyone likes making Google forms.
+[20:29] I certainly don't.
+[20:30] But it's the most common way to get a lot of data from your employees, from your customers, from, you know, if you're doing user research.
+[20:38] You can do this similarly with Qualtrics or any other kind of form-based software.
+[20:42] You can ask GrokBot to basically create it for you.
+[20:45] So what we're going to do is I'm just going to say, and I'm going to use voice mode here, actually, so we can kind of see what that looks like.
+[20:50] Create a Google form for me that asks two questions.
+[20:55] The first is, how many cups of coffee do you drink a day?
+[20:59] And the second is, what are your favorite coffee shops in San Francisco?
+[21:03] And for the coffee shop options, maybe put Ritual, Fills, Sightglass, and Blue Bottle.
+[21:12] So it's going to transcribe that.
+[21:14] What's really cool about voice mode, and this is actually deployed internally right now,
+[21:17] is we actually have a back-and-forth voice mode where GrokVoice can actually talk back to you.
+[21:22] That should be out, hopefully, sometime when the B's are there already,
+[21:25] or you can ask GrokBot to set it up for you.
+[21:28] Okay, so it looks like the bot wants to run a task for me.
+[21:31] This is a good example of how bots ask for approval.
+[21:34] I'm just going to allow this for now, but I'll talk a little bit about bot approvals later
+[21:37] and how you can actually set particular rules saying,
+[21:41] hey, I only want a bot to send an email after it asks me for permission,
+[21:45] or I only want the bot to send a Slack message to an external customer after I approve it.
+[21:51] And this kind of makes it a lot easier for enterprises to control what the bot can or cannot do
+[21:56] in a big setting like this.
+[21:59] So this is going to work on the Google Form.
+[22:01] While it's working, let me show you the other two agents that we'll be working with today.
+[22:04] So email Ethan and SlideSonia.
+[22:07] You'll notice that SlideSonia already has the slides that I'm going to be editing up on her computer,
+[22:12] similar to what Data Dan will be, actually.
+[22:15] And what's nice about, you know, SlideSonia is I'm able to basically edit the slides myself,
+[22:20] or I can actually teach her how to do a particular task.
+[22:25] So you'll see here at the top, teach a task.
+[22:27] I can actually show SlideSonia, for example,
+[22:30] if I want to create a slide that takes all the data from this Google Form,
+[22:33] and, you know, adds an animation to it, or makes it a particular color,
+[22:38] I can actually show her how to do that.
+[22:40] So if I hit teach a task here, I can actually say,
+[22:43] let's say I want to just teach her how to do an animation.
+[22:45] I can hit this, I can go to Insert, and I can add animation here.
+[22:50] And notice that this is me controlling the bot's computer.
+[22:53] So this is not the bot doing this on its own, this is me kind of controlling it.
+[22:57] And I can say, okay, this is how you would do a kind of, let's do a fly-in.
+[23:01] On average, how many coffee cups do you drink a day?
+[23:03] And your favorite coffee shop in San Francisco?
+[23:06] And then we'll take all of that data, give it to Sonia,
+[23:09] and then have email Ethan kind of consolidate all that analysis
+[23:12] and send it out to, let's see who the top coffee shop owner is.
+[23:16] And this is kind of a good way to see how you can take a very simple task
+[23:21] that usually takes a lot of time.
+[23:22] For example, an event planner at a company who needs to handle dietary restrictions
+[23:27] for a 10,000 person on-site, or a user researcher that wants to collect data
+[23:31] from all of their different customers who are using GrokBot or any other tool,
+[23:35] how you can basically do all of these tools within GrokBot,
+[23:38] and then have it kind of orchestrate that work for me.
+[23:42] I'm going to go ahead and set this one more time.
+[23:46] While this is working, let me actually show you the approval situation
+[23:49] since we are seeing it here.
+[23:51] You'll notice that in the settings, when you actually scroll down here,
+[23:56] you will see a particular set of rules that you can allow GrokBot
+[23:59] to basically do with or without your permission.
+[24:02] So what I'll actually show it is I'll say something like,
+[24:05] hey, I don't want you to reply emails for me
+[24:07] unless you explicitly ask for my permission first.
+[24:11] Or similarly, I want you to be able to create slides for me
+[24:13] automatically without asking for my permission.
+[24:17] And so that makes it a lot easier for you to kind of
+[24:20] granularly control what GrokBot can or cannot do,
+[24:23] especially when it's doing long-running tasks
+[24:25] that you want to be a little bit aware of
+[24:28] or kind of cognizant of what it's doing.
+[24:30] Give this a little more time while it's working.
+[24:37] One thing that I do want to say about GrokBot,
+[24:39] you know, very explicit instructions
+[24:40] because that makes it more consistent.
+[24:43] And then if you ever want to add skills or routines,
+[24:45] you can always add that to your bot as well.
+[24:47] So while DataDana is working, I can add a routine to Sonia
+[24:50] that says, you know, every morning at 9 a.m.,
+[24:54] I want you to summarize for me any changes
+[24:58] that were made to this slide deck.
+[25:01] And let me know who made those changes.
+[25:05] So this is a slide deck that I've shared
+[25:07] with a ton of my colleagues.
+[25:08] And I want to know, you know, if someone took out a slide,
+[25:10] added a new part to a different slide.
+[25:12] I can add, ask Sonia to actually keep all of that context
+[25:16] and then set up a routine for me
+[25:17] that will send that information to me every day at 9 a.m.
+[25:21] And you can set up routines across multiple bots.
+[25:23] So you can have a routine that says,
+[25:26] hey, slide Sonia, email Ethan,
+[25:28] can you guys work together and actually email a summary
+[25:31] of all the changes that were made in this slide deck
+[25:33] to my boss, you know, once a week.
+[25:35] And so he is aware of what's going on there.
+[25:37] And that makes it, again, a lot more collaborative
+[25:39] and a lot easier to work across these multiple agents.
+[25:43] Cool.
+[25:43] I'm going to open up Data Dan again
+[25:46] and see how the form is going.
+[25:48] Looks like it's making some changes.
+[25:50] It's asking for a lot of approvals today, which is funny.
+[25:53] I think it's because maybe it knows I'm on camera.
+[25:56] But what it's going to do is once it's done, you know,
+[25:58] kind of making this form
+[25:59] and, you know, deciding what we should put
+[26:03] inside of the questions,
+[26:04] what it's going to do is it's actually going to take this form
+[26:07] and turn it into a QR code
+[26:09] that I mentioned you all will scan.
+[26:10] And then what's nice about that is you no longer have to send out links for forms.
+[26:15] I actually all look at real existing emails that I've written before
+[26:19] and consolidate that information into a particular skill or type of tone
+[26:23] that it can use for further emails.
+[26:25] So, for example, I could say something like draft an email to,
+[26:30] and I'll say Jason DeMoore, someone in my contacts,
+[26:33] about the data that I've gathered on coffee habits.
+[26:42] And since it's still working on that data,
+[26:44] it's not going to get anything just yet,
+[26:45] but I'll show you all what drafting an email actually looks like in GrokBot.
+[26:48] What it will do is it'll actually be able to pull in data
+[26:52] from either my own personal source or from sheets that I have
+[26:55] and then set up a little modal inside of GrokBot
+[26:58] that actually asks the user, you know,
+[27:00] hey, can I get your data from, or hey, can I send you a user?
+[27:06] As I met, so this is actually where I would say something like,
+[27:09] when I want GrokBot to reply to emails for me,
+[27:13] I'm actually going to ask first and add that as a rule.
+[27:17] And then now what it's going to do is before it sends any email,
+[27:20] it's always going to ask me first.
+[27:22] And that makes it so that I don't have to always, you know,
+[27:26] monitor or worry about what it's going to send
+[27:28] to any external facing customers.
+[27:32] Cool.
+[27:33] Okay.
+[27:34] So one thing that I want to show is the agents talking to each other.
+[27:36] And so what I'll do actually is I'll tell email Ethan
+[27:39] while it's working, and this is also an example of bot steering,
+[27:42] of how it can talk to SlideSonia and get information
+[27:45] from what she knows and context from what she knows.
+[27:49] So there's many ways you can do it.
+[27:52] So because of that, they're not just scoped to one task or one project.
+[27:56] They can be used for multiple tasks and multiple projects.
+[27:59] I can have, you know, email Ethan work for the next year if I wanted,
+[28:02] and now he will have context about every email that I've sent,
+[28:05] and he'll be able to learn from all of that.
+[28:07] Similarly, SlideSonia, she doesn't know just how to make, you know,
+[28:10] this one type of slide.
+[28:12] I can teach her how to work in, you know,
+[28:14] a different branding or a different theme.
+[28:16] Her job is just to create slides generally.
+[28:18] And so I can always change the scope and the persona of these agents
+[28:21] in order to make them as useful to me as possible.
+[28:25] The way I like to think about GrokBot generally is
+[28:27] you're basically creating your own company.
+[28:29] You're creating your own team of agents,
+[28:30] and you have the choice and the decision of how you want to orchestrate that.
+[28:35] If you want your agents to be divided up by, you know, project, you can do that.
+[28:38] If you want them to be divided up by what they're expert in,
+[28:41] you can do that as well.
+[28:42] And so it's kind of up to you on how you want to orchestrate them
+[28:45] and have them work with each other on particular tasks.
+[28:49] So as you can see, I'll show you both how email Ethan messaged Dan
+[28:53] and how he also messaged SlideSonia.
+[28:55] So you'll see here, these are the messages between GrokBots.
+[28:58] You'll notice that email Ethan will always say,
+[29:01] Amrita asked me to do this thing.
+[29:03] Data Dan will say, I don't have this right yet.
+[29:05] You know, I'm still working on the spreadsheet.
+[29:07] And email Ethan will say, okay, I'll use my existing, you know,
+[29:10] coffee cup sample data set that I have. Amazing.
+[29:13] And then if we go back actually to,
+[29:15] I want to go back to email Ethan here.
+[29:17] Go back to what he messaged SlideSonia,
+[29:19] you'll see kind of same thing.
+[29:20] Amrita needs details on this.
+[29:22] Please come back with a concise briefing deck about this
+[29:24] and give me any more information that I can use going forward.
+[29:27] And then you'll see that SlideSonia, those options here.
+[29:31] The speed of these kind of computers really depends a lot of times on,
+[29:36] again, the model
+[29:36] and how we're working on computer use as a company and as an org.
+[29:41] You'll notice that computer use is going to become a very, very hot topic
+[29:45] for GrokBot, for Cursor and SpaceX generally.
+[29:48] And you'll see computer use continue to be improved over the next couple weeks.
+[29:52] You'll see actually what I really like about these machines
+[29:55] is because they're Linux VMs,
+[29:57] they're very lightweight and they're very easy to spin up.
+[29:59] And so what I actually do sometimes is if I'm on an airplane and I have bad Wi-Fi,
+[30:04] I actually outsource all my agent work, my computer use to my GrokBot
+[30:08] because the Wi-Fi on its own Linux VMs is really, really great.
+[30:11] It's very fast.
+[30:12] And so this is kind of how I do any outsourcing of work,
+[30:16] again, for things that don't have MCPs,
+[30:18] so Google Forms, Qualtrics.
+[30:20] And then, you know, once it starts adding options like it's doing here,
+[30:24] it makes it a lot easier for me to kind of create these really long-running tasks
+[30:27] without me having to manually go and do this.
+[30:30] I can, again, focus my work on something else.
+[30:34] Okay.
+[30:35] All right.
+[30:37] So as you can see,
+[30:38] the bot always asks for permission on connecting to outside services.
+[30:42] So as you can see here, it says the agent is trying to reply to an email
+[30:44] and this is blocked by my own personal auto-review rule.
+[30:47] So it's respecting the rule that I put in already
+[30:50] which says that, hey, I don't want you to apply
+[30:52] or I don't want to reply to emails for me.
+[30:55] I'm going to go ahead and just say allow once
+[30:56] so that it's able to kind of send that content over.
+[30:59] And then what it will do is it will actually show me a draft of that email.
+[31:02] What's nice about these agents is,
+[31:05] let's say I want to do this maybe twice, three times,
+[31:07] but Clairvaux, Lenny, and Eric is also from Cursor,
+[31:10] these are all bots that they've published
+[31:11] that I can eventually just use and incorporate into my own GrokBot ecosystem.
+[31:16] And then you'll notice that these are, you know, from my team itself.
+[31:19] So if I ever want to publish my own GrokBot to my team, to my company,
+[31:23] I can do that as well.
+[31:25] And it makes it really easy, as I mentioned,
+[31:27] to have bots that are similar so that there's consistency.
+[31:31] For example, if you're on a design team at work
+[31:33] and you have a brand design bot,
+[31:35] you want to make sure that the brand design bot
+[31:37] is following the same colors, fonts, typography as everyone else's.
+[31:41] And so you would publish one brand design bot
+[31:43] that everyone at your company can then use.
+[31:45] And so publishing bots like this makes it really easy to have consistency.
+[31:50] But then it's also really easy to kind of, you know, modify them,
+[31:53] change them, and then people will get the most updated version of your bot.
+[31:57] So if you haven't shared a bot yet, please do.
+[32:00] It's really, really easy to do.
+[32:01] You just hit this, again, as I mentioned,
+[32:03] share as template at the top,
+[32:05] and then anyone will be able to kind of see your bot
+[32:07] and use it for all its glory.
+[32:08] Okay.
+[32:10] Okay.
+[32:10] So here's an example of how an email draft looks inside of GrokBot.
+[32:14] You'll notice that it has this really nice modal here,
+[32:16] which basically allows you, again, to edit things,
+[32:19] change things, do whatever you want.
+[32:21] I can even change, you know, who my recipient is,
+[32:23] if it's not the right person that I wanted to send it to.
+[32:27] I can also delete it or ask it to rephrase it
+[32:29] if I don't like the writing.
+[32:31] And so this is kind of a good way of doing any form of email drafting
+[32:34] within GrokBot
+[32:35] so that you don't necessarily have to comb through all your drafts
+[32:38] inside of your emails.
+[32:39] You can kind of do all of that within GrokBot itself.
+[32:43] And so we do a session.
+[32:44] This is actually where my engineering team of GrokBots live.
+[32:47] And I like having them in this particular area
+[32:49] because that makes it really easy to kind of, you know,
+[32:52] separate them from the agents that are in this session
+[32:55] and also kind of categorize where things particularly,
+[32:58] you know, belong or respond.
+[33:00] You can create as many bots as you want,
+[33:02] but you can also create group chats with your bots,
+[33:03] and then you can categorize those as well.
+[33:06] So if I want to create a group chat, for example,
+[33:07] with multiple bots, someone was asking me earlier,
+[33:10] how is this different from them messaging each other?
+[33:12] And it's more so a visibility thing.
+[33:14] So, for example, if I want to put email Ethan,
+[33:16] Data Dan, Slide Sonja in a group chat
+[33:18] and kind of just see how they interact with each other,
+[33:20] it makes it easier for me to kind of just see
+[33:22] that communication protocol
+[33:23] rather than me clicking into how they're messaging each one.
+[33:27] So actually, let's go ahead and just say hello
+[33:29] and see how these three respond to each other.
+[33:33] And then we'll give a second for Data Dan
+[33:37] to give us a little QR code here.
+[33:40] Go ahead and do it.
+[33:42] No need for a security check.
+[33:45] But one thing that I do want to call out
+[33:50] is when GrokBot refuses to do something
+[33:52] or when it's basically asking you questions,
+[33:54] take that as a sign that you may need to teach it something
+[33:56] or you basically need to kind of guide it
+[33:59] into the place that you want it to go.
+[34:00] So a lot of times, let's say,
+[34:02] if my GrokBot is writing a particular way,
+[34:04] I'll basically give it the guidance
+[34:06] so that it stores it in its memory
+[34:07] of how it should be done.
+[34:09] So I'll say something like,
+[34:11] I want you to make sure that you never use my first and last name
+[34:16] whenever you're referring to me.
+[34:17] You just use my first name.
+[34:18] Something like that that is now stored in its memory forever.
+[34:21] Is it working?
+[34:22] How do I fix it?
+[34:23] And one thing that I do with GrokBot that's really great
+[34:26] is I always give it information as to what's going wrong,
+[34:29] how do I fix it?
+[34:30] But then I also tell it when it does a good job
+[34:33] in terms of giving it validation as to,
+[34:36] okay, you debugged this in the right way
+[34:37] or you troubleshooted this in the right way.
+[34:40] I've always found when debugging with GrokBot,
+[34:43] both for engineering and field engineering work,
+[34:45] is that the more details you give it
+[34:47] and the more validation you give it
+[34:49] on how it tested a particular thing,
+[34:51] the better it does.
+[34:53] And so you'll see here that,
+[34:55] for example, if I said folks aren't able to scan this,
+[34:57] let's make sure this link is public,
+[34:58] it's automatically understanding,
+[35:00] okay, I need to work on the sharing settings.
+[35:03] It's probably going to go and check
+[35:04] the sharing settings here right now.
+[35:06] And then it'll kind of decide,
+[35:07] okay, I'm going to get this copy responder link
+[35:09] and make sure that people are able to find it.
+[35:16] Okay.
+[35:18] Cool.
+[35:19] Well, give us a couple minutes while it figures it out.
+[35:21] One thing I want to show with the group chat,
+[35:24] let me actually just show that real quick,
+[35:25] is our group chat that we made,
+[35:27] is that as these agents are talking to each other,
+[35:30] I can make sure that, you know,
+[35:32] the agents stay in their own swim lanes,
+[35:33] but that they're also able to understand
+[35:36] the context of what the other agent can do.
+[35:39] So as you can see here,
+[35:40] they all understand their own workflows,
+[35:42] but what they're able to do
+[35:43] is that they're able to actually see
+[35:45] how each agent works together
+[35:48] in a particular use case.
+[35:49] So for example,
+[35:50] I can even talk to these agents and say,
+[35:52] hey, Ethan,
+[35:53] remember when you and Sonia worked
+[35:54] on that email together,
+[35:56] and then they would be able to use that context
+[35:57] and then bring it in to,
+[35:59] all right,
+[35:59] I've got these sample datas already,
+[36:01] and then what it'll do
+[36:02] is I'll hold the note
+[36:03] until Sonia's slide lands.
+[36:05] So that's the nice thing about these agents
+[36:06] is they understand dependencies,
+[36:08] and they're able to kind of see,
+[36:10] okay, like, you know,
+[36:11] this agent needs to do this work first,
+[36:13] and then another agent will respond after,
+[36:15] and that makes it really easy
+[36:16] for the agents to orchestrate their work
+[36:18] without having any, like, conflicting changes.
+[36:21] This is also really great for engineering use cases
+[36:23] to avoid merge conflicts
+[36:24] because you have one agent kind of understanding
+[36:27] when there's another dependency
+[36:28] and can work around those tools.
+[36:31] Okay?
+[36:32] So we'll let these guys work
+[36:33] on this kind of coffee data set chart.
+[36:36] In the meantime,
+[36:37] we can go back to DataDan
+[36:38] and see how they responded
+[36:39] to this troubleshooting.
+[36:41] So we can go ahead
+[36:41] and see exactly what it's doing here
+[36:43] to try and solve this issue.
+[36:45] One of the biggest kind of advices
+[36:47] that I like to give to folks
+[36:48] is if you're having trouble
+[36:50] with GrokBot accomplishing a task,
+[36:52] work with it on exactly what your outcome is.
+[36:54] So I always like to start with,
+[36:56] this is what I want to produce
+[36:57] or this is my outcome,
+[36:58] and then it will be able
+[36:59] to kind of work backwards from there.
+[37:02] Anytime you kind of tell GrokBot,
+[37:03] like, hey, this isn't working,
+[37:04] but you're not giving it enough details,
+[37:06] it's not able to learn from its mistakes.
+[37:08] So the more you're able to kind of guide it
+[37:10] into the place that you want,
+[37:11] which is, you know,
+[37:12] hey, I want to get this QR code working,
+[37:14] but it's not working,
+[37:15] you can kind of push it
+[37:16] in the right direction
+[37:17] so it's able to understand exactly
+[37:19] what it should be doing,
+[37:20] again, on its own machine here.
+[37:22] So it has everything ready,
+[37:24] which is great,
+[37:24] but now, you know,
+[37:25] it's having trouble sharing it,
+[37:27] and that's kind of where I can nudge it
+[37:28] to exactly where I want it to go.
+[37:32] Cool.
+[37:33] I'm going to go back to the group chat again
+[37:35] so we can see exactly how
+[37:36] immediately get an update about that
+[37:37] and say, hey, you know,
+[37:39] DataDent is blocked on this particular thing.
+[37:41] How are we going to be able to solve it?
+[37:42] And, you know,
+[37:43] let's ping Amrita,
+[37:44] let's ping SlideSonia,
+[37:45] and make sure that she is aware
+[37:46] of this problem.
+[37:48] And so this is kind of a really great way
+[37:49] of, you know,
+[37:50] having, again,
+[37:51] that orchestration layer
+[37:52] above your agents,
+[37:53] but also being aware
+[37:54] of anything that's getting blocked,
+[37:56] anything that's not,
+[37:57] you know,
+[37:57] being able to get solved in time
+[37:58] just by having an orchestrator agent
+[38:01] like this work on these tasks.
+[38:04] Okay.
+[38:06] I'm going to go back
+[38:06] to my group chat now.
+[38:07] You'll see that email
+[38:08] is standing by for a screenshot.
+[38:10] The screenshot's going to be
+[38:11] of the data that SlideSonia
+[38:12] is able to create
+[38:13] from the coffee cups,
+[38:15] and then what you'll do
+[38:15] is you'll see, you know,
+[38:16] a very similar email draft.
+[38:18] You'll probably see a slide as well
+[38:19] about all the data
+[38:21] that you would get
+[38:22] from, like,
+[38:23] a coffee shop data,
+[38:24] and get that into
+[38:26] a workable kind of
+[38:28] presentable slide deck
+[38:29] or email.
+[38:30] So we'll see that in a second.
+[38:31] In the meantime,
+[38:32] I do want to check
+[38:33] and see how this is going.
+[38:35] We'll keep in touch
+[38:37] with Data Dan,
+[38:38] just because at the end of the day,
+[38:39] I do want to know
+[38:39] what everyone's favorite
+[38:40] coffee shop is,
+[38:41] and so we will get
+[38:42] that information
+[38:43] before we leave,
+[38:44] but we might have to bleed
+[38:45] into the Q&A for that.
+[38:46] So I'm about to kind of pause
+[38:48] at the end for the live stream.
+[38:50] We do want to kind of
+[38:51] check back in with,
+[38:52] or I encourage remote
+[38:54] folks actually
+[38:54] to check back in
+[38:55] with Matt,
+[38:56] Roshan,
+[38:56] and Lauren
+[38:56] on how their company
+[38:58] is going.
+[38:59] So please,
+[39:00] if you are on the live stream,
+[39:02] go check back in with them
+[39:03] and see how it's going.
+[39:04] If not,
+[39:05] I'm happy to kind of
+[39:06] pause here.
+[39:06] I'm going to keep
+[39:07] all the Grokbots
+[39:08] live here and running
+[39:09] so we can see
+[39:09] how things are going,
+[39:10] we can see how Data Dan does,
+[39:12] and then I'm happy
+[39:13] to open it up
+[39:13] for how those rules
+[39:14] that I showed,
+[39:15] which is,
+[39:15] for example,
+[39:16] I can always make sure,
+[39:18] even if it's something
+[39:18] very safe,
+[39:19] like running,
+[39:20] you know,
+[39:21] making a directory
+[39:23] a terminal,
+[39:24] you know,
+[39:24] or some sort
+[39:25] of command like that,
+[39:26] I can tell Grokbot,
+[39:28] hey,
+[39:28] even if you're making
+[39:29] a new folder
+[39:29] inside of my desktop,
+[39:31] I want you to ask me
+[39:32] for permission.
+[39:32] So you can be
+[39:33] as prescriptive
+[39:35] as you want
+[39:35] in those rules
+[39:36] on how,
+[39:37] you know,
+[39:38] you want it
+[39:38] to make decisions,
+[39:39] or you can let
+[39:40] the auto review tool
+[39:41] that we've built
+[39:41] under the hood
+[39:42] make those decisions
+[39:43] for you.
+[39:44] So it's kind of up
+[39:44] to you on how,
+[39:46] you know,
+[39:46] how safe you want
+[39:47] to be in those scenarios.
+[39:48] I will say,
+[39:49] though,
+[39:49] I mean,
+[39:49] you will even see
+[39:50] in this scenario,
+[39:51] right,
+[39:51] that Grokbot
+[39:52] was even overly
+[39:52] prescriptive here
+[39:53] in asking me
+[39:54] for questions.
+[39:54] Like,
+[39:55] it was creating
+[39:55] a forum,
+[39:56] but it wanted
+[39:56] to make sure
+[39:56] that the forum
+[39:57] it was creating
+[39:58] wasn't asking
+[39:58] for any PHI
+[39:59] or PII,
+[40:00] and it was making
+[40:01] sure that every
+[40:01] step of the way
+[40:02] I was being involved,
+[40:04] and that's just
+[40:04] the auto reviewer
+[40:05] that we have
+[40:06] under the hood
+[40:06] making those
+[40:07] decisions for you.
+[40:07] So just a quick
+[40:12] follow up.
+[40:13] Speaking more
+[40:13] from the other
+[40:14] direction of how
+[40:14] you build enough
+[40:15] trust so that you
+[40:16] actually don't need
+[40:17] to constantly
+[40:17] Oh,
+[40:18] I see what you're
+[40:18] saying.
+[40:18] Because otherwise
+[40:19] they keep stopping
+[40:20] you,
+[40:21] and they don't
+[40:22] work on their own.
+[40:23] Yeah.
+[40:24] I will say that,
+[40:25] for example,
+[40:25] in this,
+[40:26] this is actually
+[40:27] not,
+[40:27] I would say,
+[40:28] particularly normal.
+[40:29] Like,
+[40:29] usually when I
+[40:30] work with my bots,
+[40:30] it's not,
+[40:31] you know,
+[40:31] asking me for
+[40:32] permission every
+[40:33] single time.
+[40:33] It's trying to
+[40:33] create a forum.
+[40:35] There is that
+[40:36] concept of memory,
+[40:37] right?
+[40:37] So the bots
+[40:37] are able to
+[40:38] learn,
+[40:38] for example,
+[40:39] if it asks me
+[40:40] a question,
+[40:40] let's say it
+[40:41] says,
+[40:41] you know,
+[40:41] should I email
+[40:42] this person
+[40:43] with this
+[40:43] particular copy?
+[40:44] I could respond
+[40:45] to it and say,
+[40:46] yeah,
+[40:46] this looks great,
+[40:47] and going forward
+[40:48] you don't need
+[40:48] to ask me
+[40:49] about the copy,
+[40:50] just go.
+[40:53] I've got a couple
+[40:54] of questions.
+[40:54] Yeah.
+[40:55] For enterprise,
+[40:56] is there like
+[40:57] any in the roadmap
+[40:57] where the VMs
+[40:58] could access
+[40:59] internal tools?
+[41:00] Yeah.
+[41:01] So it depends,
+[41:02] again,
+[41:02] on what tools
+[41:04] you can give
+[41:04] it access to.
+[41:05] So your Grok
+[41:06] bot's computer,
+[41:06] you can basically
+[41:07] make it as locked
+[41:08] down or as open
+[41:09] as you want it
+[41:10] to be.
+[41:11] So for example,
+[41:11] I think someone
+[41:11] was asking me
+[41:12] earlier,
+[41:12] like,
+[41:12] hey,
+[41:13] I wanted to
+[41:13] access MongoDB,
+[41:15] my MongoDB instance.
+[41:16] You can give
+[41:16] your Grok bot
+[41:17] credentials on
+[41:18] its computer,
+[41:21] and use that
+[41:22] for whatever work
+[41:23] it needs to get
+[41:23] done.
+[41:24] You could also
+[41:25] have your Grok
+[41:26] bot computer
+[41:26] be a part of
+[41:27] your VPN,
+[41:28] if there's
+[41:28] particular things
+[41:29] in your company
+[41:30] or your code base
+[41:31] that you want
+[41:32] to make sure
+[41:32] that Grok bot
+[41:33] does or doesn't
+[41:33] have access to.
+[41:34] So any internal
+[41:36] systems Grok
+[41:37] bot can access,
+[41:37] you just have
+[41:38] to make sure
+[41:38] that you give
+[41:39] it the right
+[41:39] credentials.
+[41:40] We have actually,
+[41:41] we just released
+[41:42] a really good
+[41:42] integration with
+[41:42] 1Password,
+[41:44] so if there's
+[41:44] anything that it
+[41:45] needs across,
+[41:46] you know,
+[41:46] those secure
+[41:46] credentials,
+[41:47] it can do
+[41:47] that as well.
+[41:48] But yes,
+[41:49] it can absolutely
+[41:49] access internal
+[41:50] systems just
+[41:51] depending on
+[41:52] what the auth
+[41:52] looks like there.
+[41:53] Can you just
+[41:55] share a little
+[41:55] bit more about
+[41:56] the learning
+[41:56] from the video,
+[41:57] like what's
+[41:57] going on?
+[41:58] Yeah.
+[41:59] Is it taking
+[41:59] screenshots?
+[42:02] Yeah, so you
+[42:04] can see here,
+[42:05] let's actually
+[42:06] see how this
+[42:09] does.
+[42:09] So you can see
+[42:10] here, right,
+[42:11] this was getting
+[42:12] data from a
+[42:13] particular spreadsheet
+[42:14] and it's, you
+[42:15] know, using that
+[42:15] data to either
+[42:16] create a slide
+[42:17] or send out an
+[42:18] email.
+[42:19] You'll notice that
+[42:20] you can see here
+[42:21] a couple things.
+[42:22] The first is that
+[42:22] all of these
+[42:23] agents work with
+[42:24] their own
+[42:25] computers and so
+[42:26] I was able to
+[42:29] select an object,
+[42:30] pick the type,
+[42:31] look at optionally
+[42:32] and then once
+[42:33] it's done,
+[42:34] what it does is
+[42:34] it saves this
+[42:35] as a skill.
+[42:36] And so I can
+[42:37] click into this
+[42:37] here and see that
+[42:38] it now has this
+[42:39] skill for adding
+[42:40] an animation and
+[42:41] I can now use
+[42:42] this skill whenever
+[42:43] I want going
+[42:43] forward.
+[42:44] So anytime I
+[42:44] want to say,
+[42:45] hey, remember
+[42:45] that animation I
+[42:46] showed you earlier?
+[42:47] I want you to go
+[42:48] ahead and add that
+[42:49] to this section.
+[42:52] And then I have
+[42:54] a question.
+[42:56] And then my
+[42:56] question is you
+[42:56] mentioned that there
+[42:57] is an option to
+[42:58] share templates
+[42:59] internally with
+[42:59] teams.
+[43:00] Is there also a
+[43:00] public marketplace
+[43:01] to get templates
+[43:03] or bots from
+[43:03] other people?
+[43:04] Yep.
+[43:05] So actually,
+[43:05] if I just load
+[43:06] my marketplace
+[43:07] here, you'll see
+[43:09] these are all bots
+[43:10] from just public
+[43:11] marketplaces.
+[43:12] So if you guys
+[43:12] actually open up
+[43:13] GrokBot on your
+[43:14] phone, on your
+[43:14] laptops, you should
+[43:15] see all of these
+[43:16] bots.
+[43:18] Claire's, Lauren's,
+[43:19] Eric's, and Lenny's
+[43:19] have all been
+[43:20] published publicly.
+[43:20] These are the
+[43:22] ones from the
+[43:22] GrokBot team that
+[43:23] are internal just
+[43:24] to me.
+[43:25] But you'll see a
+[43:25] lot of the published
+[43:27] marketplace bots on
+[43:28] your marketplace,
+[43:29] whatever you open
+[43:30] it up.
+[43:31] And then if you
+[43:32] want to share your
+[43:33] own bot with us
+[43:34] as well, we
+[43:34] actually have a
+[43:36] challenge that's
+[43:37] going on right
+[43:38] now, just so I
+[43:38] don't forget.
+[43:41] I'll quickly show
+[43:41] this.
+[43:42] If you want to
+[43:43] explain what your
+[43:44] bot does and
+[43:45] actually give a
+[43:45] link to your
+[43:46] bot, we're
+[43:47] basically giving
+[43:49] people a chance to
+[43:49] go visit Starbase
+[43:50] and potentially
+[43:51] see a Starship
+[43:53] launch.
+[43:54] And so this is
+[43:55] kind of a good
+[43:56] segue to if you
+[43:57] ever want to see
+[43:58] a bot on
+[43:58] marketplace, it
+[43:59] could be your
+[44:00] own.
+[44:00] If you go ahead
+[44:01] and just enter
+[44:01] right here.
+[44:04] I'll put this
+[44:04] QR code up at the
+[44:05] end because I do
+[44:06] think that's that I
+[44:06] deleted for a
+[44:07] particular demo.
+[44:08] And I asked the
+[44:10] chief of staff bot
+[44:10] to say, hey,
+[44:11] remember those two
+[44:12] bots that you
+[44:13] spun up?
+[44:13] I want you to no
+[44:14] longer delegate to
+[44:16] them or use them.
+[44:17] And so there's
+[44:17] kind of a little
+[44:18] bit of a nuance
+[44:20] there where a
+[44:21] bot has memory
+[44:22] about everything
+[44:23] that you've told
+[44:23] it.
+[44:24] But for example,
+[44:24] if it delegated
+[44:25] to another bot
+[44:26] that no longer
+[44:26] exists, it's not
+[44:27] going to remember
+[44:28] that or it's not
+[44:28] going to know that
+[44:29] that bot has been
+[44:30] deleted.
+[44:30] So there are some
+[44:31] things there where
+[44:32] you're going to
+[44:32] have to update and
+[44:33] kind of improve
+[44:33] its memory so
+[44:34] that it's able to
+[44:35] learn from those
+[44:36] things.
+[44:37] Another great thing
+[44:37] about memory is,
+[44:39] as I mentioned,
+[44:39] you can duplicate
+[44:40] bots.
+[44:40] When you duplicate a
+[44:41] bot, what's nice
+[44:42] about it is that it
+[44:43] starts with fresh
+[44:43] context and fresh
+[44:44] memory.
+[44:45] And so it'll
+[44:46] have the same
+[44:46] kind of persona
+[44:47] that you want,
+[44:48] which is, for
+[44:48] example, this
+[44:49] email Ethan, but
+[44:50] it's not going to
+[44:50] have any of the
+[44:51] memory that it
+[44:52] had before.
+[44:52] It's almost like
+[44:53] starting a brand
+[44:54] new human or
+[44:55] robot with zero
+[44:56] memory, but still
+[44:57] the workings and
+[44:58] understandings of
+[44:58] how to go
+[44:59] forward.
+[45:01] Great question.
+[45:01] Okay.
+[45:08] We have about four
+[45:09] more minutes.
+[45:09] I'm going to put
+[45:10] this slide back up
+[45:11] so you all can see
+[45:12] it.
+[45:13] And then I will end
+[45:15] with just a couple
+[45:15] learnings to kind of
+[45:16] sum up what we've
+[45:17] done so far.
+[45:18] My biggest advice
+[45:20] about GrokBot is to
+[45:20] try it.
+[45:21] It's very simple, as
+[45:22] you saw, to spin up
+[45:23] any number of bots.
+[45:25] But I think what I
+[45:26] like to do whenever I
+[45:27] think about using
+[45:28] GrokBot is I think
+[45:29] of what is the most
+[45:31] annoying part of my
+[45:32] day that I wish I
+[45:33] didn't have to do.
+[45:35] In this scenario, it
+[45:35] could be creating
+[45:36] Google Forums and
+[45:37] sending them out and
+[45:38] then analyzing data.
+[45:39] It could be something
+[45:40] from outbounding
+[45:42] emails.
+[45:43] You'll see a lot of
+[45:43] bots can access tools
+[45:44] that are outside of
+[45:45] MCPs.
+[45:46] So bots can create
+[45:47] forums.
+[45:47] Bots can create
+[45:48] Qualtrics data.
+[45:49] Bots can, again, use
+[45:50] services inside of
+[45:52] your guys' customer
+[45:53] VPNs.
+[45:55] What's nice about
+[45:56] that is that you no
+[45:57] longer have to connect
+[45:58] to MCPs and go
+[45:59] through auth.
+[46:00] All you have to do
+[46:01] is give bot its
+[46:02] computer and say,
+[46:03] hey, this is what I
+[46:04] want you to access.
+[46:05] This is what I want
+[46:05] you to do.
+[46:06] Again, start with the
+[46:07] outcome with bot and
+[46:08] then it will be able
+[46:09] to kind of work
+[46:10] backwards, as I said,
+[46:11] and figure out what
+[46:12] it needs to do in
+[46:13] order to get to that
+[46:13] outcome.
+[46:15] Bots have memory and
+[46:16] can learn from video
+[46:17] teaching.
+[46:17] So we saw that earlier
+[46:18] where I taught bot how
+[46:19] to learn animation.
+[46:20] Then I was able to
+[46:21] kind of use that as a
+[46:22] skill and apply that
+[46:23] going forward.
+[46:25] We talked about
+[46:25] memory a little bit in
+[46:26] terms of you can have
+[46:28] basically a bot that
+[46:29] works across multiple
+[46:30] projects because it's an
+[46:31] expert in its domain.
+[46:33] It's a persona.
+[46:33] It's not a task.
+[46:34] That's what makes it so
+[46:35] powerful is that you can
+[46:37] have a long-living bot
+[46:38] working across many
+[46:38] different things.
+[46:40] We learned this very well
+[46:42] that bots get human
+[46:42] approval for tasks.
+[46:44] That's because we want to
+[46:45] make sure that bots are
+[46:46] ready for an enterprise
+[46:47] setting, that it's asking
+[46:49] you for permission for
+[46:50] the right things, and that
+[46:51] it's not going to do
+[46:52] anything dangerous or be a
+[46:53] bad actor and basically get
+[46:55] you exactly what it needs
+[46:56] to get done without, you
+[46:58] know, without doing
+[47:00] anything that you
+[47:00] wouldn't want it to do.
+[47:01] All right.
+[47:02] That's it for me.
+[47:03] Thank you, everybody.
+[47:04] Thank you.
+[47:25] Thank you.
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] 
+[47:29] Thank you.
+[47:59] Thank you.
+[48:29] Today is going to be a mix of these sessions and then in-person building.
+[48:33] And you might also notice we have a new guest.
+[48:35] So I'm going to walk through a quick run-up show.
+[48:37] We're going to introduce our guests here.
+[48:38] And then we're going to get to building.
+[48:40] All we really did for the last, like, 30 minutes was hang out.
+[48:43] Maybe we got some.
+[48:44] We got our coffee.
+[48:45] We got our water.
+[48:45] We just slacked off.
+[48:46] We made a slack.
+[48:48] So we'll show you what we got.
+[48:50] But before I get into the next block, I just want to give everybody a rundown.
+[48:54] General overview.
+[48:55] My team is telling me I have to say this.
+[48:56] So we're going to say it.
+[48:57] We have GrokBot for engineering.
+[49:00] Super exciting session.
+[49:01] I mean, we have so many great engineers on SpaceX AI.
+[49:03] A ton of them.
+[49:04] I literally can't believe I get to work with these people.
+[49:06] We're just like, and we're just giving this away for free.
+[49:09] Honestly.
+[49:09] I feel like if there was, like, a course guy out there, they would be making so much money.
+[49:13] But we're generous.
+[49:14] This is the course.
+[49:15] And then, so that's 12.30 PST to 2.
+[49:18] 2.30 to 3.30 is GrokBot for product managers.
+[49:21] We have a product manager with us.
+[49:23] We have a former product manager.
+[49:25] You have a good product manager or a bad product manager?
+[49:27] No.
+[49:29] Again, we'll do some intros.
+[49:30] But GrokBot for product managers at 2.30 with Kevin.
+[49:33] And then GrokBot for founders at 4.00 to 5.30 later this evening with Shub.
+[49:39] So you're going to want to see all of those.
+[49:41] But joining us right now is Peter Yang, the great Peter Yang.
+[49:44] So, Peter, maybe you want to tell our viewers a little bit about yourself.
+[49:47] Yeah, hey, everyone.
+[49:48] My name is Peter.
+[49:48] I was a product manager for over a decade.
+[49:51] And then I kind of semi-retired.
+[49:52] Now I'm a YouTuber, you know, after all that training.
+[49:55] And I didn't make, like, practical AI interviews and tutorials.
+[49:58] And I really love GrokBot.
+[50:00] I use GrokBot to run my one-person business.
+[50:03] I talk to my bots all day instead of humans.
+[50:05] It's kind of sad.
+[50:06] But, you know, I try.
+[50:07] And, yeah, really excited to be here.
+[50:09] Yeah, so Peter runs Behind the Craft, which is a newsletter, right?
+[50:12] Yeah.
+[50:13] And then your newsletter, a lot of people read this newsletter.
+[50:16] Yeah, all these people, not bot bots.
+[50:18] Okay, so not bots, real people.
+[50:20] Real people, yeah.
+[50:20] And a YouTube channel.
+[50:21] So this is going to be kind of the vibe.
+[50:22] Like, as we bring people in, we're just going to chat.
+[50:25] And what better way to start building a product than with someone who's built
+[50:28] some of these products that I'm reading that Peter's are amazing products.
+[50:32] So I think first thing we're going to do is start, like, hiring some employees, right?
+[50:36] Yeah.
+[50:37] Okay, cool.
+[50:37] Yeah, should we do a quick tour of kind of how we set things up?
+[50:39] Okay, sweet.
+[50:40] Yeah.
+[50:40] So, yeah, Roshan is going to walk through, like, what we got so far, I guess, on his screen.
+[50:45] So we can cut over there.
+[50:47] And we can start, like, going through what we got.
+[50:49] Yeah, let's do it.
+[50:49] So, yeah, we weren't completely slacking off in the last few minutes during that presentation.
+[50:55] A little bit, a little bit.
+[50:56] You know, any good company formation involves some gathering of thoughts.
+[51:01] But, yeah, we got a couple things set up.
+[51:02] So I don't know if you can see my screen here.
+[51:04] But we got a couple of setups here.
+[51:07] We have our Ship by Thursday GitHub org, which I think we talked about a little bit before.
+[51:11] So you can see it's blank.
+[51:12] No repositories yet.
+[51:14] We'll get that going pretty soon, hopefully.
+[51:16] We did make ourselves a Slack channel so we and our bots can chat with each other.
+[51:21] I think that'll be really great.
+[51:22] We have a lot of really fun.
+[51:23] We have a lot of fun day-to-day in SpaceX AI Slack getting to be able to chat with our bots
+[51:28] and having them interact in Slack.
+[51:30] And so I think that'll be really helpful.
+[51:32] And we have a Notion workspace.
+[51:33] We wanted to write some stuff down, maybe create, you know, some handbooks,
+[51:38] some onboarding guides for all these bots we're going to hire.
+[51:40] What do you think, Lauren?
+[51:42] Should we be taking notes in Notion?
+[51:45] You know, I don't really take notes.
+[51:49] But you can do whatever you want.
+[51:51] I like to do it the moment I see it, you know what I mean?
+[51:56] I think we'll need docs maybe for keeping track of things, backlog items.
+[52:03] But I'm wondering if we can just be really scrappy and really fast moving.
+[52:09] Yeah.
+[52:09] You know?
+[52:10] And because, like, docs are just going to go out of date so quickly.
+[52:13] Yeah.
+[52:13] So let's...
+[52:14] I think we should hire some employees, you know?
+[52:15] What do you think?
+[52:16] Let's hire some bots.
+[52:17] We need some bots.
+[52:18] Yeah, let's do it.
+[52:19] Okay.
+[52:19] Let me just switch over to GrokBot.
+[52:20] So this is my GrokBot.
+[52:21] As you can see, it's completely blank.
+[52:24] And, well, there's nothing here.
+[52:25] The only thing I've done is I've gone into the marketplace and I've connected the X MCP.
+[52:29] And so we have our connection to X all set up.
+[52:32] And I guess, Peter, I'm curious to hear, like, where do you think we should start?
+[52:34] You know, we talked a little bit off camera about doing some user research maybe and getting
+[52:38] started that way and kind of, like, understanding the voice of the customer and thinking of some...
+[52:41] Yeah, I think we should hire a market research bot or something because, you know, normally
+[52:44] PMs do research, but we're too late, you know?
+[52:46] So let's hire a bot too.
+[52:47] Cool.
+[52:48] Awesome.
+[52:49] So Roshan's making a market research bot.
+[52:50] We're aware of some issues on the AB side.
+[52:52] We're going to get the screen share back for you all.
+[52:54] But we're just creating a new bot just like you saw in GrokBot 101.
+[52:57] And once that's back, we'll have that up for you all.
+[53:00] Best practices when creating bots.
+[53:01] I'd be curious to hear.
+[53:02] What do you think, Peter?
+[53:03] You got to give it, like, a really funny name.
+[53:05] That's number one.
+[53:05] Oh, man.
+[53:05] I called it market research bot.
+[53:07] So I guess we shouldn't call it that.
+[53:08] All right.
+[53:08] What should we call our first bot?
+[53:10] I don't know.
+[53:10] Should we ask the chat or...

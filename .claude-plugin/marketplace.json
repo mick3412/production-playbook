@@ -1,0 +1,13 @@
+{
+  "name": "production-playbook-local",
+  "owner": {
+    "name": "Mick Lu"
+  },
+  "plugins": [
+    {
+      "name": "production-playbook",
+      "source": "./",
+      "description": "Step-by-step production handbook for videos and visual assets."
+    }
+  ]
+}
