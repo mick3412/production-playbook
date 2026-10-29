@@ -47,13 +47,18 @@
 | [resemble-enhance](https://github.com/resemble-ai/resemble-enhance)（T-11） | 待試 | 免費 | MIT（寬鬆） | 降噪後音質還是很差，需要增強時 |
 | [ClearerVoice-Studio](https://github.com/modelscope/ClearerVoice-Studio)（T-12） | 待試 | 免費 | Apache-2.0（寬鬆） | 多人對談只要抽出其中一位講者時 |
 | [Pocket TTS（Kyutai）](https://github.com/kyutai-labs/pocket-tts)（T-46） | 待試 | 免費 | MIT（程式）；模型權重 CC BY 4.0（寬鬆） | 需要複製真人聲音、或要比 Kokoro 更自然的英文配音時；權重 CC BY 4.0 要標註 |
+| [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5)（T-60） | 待試 | 免費 | MIT（寬鬆） | 需要長度剛好的配樂、又不想付費或擔心 Content ID 時 |
+| [Stable Audio 3（Small／Medium）](https://stability.ai/)（T-61） | 待查 | 部分付費 | Stability 社群授權（年營收 100 萬美元以下可商用）（特殊） | 要快、長度要準的純音樂 |
 | [video2x](https://github.com/k4yt3x/video2x)（T-16） | 未採用 | 免費 | AGPL-3.0（本機限定） | 素材畫質太低、需要 AI 放大或補幀時（只支援 Linux、Windows） |
 | [FlashVSR](https://github.com/OpenImagingLab/FlashVSR)（T-17） | 未採用 | 免費 | Apache-2.0（寬鬆） | 有 NVIDIA GPU、需要即時超解析度時 |
 | [FILM](https://github.com/google-research/frame-interpolation)（T-18） | 未採用 | 免費 | Apache-2.0（寬鬆） | 實拍素材需要補幀做慢動作時 |
 | [OpenCreator（原 KrillinAI）](https://github.com/krillinai/OpenCreator)（T-26） | 未採用 | 付費 | Apache-2.0（寬鬆） | 需要影片翻譯和多語配音時（以 Codex 為引擎，要 OpenAI 付費帳號） |
 | [ViMax](https://github.com/HKUDS/ViMax)（T-27） | 未採用 | 付費 | MIT（寬鬆） | 劇情片：導演、編劇到生成全包（要接付費的影片和語言模型 API） |
+| [Mureka](https://www.mureka.ai/)（T-62） | 未採用 | 付費 | 商用授權（付費）（未標） | 要中文歌、歌詞要唱清楚時 |
+| [ElevenLabs Music v2.5](https://elevenlabs.io/music)（T-63） | 未採用 | 付費 | 商用授權（付費）（未標） | 要最快、長度準的配樂且有預算 |
 | [hypit](https://github.com/hypit-ai/hypit)（T-30） | 避開 | 不明 | 未明確（未標） | 換臉、換台詞複製別人的爆紅影片（肖像權和平台政策風險） |
 | [Framesail](https://api.framesail.com/mcp)（T-47） | 避開 | 付費 | 商業服務（未標） | 長片 AI 生成、要處理角色一致性時（付費，價格未公開） |
+| [Suno 免費版](https://suno.com/)（T-64） | 避開 | 部分付費 | 免費版禁止商用（未標） | — |
 
 ## 5 製作
 
