@@ -87,6 +87,11 @@ class PlaybookTest(unittest.TestCase):
         self.pb("done")
         self.assertIn("done", self.pb("list"))
 
+    def test_hook_names_the_playbook_from_its_config(self):
+        self.pb("start", "demo", "--type", "影片")
+        self.assertIn("進行中的作品（production-playbook）", self.pb("hook", "session"))
+        self.assertTrue((self.project / ".production" / "active.json").is_file())
+
     def test_hook_is_silent_without_active_production(self):
         self.assertEqual(self.pb("hook", "prompt"), "")
         self.pb("start", "demo", "--type", "影片")

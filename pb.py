@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""Production Playbook: one command for the handbook, the stage cards, production progress and intake.
+"""Playbook engine: one command for a handbook, its stage cards, progress tracking and intake.
+
+The same file serves every playbook (production-playbook, marketing-playbook); playbook.json next to it names the
+playbook, its state folder in the product's project and its environment variable. Keep the copies identical.
 
     python3 pb.py check                     validate data/ and confirm guide/ is up to date
     python3 pb.py build                     regenerate guide/ from data/
     python3 pb.py card 3 [--type 影片] [--brief]
-    python3 pb.py start <name> --type 影片  open a production in the current project (.production/active.json)
+    python3 pb.py start <name> --type 影片  open a production in the current project (<state_dir>/active.json)
     python3 pb.py status | check-off <ids> | advance | back <stage> | pause | resume | done | list | use <name>
     python3 pb.py hook prompt|session       one-line reminders for Claude Code hooks (never fails, prints nothing when idle)
     python3 pb.py inbox add <url|file> --note "..."   |   inbox list
@@ -31,13 +34,16 @@ import urllib.parse
 from collections import Counter, defaultdict
 from pathlib import Path
 
+ENGINE_VERSION = "1.0"
 SCRIPT_ROOT = Path(__file__).resolve().parent
-CONFIG_FILE = Path.home() / ".config" / "production-playbook" / "home"
+CONF = json.loads((SCRIPT_ROOT / "playbook.json").read_text(encoding="utf-8"))
+NAME = CONF["name"]
+CONFIG_FILE = Path.home() / ".config" / NAME / "home"
 
 
 def find_root() -> Path:
-    """The repo that holds the data: $PLAYBOOK_HOME, then the path saved by `setup`, then this script's folder."""
-    for cand in (os.environ.get("PLAYBOOK_HOME"), CONFIG_FILE.read_text().strip() if CONFIG_FILE.is_file() else None):
+    """The repo that holds the data: the env var named in playbook.json, then the path saved by `setup`, then this folder."""
+    for cand in (os.environ.get(CONF["home_env"]), CONFIG_FILE.read_text().strip() if CONFIG_FILE.is_file() else None):
         if cand and (Path(cand) / "data" / "stages.json").is_file():
             return Path(cand)
     return SCRIPT_ROOT
@@ -64,7 +70,7 @@ TOOL_STATUSES = ["已整合", "已安裝", "待試", "待查", "未採用", "避
 LICENSE_LEVELS = ["寬鬆", "本機限定", "特殊", "未標"]
 COSTS = ["免費", "部分付費", "付費", "不明"]
 RESULTS = ["有效", "無效", "需調整"]
-TRACK_PREFIX = {"協作": "CO", "工具": "TL"}
+TRACK_PREFIX = CONF["track_prefix"]
 SHOWN = {"已內建", "採用", "待試", "爭議"}          # statuses listed in the main card sections
 TRACKING_PARAMS = re.compile(r"^(utm_.*|fbclid|gclid|igshid|mcp_token|mc_cid|mc_eid|_hs.*|ref_src|si)$", re.I)
 
@@ -348,7 +354,7 @@ def brief(key: str, asset: str | None, checked: set[str]) -> str:
 def build_pages() -> dict[Path, str]:
     st = stages()
     pages: dict[Path, str] = {}
-    idx = ["# Production Playbook 指南", "", "> 由 `python3 pb.py build` 從 `data/` 產生，不要手改。", "",
+    idx = [f"# {CONF['title']} 指南", "", "> 由 `python3 pb.py build` 從 `data/` 產生，不要手改。", "",
            "| 階段 | 產出 | 條目 | 卡片 |", "|---|---|---|---|"]
     counts = Counter(r["階段"] for r in entries())
     for s in st["stages"]:
@@ -399,17 +405,17 @@ def cell(text: str) -> str:
     return text.replace("|", "／").replace("\n", " ")
 
 
-# ---------------------------------------------------------------- productions (.production/active.json in the product's project)
+# ---------------------------------------------------------------- productions (<state_dir>/active.json in the product's project)
 def project_dir() -> Path:
     start = Path(os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()).resolve()
     for d in (start, *start.parents):
-        if (d / ".production" / "active.json").is_file():
+        if (d / CONF["state_dir"] / "active.json").is_file():
             return d
     return start
 
 
 def state_path() -> Path:
-    return project_dir() / ".production" / "active.json"
+    return project_dir() / CONF["state_dir"] / "active.json"
 
 
 def load_state() -> dict:
@@ -465,7 +471,7 @@ def reminder(name: str, item: dict) -> str:
     now = f"{s['id']} {s['name']}" + (f"（{open_steps[0]['id']} {open_steps[0]['name']}）" if open_steps else "")
     then = f"{nxt['id']} {nxt['name']}" if nxt else "回顧"
     return (f"▶ 作品 {name}（{item['type']}）｜目前：{now}｜下一步：{then}"
-            f"｜未過關：{len(open_gates)} 項｜production-playbook：pb.py card {s['id']} --brief")
+            f"｜未過關：{len(open_gates)} 項｜{NAME}：pb.py card {s['id']} --brief")
 
 
 # ---------------------------------------------------------------- similarity
@@ -693,7 +699,8 @@ def set_status(a, status: str) -> int:
     save_state(state)
     print(f"作品「{name}」：{status}")
     if status == "done":
-        print("交付完成。接著做第 9 階段回顧：`pb.py card 9`，再用 `pb.py run-log` 記下這支作品用過哪些條目、效果如何。")
+        last = stages()["stages"][-1]
+        print(f"交付完成。接著做第 {last['id']} 階段{last['name']}：`pb.py card {last['id']}`，再用 `pb.py run-log` 記下這支作品用過哪些條目、效果如何。")
     return 0
 
 
@@ -729,7 +736,7 @@ def cmd_hook(a) -> int:
             return 0
         live.sort(key=lambda x: x[0] != state.get("current"))
         if a.kind == "session":
-            print("進行中的作品（production-playbook）：")
+            print(f"進行中的作品（{NAME}）：")
             print("\n".join(reminder(n, it) for n, it in live))
             print("製作前先看目前階段的提醒：`pb.py status`；完整清單：`pb.py card <階段>`。")
         else:
@@ -832,7 +839,7 @@ def cmd_log(a) -> int:
 
 def cmd_setup(_a) -> int:
     if not (SCRIPT_ROOT / ".git").exists():
-        sys.exit("請在 production-playbook 的 git repo 裡執行 setup（不是外掛快取）。")
+        sys.exit(f"請在 {NAME} 的 git repo 裡執行 setup（不是外掛快取）。")
     CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
     CONFIG_FILE.write_text(str(SCRIPT_ROOT) + "\n")
     print(f"已記住手冊位置：{SCRIPT_ROOT}（{CONFIG_FILE}）")
@@ -840,7 +847,7 @@ def cmd_setup(_a) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(prog="pb.py", description="Production Playbook")
+    ap = argparse.ArgumentParser(prog="pb.py", description=f"{CONF['title']} (engine {ENGINE_VERSION})")
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("check").set_defaults(fn=cmd_check)
     sub.add_parser("build").set_defaults(fn=cmd_build)

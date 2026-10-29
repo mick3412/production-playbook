@@ -1,0 +1,7 @@
+{
+  "name": "production-playbook",
+  "title": "Production Playbook",
+  "home_env": "PLAYBOOK_HOME",
+  "state_dir": ".production",
+  "track_prefix": {"協作": "CO", "工具": "TL"}
+}
