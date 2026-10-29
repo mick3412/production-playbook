@@ -34,7 +34,7 @@ import urllib.parse
 from collections import Counter, defaultdict
 from pathlib import Path
 
-ENGINE_VERSION = "1.0"
+ENGINE_VERSION = "1.1"
 SCRIPT_ROOT = Path(__file__).resolve().parent
 CONF = json.loads((SCRIPT_ROOT / "playbook.json").read_text(encoding="utf-8"))
 NAME = CONF["name"]
@@ -289,6 +289,8 @@ def render_card(key: str, asset: str | None = None) -> str:
                 by_step.pop(step["id"], None)
                 continue
             out.append(f"- [ ] **{step['id']} {step['name']}**：{step['do']}")
+            if step.get("ways"):
+                out.append("  - 幾種做法：" + "；".join(f"({chr(97 + i)}) {w}" for i, w in enumerate(step["ways"])))
             for r in by_step.pop(step["id"], []):
                 out.append(f"  - {'檢查：' if r['類型'] == '檢查' else ''}{r['要點']}{tag(r)}")
     for rows in by_step.values():
@@ -342,7 +344,8 @@ def brief(key: str, asset: str | None, checked: set[str]) -> str:
     watch = (p["watch"] + [dict(r, 要點="不要：" + r["要點"]) for r in p["avoid"]])[:2]
     up = p["level_up"][:2]
     lines = [
-        f"現在：{s['id']} {s['name']}" + (f"，接著做 {open_steps[0]['id']} {open_steps[0]['name']}：{open_steps[0]['do']}" if open_steps else "，步驟都勾完了，檢查過關條件"),
+        f"現在：{s['id']} {s['name']}" + (f"，接著做 {open_steps[0]['id']} {open_steps[0]['name']}：{open_steps[0]['do']}" if open_steps else "，步驟都勾完了，檢查過關條件")
+        + (f"（做法：{'／'.join(open_steps[0]['ways'])}）" if open_steps and open_steps[0].get("ways") else ""),
         f"下一步：{nxt['id']} {nxt['name']}" if nxt else "下一步：交付完成，做回顧",
         f"工具：{tools_line}",
         "注意：" + ("；".join(r["要點"] + f"（{r['id']}）" for r in watch) or "（無）"),
