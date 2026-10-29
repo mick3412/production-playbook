@@ -48,6 +48,8 @@
 | [ClearerVoice-Studio](https://github.com/modelscope/ClearerVoice-Studio)（T-12） | 待試 | 免費 | Apache-2.0（寬鬆） | 多人對談只要抽出其中一位講者時 |
 | [Pocket TTS（Kyutai）](https://github.com/kyutai-labs/pocket-tts)（T-46） | 待試 | 免費 | MIT（程式）；模型權重 CC BY 4.0（寬鬆） | 需要複製真人聲音、或要比 Kokoro 更自然的英文配音時；權重 CC BY 4.0 要標註 |
 | [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5)（T-60） | 待試 | 免費 | MIT（寬鬆） | 需要長度剛好的配樂、又不想付費或擔心 Content ID 時 |
+| [Openverse 音訊搜尋](https://api.openverse.org/v1/audio/)（T-65） | 待試 | 免費 | 各檔不同（篩 CC0、CC BY）（寬鬆） | 要找音效或配樂時先用它 |
+| [earshot](https://github.com/Leonxlnx/earshot)（T-67） | 待試 | 免費 | MIT（寬鬆） | Openverse 找不到想要的聲音、或要一整組風格統一的介面音效時 |
 | [Stable Audio 3（Small／Medium）](https://stability.ai/)（T-61） | 待查 | 部分付費 | Stability 社群授權（年營收 100 萬美元以下可商用）（特殊） | 要快、長度要準的純音樂 |
 | [video2x](https://github.com/k4yt3x/video2x)（T-16） | 未採用 | 免費 | AGPL-3.0（本機限定） | 素材畫質太低、需要 AI 放大或補幀時（只支援 Linux、Windows） |
 | [FlashVSR](https://github.com/OpenImagingLab/FlashVSR)（T-17） | 未採用 | 免費 | Apache-2.0（寬鬆） | 有 NVIDIA GPU、需要即時超解析度時 |
@@ -83,6 +85,12 @@
 | [design-to-motion（elayadesign）](https://github.com/elayadesign/ai-design-skills/tree/5e57840/skills/design-to-motion)（T-51） | 未採用 | 免費 | MIT（寬鬆） | 把靜態設計稿或截圖做成循環展示動畫（新 repo 尚未公開） |
 | [OpenMontage](https://github.com/calesthio/OpenMontage)（T-29） | 避開 | 免費 | AGPL-3.0（本機限定） | 完整的 agent 影片製作框架；AGPL，只借點子 |
 | [vox-director](https://github.com/Alisa0808/vox-director)（T-41） | 避開 | 付費 | MIT（寬鬆） | Vox 風格紙張拼貼解說片（核心步驟要付費 API） |
+
+## 7 算圖與混音
+
+| 工具 | 狀態 | 費用 | 授權 | 何時用 |
+|---|---|---|---|---|
+| [Real SFX（Clipwing）](https://github.com/Clipwing/skills)（T-66） | 待查 | 免費 | 未標（安裝前查）（未標） | 音效庫準備好、要把音效對到畫面時 |
 
 ## 8 交付與發佈
 
