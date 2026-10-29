@@ -327,9 +327,12 @@ def brief(key: str, asset: str | None, checked: set[str]) -> str:
     open_steps = open_steps_for(s, asset, checked) if s else []
     nxt = stage_by_key(st, str(s["next"])) if s and s["next"] is not None else None
     tools_line = "、".join(f"{t['工具']}" for t in p["tools_ready"][:3]) or "（無專用工具）"
-    retry = sorted([t for t in p["tools_try"] if recheck_note(t)], key=lambda t: RATINGS.index(t["實用度"]))
+    # a condition-based hint stays only while its step is open and nobody has ticked the tool off as not applying
+    open_ids = {x["id"] for x in open_steps}
+    retry = sorted([t for t in p["tools_try"] if recheck_note(t) and t["id"] not in checked and (not t["步驟"] or open_ids & set(split(t["步驟"])))],
+                   key=lambda t: RATINGS.index(t["實用度"]))
     if retry:
-        tools_line += "；這一步可以試：" + "、".join(f"{t['工具']}（{t['複查條件']}）" for t in retry[:2])
+        tools_line += "；這一步可以試：" + "、".join(f"{t['工具']}（{t['複查條件']}；不適用就 check-off {t['id']}）" for t in retry[:2])
     watch = (p["watch"] + [dict(r, 要點="不要：" + r["要點"]) for r in p["avoid"]])[:2]
     up = p["level_up"][:2]
     lines = [
@@ -627,11 +630,11 @@ def cmd_check_off(a) -> int:
     name, item = pick(state, a.name)
     st = stages()
     # any stage's steps and gates are accepted, so work finished ahead of time can be ticked now
-    valid = {x["id"] for s in st["stages"] for x in s["steps"]} | {g["id"] for s in st["stages"] for g in s["gates"]} | {r["id"] for r in entries()}
+    valid = {x["id"] for s in st["stages"] for x in s["steps"]} | {g["id"] for s in st["stages"] for g in s["gates"]} | {r["id"] for r in entries()} | {t["id"] for t in tools()}
     known = [i for i in a.ids if i in valid]
     for i in a.ids:
         if i not in valid:
-            print(f"略過 {i}：不是任何階段的步驟、過關條件，也不是條目代號")
+            print(f"略過 {i}：不是任何階段的步驟、過關條件，也不是條目或工具代號")
     if not known:
         return 1
     for i in known:

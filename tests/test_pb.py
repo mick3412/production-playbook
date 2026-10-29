@@ -59,6 +59,15 @@ class PlaybookTest(unittest.TestCase):
     def test_card_shows_condition_based_rechecks(self):
         self.assertIn("複查條件：下次要配英文旁白時", self.pb("card", "4", "--type", "影片"))
 
+    def test_condition_hint_goes_away_once_ticked_or_its_step_is_done(self):
+        self.pb("start", "demo", "--type", "影片")
+        self.assertIn("check-off T-46", self.pb("card", "4", "--type", "影片", "--brief"))
+        self.pb("check-off", "T-46")
+        self.assertNotIn("Pocket TTS", self.pb("card", "4", "--type", "影片", "--brief"))
+        self.pb("check-off", "T-46", "--undo")
+        self.pb("check-off", "4.3")
+        self.assertNotIn("Pocket TTS", self.pb("card", "4", "--type", "影片", "--brief"))
+
     def test_check_off_skips_unknown_ids_and_accepts_later_stages(self):
         self.pb("start", "demo", "--type", "影片")
         out = self.pb("check-off", "G0.1", "NOPE", "6.2")

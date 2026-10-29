@@ -27,7 +27,7 @@ If `~/.config/production-playbook/home` does not exist, tell the user to run `py
    - **注意**: the pitfalls that apply now
    - **提升**: one or two ways to make it better or more distinctive
    Then do the work. Do not paste the whole card.
-4. **Tick what is done.** After finishing a step or meeting a gate, `check-off <ids>` (steps like `3.1`, gates like `G3.1`, entries like `S6-02`). Only tick a gate when it is actually met; when the gate needs the user's judgement (approval, taste), ask first.
+4. **Tick what is done.** After finishing a step or meeting a gate, `check-off <ids>` (steps like `3.1`, gates like `G3.1`, entries like `S6-02`). Only tick a gate when it is actually met; when the gate needs the user's judgement (approval, taste), ask first. A gate that names a measurement is ticked only after you have measured it in this production and written the number in your reply; never reuse a number from an earlier mix or render. When the card suggests a tool whose condition does not fit this production, `check-off <tool id>` so it stops coming up.
 5. **Move on.** At the end of a stage run `advance`. If it lists open gates, show them and stop to ask; do not tick them to get through. Going back (for example review sends you to the storyboard) is `back <stage>`.
 6. **Close.** After delivery run `done`, then do stage 9: write what was used with `run-log --entries <ids> --result <有效|無效|需調整> --note "<why>"`, one call per result, and run the intake process for anything new you learned.
 

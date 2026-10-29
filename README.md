@@ -46,7 +46,7 @@ claude plugin install production-playbook@production-playbook-local
 | `pb.py card <階段> [--type 類型] [--brief]` | 看階段卡；`--brief` 只給五行提醒 |
 | `pb.py start <名稱> --type <類型>` | 在目前的專案開一支作品（進度存在專案的 `.production/active.json`） |
 | `pb.py status`、`list`、`use <名稱>` | 看進度、列出作品、切換作品 |
-| `pb.py check-off <代號…>`、`--undo` | 勾掉步驟（`3.1`）、過關條件（`G3.1`）或條目（`S6-02`）；任何階段的代號都可以先勾，不認得的只會略過 |
+| `pb.py check-off <代號…>`、`--undo` | 勾掉步驟（`3.1`）、過關條件（`G3.1`）、條目（`S6-02`）或工具（`T-46`，表示這支作品不適用、不再提示）；任何階段的代號都可以先勾，不認得的只會略過 |
 | `pb.py advance`、`back <階段>` | 進下一階段（過關條件沒勾完會擋下）、退回某階段 |
 | `pb.py pause`、`resume`、`done` | 暫停、恢復、完成 |
 | `pb.py show <代號>` | 看一條做法或一個工具的完整內容 |
