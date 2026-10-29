@@ -48,6 +48,25 @@ class PlaybookTest(unittest.TestCase):
         self.assertIn("視訊錄影放半屏", talking)
         self.assertNotIn("視訊錄影放半屏", web)
 
+    def test_card_hides_steps_and_tools_of_other_asset_types(self):
+        video = self.pb("card", "4", "--type", "影片")
+        talking = self.pb("card", "4", "--type", "口播")
+        self.assertNotIn("4.6 口播粗剪", video)
+        self.assertNotIn("auto-editor", video)
+        self.assertIn("4.6 口播粗剪", talking)
+        self.assertIn("auto-editor", talking)
+
+    def test_card_shows_condition_based_rechecks(self):
+        self.assertIn("複查條件：下次要配英文旁白時", self.pb("card", "4", "--type", "影片"))
+
+    def test_check_off_skips_unknown_ids_and_accepts_later_stages(self):
+        self.pb("start", "demo", "--type", "影片")
+        out = self.pb("check-off", "G0.1", "NOPE", "6.2")
+        self.assertIn("略過 NOPE", out)
+        self.assertIn("G0.2", out)                      # G0.1 is ticked, G0.2 still open
+        self.assertNotIn("G0.1 一句話", out)
+        self.pb("check-off", "NOPE", ok=False)
+
     def test_production_flow_blocks_until_gates_are_checked(self):
         self.pb("start", "demo", "--type", "影片")
         self.assertIn("目前：0 開案", self.pb("status"))

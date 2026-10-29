@@ -51,7 +51,7 @@ INBOX = ROOT / "inbox"
 
 ENTRY_COLS = ["id", "舊id", "階段", "步驟", "類型", "素材類型", "觸發", "要點", "做法", "為什麼", "來源", "證據",
               "實用度", "狀態", "內建於", "複查條件", "更新日"]
-TOOL_COLS = ["id", "工具", "網址", "階段", "步驟", "何時用", "做什麼", "需求", "授權", "授權等級", "費用", "實用度", "狀態",
+TOOL_COLS = ["id", "工具", "網址", "階段", "步驟", "素材類型", "何時用", "做什麼", "需求", "授權", "授權等級", "費用", "實用度", "狀態",
              "安裝方式", "複查條件", "查證日"]
 SOURCE_COLS = ["id", "資源", "位置", "收錄日", "備註"]
 RUN_COLS = ["日期", "作品", "產品", "類型", "條目id", "結果", "備註"]
@@ -202,6 +202,9 @@ def validate() -> list[str]:
                 errors.append(f"{tag}: {col}「{t[col]}」must be one of {allowed}")
         if not t["何時用"]:
             errors.append(f"{tag}: 何時用 is empty")
+        for a in split(t["素材類型"]) or ["(empty)"]:
+            if a not in assets:
+                errors.append(f"{tag}: 素材類型「{a}」must be one of {assets}")
     for r in runs():
         if r["結果"] not in RESULTS:
             errors.append(f"runs.csv {r['作品']}: 結果「{r['結果']}」must be one of {RESULTS}")
@@ -218,6 +221,21 @@ def for_asset(r: dict, asset: str | None) -> bool:
     return asset is None or "全部" in kinds or asset in kinds
 
 
+def applies(step: dict, asset: str | None) -> bool:
+    """A step with a `types` list only applies to those asset types."""
+    return asset is None or not step.get("types") or asset in step["types"]
+
+
+def open_steps_for(stage: dict, asset: str | None, checked: set[str]) -> list[dict]:
+    return [x for x in stage["steps"] if applies(x, asset) and x["id"] not in checked]
+
+
+def recheck_note(r: dict) -> str:
+    """A condition-based recheck (not a date) that may hold now."""
+    cond = r.get("複查條件", "")
+    return f"；複查條件：{cond}" if cond and due(cond) is None else ""
+
+
 def tag(r: dict) -> str:
     extra = {"待試": "，待試", "爭議": "，爭議", "參考": "，參考"}.get(r["狀態"], "")
     return f"（{r['id']}{extra}）"
@@ -228,13 +246,13 @@ def card_parts(key: str, asset: str | None = None) -> dict:
     stage = stage_by_key(st, key)
     k = str(stage["id"]) if stage else key
     rows = [r for r in entries() if r["階段"] == k and for_asset(r, asset)]
-    tl = [t for t in tools() if k in split(t["階段"])]
+    tl = [t for t in tools() if k in split(t["階段"]) and for_asset(t, asset)]
     return {
         "stage": stage,
         "key": k,
         "do": sorted([r for r in rows if r["類型"] in ("要做", "檢查") and r["狀態"] in SHOWN], key=rating_key),
         "tools_ready": [t for t in tl if t["狀態"] in ("已整合", "已安裝")],
-        "tools_try": [t for t in tl if t["狀態"] in ("待試", "待查")],
+        "tools_try": [t for t in tl if t["狀態"] in ("待試", "待查") or (t["狀態"] == "未採用" and t["複查條件"] and due(t["複查條件"]) is None)],
         "tool_entries": sorted([r for r in rows if r["類型"] == "工具" and r["狀態"] in SHOWN], key=rating_key),
         "watch": sorted([r for r in rows if r["類型"] == "陷阱" and r["狀態"] in SHOWN], key=rating_key),
         "avoid": sorted([r for r in rows if r["狀態"] == "避開"], key=rating_key),
@@ -261,6 +279,9 @@ def render_card(key: str, asset: str | None = None) -> str:
         by_step[r["步驟"]].append(r)
     if s:
         for step in s["steps"]:
+            if not applies(step, asset):
+                by_step.pop(step["id"], None)
+                continue
             out.append(f"- [ ] **{step['id']} {step['name']}**：{step['do']}")
             for r in by_step.pop(step["id"], []):
                 out.append(f"  - {'檢查：' if r['類型'] == '檢查' else ''}{r['要點']}{tag(r)}")
@@ -277,7 +298,7 @@ def render_card(key: str, asset: str | None = None) -> str:
     if p["tools_try"]:
         out += ["", "**這一步可以試的新工具：**"]
         for t in p["tools_try"]:
-            out.append(f"- {t['工具']}（{t['id']}，{t['狀態']}）：{t['何時用']}")
+            out.append(f"- {t['工具']}（{t['id']}，{t['狀態']}）：{t['何時用']}{recheck_note(t)}")
     out += ["", "## 要注意", ""]
     for r in p["watch"]:
         out.append(f"- {r['要點']}{tag(r)}")
@@ -303,9 +324,12 @@ def brief(key: str, asset: str | None, checked: set[str]) -> str:
     st = stages()
     p = card_parts(key, asset)
     s = p["stage"]
-    open_steps = [x for x in s["steps"] if x["id"] not in checked] if s else []
+    open_steps = open_steps_for(s, asset, checked) if s else []
     nxt = stage_by_key(st, str(s["next"])) if s and s["next"] is not None else None
     tools_line = "、".join(f"{t['工具']}" for t in p["tools_ready"][:3]) or "（無專用工具）"
+    retry = sorted([t for t in p["tools_try"] if recheck_note(t)], key=lambda t: RATINGS.index(t["實用度"]))
+    if retry:
+        tools_line += "；這一步可以試：" + "、".join(f"{t['工具']}（{t['複查條件']}）" for t in retry[:2])
     watch = (p["watch"] + [dict(r, 要點="不要：" + r["要點"]) for r in p["avoid"]])[:2]
     up = p["level_up"][:2]
     lines = [
@@ -418,7 +442,7 @@ def status_text(name: str, item: dict) -> str:
     st = stages()
     s = stage_by_key(st, str(item["stage"]))
     checked = set(item["checked"])
-    open_steps = [x for x in s["steps"] if x["id"] not in checked]
+    open_steps = open_steps_for(s, item["type"], checked)
     open_gates = [g for g in s["gates"] if g["id"] not in checked]
     nxt = stage_by_key(st, str(s["next"])) if s["next"] is not None else None
     lines = [f"作品「{name}」（{item['type']}，{item['status']}）｜目前：{s['id']} {s['name']}｜產出：{s['output']}"]
@@ -432,7 +456,7 @@ def reminder(name: str, item: dict) -> str:
     st = stages()
     s = stage_by_key(st, str(item["stage"]))
     checked = set(item["checked"])
-    open_steps = [x for x in s["steps"] if x["id"] not in checked]
+    open_steps = open_steps_for(s, item["type"], checked)
     open_gates = [g for g in s["gates"] if g["id"] not in checked]
     nxt = stage_by_key(st, str(s["next"])) if s["next"] is not None else None
     now = f"{s['id']} {s['name']}" + (f"（{open_steps[0]['id']} {open_steps[0]['name']}）" if open_steps else "")
@@ -601,16 +625,21 @@ def cmd_status(a) -> int:
 def cmd_check_off(a) -> int:
     state = load_state()
     name, item = pick(state, a.name)
-    s = stage_by_key(stages(), str(item["stage"]))
-    valid = {x["id"] for x in s["steps"]} | {g["id"] for g in s["gates"]} | {r["id"] for r in entries()}
+    st = stages()
+    # any stage's steps and gates are accepted, so work finished ahead of time can be ticked now
+    valid = {x["id"] for s in st["stages"] for x in s["steps"]} | {g["id"] for s in st["stages"] for g in s["gates"]} | {r["id"] for r in entries()}
+    known = [i for i in a.ids if i in valid]
     for i in a.ids:
         if i not in valid:
-            sys.exit(f"{i} 不是這個階段的步驟、過關條件，也不是條目代號")
+            print(f"略過 {i}：不是任何階段的步驟、過關條件，也不是條目代號")
+    if not known:
+        return 1
+    for i in known:
         if a.undo:
             item["checked"] = [c for c in item["checked"] if c != i]
         elif i not in item["checked"]:
             item["checked"].append(i)
-    event(item, ("取消 " if a.undo else "勾選 ") + ",".join(a.ids))
+    event(item, ("取消 " if a.undo else "勾選 ") + ",".join(known))
     save_state(state)
     print(status_text(name, item))
     return 0
