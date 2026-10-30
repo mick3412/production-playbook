@@ -58,6 +58,7 @@
 | [ViMax](https://github.com/HKUDS/ViMax)（T-27） | 未採用 | 付費 | MIT（寬鬆） | 劇情片：導演、編劇到生成全包（要接付費的影片和語言模型 API） |
 | [Mureka](https://www.mureka.ai/)（T-62） | 未採用 | 付費 | 商用授權（付費）（未標） | 要中文歌、歌詞要唱清楚時 |
 | [ElevenLabs Music v2.5](https://elevenlabs.io/music)（T-63） | 未採用 | 付費 | 商用授權（付費）（未標） | 要最快、長度準的配樂且有預算 |
+| [Higgsfield Genjutsu](https://higgsfield.ai/)（T-70） | 未採用 | 付費 | 商用條款依方案（未標） | 要做動作轉移、換掉畫面裡的物件時 |
 | [hypit](https://github.com/hypit-ai/hypit)（T-30） | 避開 | 不明 | 未明確（未標） | 換臉、換台詞複製別人的爆紅影片（肖像權和平台政策風險） |
 | [Framesail](https://api.framesail.com/mcp)（T-47） | 避開 | 付費 | 商業服務（未標） | 長片 AI 生成、要處理角色一致性時（付費，價格未公開） |
 | [Suno 免費版](https://suno.com/)（T-64） | 避開 | 部分付費 | 免費版禁止商用（未標） | — |
@@ -73,6 +74,8 @@
 | [diagram-design](https://github.com/cathrynlavery/diagram-design)（T-31） | 已整合 | 免費 | MIT（圖示 Tabler MIT、Simple Icons CC0）（寬鬆） | 需要流程圖、架構圖、比較圖這類圖表（45 種，輸出 HTML＋SVG，可套品牌配色） |
 | [taste-skill（design-taste-frontend）](https://github.com/Leonxlnx/taste-skill)（T-32） | 已整合 | 免費 | MIT（寬鬆） | 網頁的美術方向：抽選研究過的方向、用開放圖庫真圖、三種寬度檢查 |
 | [Apple Vision 人物分割](https://developer.apple.com/documentation/vision/vngeneratepersonsegmentationrequest)（T-35） | 已整合 | 免費 | macOS 內建（寬鬆） | Mac 上的人物去背（預設）：免費、不用下載模型、邊緣細 |
+| [Motion Design 技能（LottieFiles）](https://github.com/LottieFiles/motion-design-skill)（T-68） | 待試 | 免費 | MIT（寬鬆） | 要設計動效的時間、緩動、編排時 |
+| [remotion-reel 技能（Michael Ly）](https://milleemd.com/guides/claude-x-remotion/)（T-71） | 待查 | 免費 | 未標（未標） | — |
 | [kinocut](https://github.com/KyaniteLabs/kinocut)（T-04） | 未採用 | 免費 | Apache-2.0（寬鬆） | 想讓 agent 透過 MCP 做有護欄的剪輯時 |
 | [WhisperX](https://github.com/m-bain/whisperX)（T-06） | 未採用 | 免費 | BSD-2-Clause（寬鬆） | 需要分辨多位講者或音素級對齊時 |
 | [transcribe-anything](https://github.com/zackees/transcribe-anything)（T-07） | 未採用 | 免費 | MIT（寬鬆） | Mac M 晶片上想換一個多後端的轉錄工具時 |
@@ -85,6 +88,12 @@
 | [design-to-motion（elayadesign）](https://github.com/elayadesign/ai-design-skills/tree/5e57840/skills/design-to-motion)（T-51） | 未採用 | 免費 | MIT（寬鬆） | 把靜態設計稿或截圖做成循環展示動畫（新 repo 尚未公開） |
 | [OpenMontage](https://github.com/calesthio/OpenMontage)（T-29） | 避開 | 免費 | AGPL-3.0（本機限定） | 完整的 agent 影片製作框架；AGPL，只借點子 |
 | [vox-director](https://github.com/Alisa0808/vox-director)（T-41） | 避開 | 付費 | MIT（寬鬆） | Vox 風格紙張拼貼解說片（核心步驟要付費 API） |
+
+## 6 審片
+
+| 工具 | 狀態 | 費用 | 授權 | 何時用 |
+|---|---|---|---|---|
+| [design-motion-principles（kylezantos）](https://github.com/kylezantos/design-motion-principles)（T-69） | 待試 | 免費 | MIT（寬鬆） | 要審查既有動畫時 |
 
 ## 7 算圖與混音
 
