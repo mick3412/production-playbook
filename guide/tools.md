@@ -10,6 +10,7 @@
 | [faster-whisper／mlx-whisper](https://github.com/SYSTRAN/faster-whisper)（T-56） | 已安裝 | 免費 | MIT（寬鬆） | 語音轉文字和逐字時間；Mac 用 mlx-whisper 較快 |
 | [awesome-opus5-5-videos](https://github.com/yihui-dev/awesome-opus5-5-videos)（T-22） | 待試 | 免費 | MIT（寬鬆） | 開新系列前找靈感、學提示詞寫法 |
 | [claude-real-video（crv）](https://github.com/HUANGCHIHHUNGLeo/claude-real-video)（T-37） | 待試 | 免費 | MIT（寬鬆） | 拆解參考片或回頭檢查自己的成品：依場景挑關鍵畫面、縮圖表、逐字稿 |
+| [動態參考圖庫（Prompt Motion、Eyecandy、24fps、Raivcoo、Motionographer、Motion Index）](https://learnaiwithmariah.com/guides/websites-to-give-ai-taste/)（T-72） | 待試 | 部分付費 | 各網站內容各自所有（未標） | 找動態、剪輯、運鏡參考時 |
 | [MotionClone](https://github.com/blixvip/MotionClone)（T-23） | 未採用 | 免費 | 未標（未標） | 想把參考影片重建成可編輯的 HyperFrames 專案（沒有授權，只參考概念） |
 
 ## 2 腳本
@@ -76,6 +77,7 @@
 | [Apple Vision 人物分割](https://developer.apple.com/documentation/vision/vngeneratepersonsegmentationrequest)（T-35） | 已整合 | 免費 | macOS 內建（寬鬆） | Mac 上的人物去背（預設）：免費、不用下載模型、邊緣細 |
 | [Motion Design 技能（LottieFiles）](https://github.com/LottieFiles/motion-design-skill)（T-68） | 待試 | 免費 | MIT（寬鬆） | 要設計動效的時間、緩動、編排時 |
 | [remotion-reel 技能（Michael Ly）](https://milleemd.com/guides/claude-x-remotion/)（T-71） | 待查 | 免費 | 未標（未標） | — |
+| [WAI 自動剪輯技能（理工威森）](https://wilson-men.tw/ai-auto-edit/)（T-73） | 待查 | 免費 | 未標（未標） | 要在口播片上疊人後大字、玻璃卡、音效時 |
 | [kinocut](https://github.com/KyaniteLabs/kinocut)（T-04） | 未採用 | 免費 | Apache-2.0（寬鬆） | 想讓 agent 透過 MCP 做有護欄的剪輯時 |
 | [WhisperX](https://github.com/m-bain/whisperX)（T-06） | 未採用 | 免費 | BSD-2-Clause（寬鬆） | 需要分辨多位講者或音素級對齊時 |
 | [transcribe-anything](https://github.com/zackees/transcribe-anything)（T-07） | 未採用 | 免費 | MIT（寬鬆） | Mac M 晶片上想換一個多後端的轉錄工具時 |

@@ -12,3 +12,4 @@
 - 2026-10-29 產品設定檔改用 .agents/product-marketing.md（多數行銷技能讀這個路徑），和行銷手冊共用；archive 的 16 條行銷條目和 3 個 SEO 工具已搬到 marketing-playbook
 - 2026-10-31 收錄：S31 Michael Ly Claude × Remotion、S32 動效工具名單；新增 6 條（S3-23、S5-25、S6-09、S4-23～25）、合併 5 條（S4-18、S5-22、S4-12、S7-05、S7-06）、工具 T-68～71；0.4 步驟補字幕樣式與常用音效
 - 2026-11-02 收錄 2026-11-02 批次：S33 自動剪片 6 步驟、S34 短影音特效懶人包、S35 Animation Base 教學、S36 別叫 AI 扮演專家；新增 8 條、合併 7 條
+- 2026-11-05 收錄 2026-11-05 批次：S37 WAI 自動剪輯、S38 Motion Prompts、S39 角色設定表、S40 Give AI My Taste；新增 8 條、合併 5 條、2 個工具
