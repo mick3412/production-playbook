@@ -1,6 +1,6 @@
 {
   "name": "production-playbook",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "A step-by-step production handbook for videos and other visual assets: stage cards, progress tracking, reminders at every step, and an intake process that keeps the handbook growing.",
   "author": {
     "name": "Mick Lu"
