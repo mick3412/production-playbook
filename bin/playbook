@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+"""One command for all four playbooks. Read-only except `add`, which only drops into an inbox."""
+import csv, subprocess, sys
+from pathlib import Path
+
+BOOKS = {"影片": "production-playbook", "行銷": "marketing-playbook", "網站": "web-playbook", "開發": "engineering-playbook"}
+ALIAS = {"production": "影片", "video": "影片", "製片": "影片", "marketing": "行銷", "web": "網站", "engineering": "開發", "dev": "開發"}
+
+HELP = """playbook：查四本手冊（影片、行銷、網站、開發）
+  playbook find 關鍵字        四本一起找做法和工具
+  playbook show 影片 S8-06    看一條的完整內容
+  playbook card 影片 8        看某階段的重點（加 --full 看完整清單）
+  playbook add 影片 網址 "原因"  把新資料丟進收件匣，不直接改手冊"""
+
+
+def home(book):
+    f = Path.home() / ".config" / BOOKS[book] / "home"
+    if not f.is_file():
+        sys.exit(f"找不到{book}手冊：先在手冊資料夾跑 python3 pb.py setup")
+    return Path(f.read_text().strip())
+
+
+def book_of(name):
+    b = ALIAS.get(name.lower(), name)
+    if b not in BOOKS:
+        sys.exit(f"手冊要是其中之一：{'、'.join(BOOKS)}")
+    return b
+
+
+def pb(book, *args):
+    r = home(book)
+    return subprocess.run([sys.executable, str(r / "pb.py"), *args], cwd=r, capture_output=True, text=True)
+
+
+def find(words):
+    q = " ".join(words)
+    keys = [w.lower() for w in words]
+    for b in BOOKS:
+        hits = []
+        for line in pb(b, "similar", q, "--top", "3").stdout.splitlines():
+            score, rest = line.split(None, 1)
+            if float(score) >= 0.05:
+                hits.append(rest)
+        with open(home(b) / "data/tools.csv", encoding="utf-8") as f:
+            for t in csv.DictReader(f):
+                text = " ".join((t["工具"], t["何時用"], t["做什麼"])).lower()
+                if t["狀態"] != "避開" and any(k in text for k in keys):
+                    hits.append(f"{t['id']}  工具：{t['工具']}（{t['狀態']}）")
+        for h in hits[:6]:
+            print(f"{b}  {h}")
+    print("\n看完整內容：playbook show <手冊> <代號>")
+
+
+def main(a):
+    if not a or a[0] in ("-h", "--help", "help"):
+        print(HELP); return
+    cmd, rest = a[0], a[1:]
+    if cmd == "find" and rest:
+        find(rest)
+    elif cmd == "show" and len(rest) == 2:
+        r = pb(book_of(rest[0]), "show", rest[1]); print(r.stdout or r.stderr, end="")
+    elif cmd == "card" and len(rest) >= 2:
+        args = ["card", rest[1]] + ([] if "--full" in rest else ["--brief"])
+        r = pb(book_of(rest[0]), *args); print(r.stdout or r.stderr, end="")
+    elif cmd == "add" and len(rest) >= 2:
+        note = rest[2] if len(rest) > 2 else ""
+        r = pb(book_of(rest[0]), "inbox", "add", rest[1], "--note", note); print(r.stdout or r.stderr, end="")
+    else:
+        print(HELP); sys.exit(1)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

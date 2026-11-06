@@ -95,3 +95,14 @@ python3 -m unittest discover tests
 ```
 
 只用 Python 標準函式庫，不需要安裝任何套件。
+
+## 給任何 agent 用的總指令
+
+`bin/playbook` 一次查四本手冊（影片、行銷、網站、開發），只要有終端機的工具都能用（Claude Code、Codex、Cursor、Antigravity、Gemini CLI…）。安裝：`ln -sf "$PWD/bin/playbook" ~/.local/bin/playbook`。四本都要先各跑過一次 `python3 pb.py setup`。
+
+```
+playbook find 關鍵字          四本一起找做法和工具
+playbook show 影片 S8-06      看一條的完整內容
+playbook card 影片 8          看某階段的重點（--full 看完整清單）
+playbook add 影片 網址 "原因"  丟進收件匣
+```
