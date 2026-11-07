@@ -43,3 +43,4 @@
 "S40","〈12 Websites To Give Your AI Better Taste〉（Mariah Brunner）","https://learnaiwithmariah.com/guides/websites-to-give-ai-taste/","2026-11-05",""
 "S41","youtube-agent-skill：11 個經營 YouTube 的 Claude 技能（Jake Schincariol，MIT，1.0.0）；中文安裝教學見 Airi（airi10x.com/preview/get/youtube-agent-skill/）","https://github.com/Jakeschincariol/youtube-agent-skill","2026-11-06","只讀未安裝；重點見 sources/2026-11-06_youtube-agent-skill.md"
 "S42","Ootto〈claude-virality-skill〉與〈claude-content-skills〉的開場、腳本、語氣技能（Jayant Joshi，@jayantcreates.ai，MIT）","https://github.com/Ootto-AI/claude-content-skills","2026-11-07","數字為作者單一帳號（AI 工具主題）自述；只讀未安裝；重點見 sources/2026-11-07_ootto-content-skills.md"
+"S43","Facebook 貼文〈GitHub Trending 本週 5 個 Claude 專案〉（你提供的截圖，星數為作者 11/04 查）：OpenMontage（AGPL-3.0）README 重讀","https://github.com/calesthio/OpenMontage","2026-11-07","只讀 README，未安裝；重點見 sources/2026-11-07_github-trending-5.md"
