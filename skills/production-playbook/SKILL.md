@@ -33,6 +33,8 @@ If `~/.config/production-playbook/home` does not exist, tell the user to run `py
 
 The prompt hook prints one line per message while a production is active (`▶ 作品 …`). Treat it as the current state; you do not need to re-run `status` every turn.
 
+Visual details follow a reference ladder (S1-10). At stage 1, before proposing any visual detail, build the reference table from L1 (whole piece) through L2 (structure: opening, middle, end; or card layout and focal point) and L3 (every shot type, transition, title, image or chart this work uses) to L4 (caption layout, type, spacing, colour, texture, motion curves, sound). Every row says what is borrowed and the value it becomes; every value in the master prompt and the specs traces to a row or says why it is custom. Use free sources only. The same applies to a small request that changes one shot, card or thumbnail: find references at that level before giving the details.
+
 ## Intake: new links, screenshots, PDFs, videos
 
 Ask before adding anything. When the user agrees:
