@@ -19,3 +19,4 @@
 - 2026-11-08 收錄 S44 影片開源工具、S45 AI 動畫 6 步、S46 15 個視覺指令：新增 S0-08、S5-29、S5-30，合併 S6-03、S9-05、S3-20，工具 T-75～81
 - 2026-11-09 由大到小找參考：參考表 L1–L4 寫進階段步驟、過關條件和技能說明
 - 2026-11-10 收錄 agency-agents 的角色做法（見 sources/2026-11-10_agency-agents.md）
+- 2026-11-10 記錄 GSAP AI Skills、Pixel2Motion（待試）、story-to-handdrawn-video（待查）

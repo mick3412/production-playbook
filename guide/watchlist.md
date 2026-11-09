@@ -126,3 +126,6 @@
 | T-78 | Cap | 待試 | 錄螢幕操作、做產品示範或教學片時（Loom 類） | — |
 | T-79 | Concat | 待查 | 需要免費的 CapCut 類剪輯軟體時 | 正式版發布時 |
 | T-80 | ArtCraft | 待查 | — | — |
+| T-82 | GSAP AI Skills（官方） | 待試 | 在 HyperFrames（底層是 GSAP）裡寫時間軸、文字拆分、SVG 變形動效時 | HyperFrames 動效寫不順時 |
+| T-83 | Pixel2Motion | 待試 | 要把點陣圖 logo 做成片頭或網頁的 logo 動畫時 | 有 logo 動畫需求時 |
+| T-84 | story-to-handdrawn-video | 待查 | 要把中文故事或一組圖片做成手繪日記漫畫風的直式動畫時 | Remotion 授權確認後 |
