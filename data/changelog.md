@@ -21,3 +21,4 @@
 - 2026-11-10 收錄 agency-agents 的角色做法（見 sources/2026-11-10_agency-agents.md）
 - 2026-11-10 記錄 GSAP AI Skills、Pixel2Motion（待試）、story-to-handdrawn-video（待查）
 - 2026-11-10 收錄 2026-11-10 工具清單兩批（見 sources/2026-11-10_tool-batches.md）
+- 2026-11-10 待查全部確認；待試加上測試方法與複查條件；pb.py：新增測試方法欄位與驗證、run-log 可記工具、review 計算工具升降級

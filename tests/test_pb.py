@@ -61,12 +61,12 @@ class PlaybookTest(unittest.TestCase):
 
     def test_condition_hint_goes_away_once_ticked_or_its_step_is_done(self):
         self.pb("start", "demo", "--type", "影片")
-        self.assertIn("check-off T-46", self.pb("card", "4", "--type", "影片", "--brief"))
-        self.pb("check-off", "T-46")
-        self.assertNotIn("Pocket TTS", self.pb("card", "4", "--type", "影片", "--brief"))
-        self.pb("check-off", "T-46", "--undo")
-        self.pb("check-off", "4.3")
-        self.assertNotIn("Pocket TTS", self.pb("card", "4", "--type", "影片", "--brief"))
+        self.assertIn("check-off T-60", self.pb("card", "4", "--type", "影片", "--brief"))
+        self.pb("check-off", "T-60")
+        self.assertNotIn("ACE-Step", self.pb("card", "4", "--type", "影片", "--brief"))
+        self.pb("check-off", "T-60", "--undo")
+        self.pb("check-off", "4.4")
+        self.assertNotIn("ACE-Step", self.pb("card", "4", "--type", "影片", "--brief"))
 
     def test_check_off_skips_unknown_ids_and_accepts_later_stages(self):
         self.pb("start", "demo", "--type", "影片")
@@ -129,6 +129,33 @@ class PlaybookTest(unittest.TestCase):
         path = self.home / "data" / "entries.csv"
         path.write_text(path.read_text(encoding="utf-8").replace('"S6-02","CRE-64","6","6.2","檢查"', '"S6-02","CRE-64","6","6.2","亂填"'), encoding="utf-8")
         self.assertIn("類型", self.pb("check", ok=False))
+
+
+    def _first_tool(self, status):
+        import csv
+        with open(self.home / "data" / "tools.csv", encoding="utf-8") as f:
+            return next(t for t in csv.DictReader(f) if t["狀態"] == status)
+
+    def test_tool_runs_drive_review(self):
+        t = self._first_tool("待試")
+        self.pb("run-log", "--entries", t["id"], "--result", "有效")
+        self.pb("run-log", "--entries", t["id"], "--result", "有效")
+        self.assertIn(t["id"], self.pb("review"))
+
+    def test_open_items_need_test_method_and_recheck(self):
+        import csv
+        path = self.home / "data" / "tools.csv"
+        with open(path, encoding="utf-8") as f:
+            rows = list(csv.DictReader(f))
+        tid = next(r["id"] for r in rows if r["狀態"] == "待試")
+        for r in rows:
+            if r["id"] == tid:
+                r["測試方法"] = ""
+        with open(path, "w", encoding="utf-8", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=list(rows[0]), quoting=csv.QUOTE_ALL, lineterminator="\n")
+            w.writeheader()
+            w.writerows(rows)
+        self.assertIn(f"{tid}: 待試 needs 測試方法", self.pb("check", ok=False))
 
 
 if __name__ == "__main__":
