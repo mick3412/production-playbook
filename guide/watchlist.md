@@ -129,3 +129,8 @@
 | T-82 | GSAP AI Skills（官方） | 待試 | 在 HyperFrames（底層是 GSAP）裡寫時間軸、文字拆分、SVG 變形動效時 | HyperFrames 動效寫不順時 |
 | T-83 | Pixel2Motion | 待試 | 要把點陣圖 logo 做成片頭或網頁的 logo 動畫時 | 有 logo 動畫需求時 |
 | T-84 | story-to-handdrawn-video | 待查 | 要把中文故事或一組圖片做成手繪日記漫畫風的直式動畫時 | Remotion 授權確認後 |
+| T-85 | Archify | 待試 | 要把想法、計畫或流程做成互動式圖表時 | 下一次要做流程圖或架構圖時 |
+| T-86 | 拍片哥服裝與姿勢參考庫（nvzhuang、ai-pose-gallery、omilic.com） | 待查 | 要生成人物角色，需要服裝、姿勢參考或中英提示詞時 | 有角色生成需求時 |
+| T-87 | FunClip | 待試 | 要從長片轉字幕、讓 LLM 挑片段剪成短片時 | 有長片要切短片時 |
+| T-88 | banana-claude | 待試 | 要用 Gemini 生圖並由 agent 當創意總監時 | 下一次要生圖時 |
+| T-89 | video-autopilot-kit（Hao0321） | 待查 | 想參考短影音自動化流程（CapCut JSON、ffmpeg）時 | 要做自動化剪輯時 |

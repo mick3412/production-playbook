@@ -20,3 +20,4 @@
 - 2026-11-09 由大到小找參考：參考表 L1–L4 寫進階段步驟、過關條件和技能說明
 - 2026-11-10 收錄 agency-agents 的角色做法（見 sources/2026-11-10_agency-agents.md）
 - 2026-11-10 記錄 GSAP AI Skills、Pixel2Motion（待試）、story-to-handdrawn-video（待查）
+- 2026-11-10 收錄 2026-11-10 工具清單兩批（見 sources/2026-11-10_tool-batches.md）

@@ -56,9 +56,12 @@
 | [VoiceStudio](https://github.com/debpalash/VoiceStudio)（T-77） | 待試 | 免費 | AGPL-3.0（另有商業授權）（本機限定） | 要在本機免費配音或複製聲音時 |
 | [Cap](https://github.com/CapSoftware/Cap)（T-78） | 待試 | 部分付費 | AGPL-3.0（部分 crate 為 MIT）（本機限定） | 錄螢幕操作、做產品示範或教學片時（Loom 類） |
 | [Pixel2Motion](https://github.com/nolangz/pixel2motion)（T-83） | 待試 | 免費 | MIT（寬鬆） | 要把點陣圖 logo 做成片頭或網頁的 logo 動畫時 |
+| [Archify](https://github.com/tt-a1i/archify)（T-85） | 待試 | 免費 | Apache-2.0（寬鬆） | 要把想法、計畫或流程做成互動式圖表時 |
+| [banana-claude](https://github.com/AgriciDaniel/banana-claude)（T-88） | 待試 | 部分付費 | MIT（寬鬆） | 要用 Gemini 生圖並由 agent 當創意總監時 |
 | [Stable Audio 3（Small／Medium）](https://stability.ai/)（T-61） | 待查 | 部分付費 | Stability 社群授權（年營收 100 萬美元以下可商用）（特殊） | 要快、長度要準的純音樂 |
 | [ArtCraft](https://github.com/storytold/artcraft)（T-80） | 待查 | 部分付費 | 待查（未標） | — |
 | [story-to-handdrawn-video](https://github.com/gnipbao/story-to-handdrawn-video)（T-84） | 待查 | 部分付費 | MIT（底層 Remotion 另有授權）（特殊） | 要把中文故事或一組圖片做成手繪日記漫畫風的直式動畫時 |
+| [拍片哥服裝與姿勢參考庫（nvzhuang、ai-pose-gallery、omilic.com）](https://github.com/paipiange/nvzhuang)（T-86） | 待查 | 部分付費 | MIT（模特庫 CC0；圖片為 AI 生成）（寬鬆） | 要生成人物角色，需要服裝、姿勢參考或中英提示詞時 |
 | [video2x](https://github.com/k4yt3x/video2x)（T-16） | 未採用 | 免費 | AGPL-3.0（本機限定） | 素材畫質太低、需要 AI 放大或補幀時（只支援 Linux、Windows） |
 | [FlashVSR](https://github.com/OpenImagingLab/FlashVSR)（T-17） | 未採用 | 免費 | Apache-2.0（寬鬆） | 有 NVIDIA GPU、需要即時超解析度時 |
 | [FILM](https://github.com/google-research/frame-interpolation)（T-18） | 未採用 | 免費 | Apache-2.0（寬鬆） | 實拍素材需要補幀做慢動作時 |
@@ -86,9 +89,11 @@
 | [Motion Design 技能（LottieFiles）](https://github.com/LottieFiles/motion-design-skill)（T-68） | 待試 | 免費 | MIT（寬鬆） | 要設計動效的時間、緩動、編排時 |
 | [FilmCraft](https://github.com/storytold/filmcraft)（T-75） | 待試 | 免費 | MIT 或 Apache 2.0（寬鬆） | 需要免費的時間軸剪輯軟體（Premiere 類）時 |
 | [GSAP AI Skills（官方）](https://github.com/greensock/gsap-skills)（T-82） | 待試 | 免費 | MIT（GSAP 本身含全部外掛免費）（寬鬆） | 在 HyperFrames（底層是 GSAP）裡寫時間軸、文字拆分、SVG 變形動效時 |
+| [FunClip](https://github.com/modelscope/FunClip)（T-87） | 待試 | 免費 | MIT（寬鬆） | 要從長片轉字幕、讓 LLM 挑片段剪成短片時 |
 | [remotion-reel 技能（Michael Ly）](https://milleemd.com/guides/claude-x-remotion/)（T-71） | 待查 | 免費 | 未標（未標） | — |
 | [WAI 自動剪輯技能（理工威森）](https://wilson-men.tw/ai-auto-edit/)（T-73） | 待查 | 免費 | 未標（未標） | 要在口播片上疊人後大字、玻璃卡、音效時 |
 | [Concat](https://github.com/jub0t/Concat)（T-79） | 待查 | 免費 | 待查（各來源說 AGPL 或 MPL）（未標） | 需要免費的 CapCut 類剪輯軟體時 |
+| [video-autopilot-kit（Hao0321）](https://github.com/Hao0321/video-autopilot-kit)（T-89） | 待查 | 免費 | MIT（寬鬆） | 想參考短影音自動化流程（CapCut JSON、ffmpeg）時 |
 | [kinocut](https://github.com/KyaniteLabs/kinocut)（T-04） | 未採用 | 免費 | Apache-2.0（寬鬆） | 想讓 agent 透過 MCP 做有護欄的剪輯時 |
 | [WhisperX](https://github.com/m-bain/whisperX)（T-06） | 未採用 | 免費 | BSD-2-Clause（寬鬆） | 需要分辨多位講者或音素級對齊時 |
 | [transcribe-anything](https://github.com/zackees/transcribe-anything)（T-07） | 未採用 | 免費 | MIT（寬鬆） | Mac M 晶片上想換一個多後端的轉錄工具時 |
