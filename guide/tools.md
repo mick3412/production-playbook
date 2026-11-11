@@ -59,7 +59,6 @@
 | [Pixel2Motion](https://github.com/nolangz/pixel2motion)（T-83） | 待試 | 免費 | MIT（寬鬆） | 要把點陣圖 logo 做成片頭或網頁的 logo 動畫時 |
 | [story-to-handdrawn-video](https://github.com/gnipbao/story-to-handdrawn-video)（T-84） | 待試 | 免費 | MIT（底層 Remotion 另有授權）（特殊） | 要把中文故事或一組圖片做成手繪日記漫畫風的直式動畫時 |
 | [Archify](https://github.com/tt-a1i/archify)（T-85） | 待試 | 免費 | Apache-2.0（寬鬆） | 要把想法、計畫或流程做成互動式圖表時 |
-| [拍片哥服裝與姿勢參考庫（nvzhuang、ai-pose-gallery、omilic.com）](https://github.com/paipiange/nvzhuang)（T-86） | 待試 | 免費 | MIT（模特庫 CC0；圖片為 AI 生成）（寬鬆） | 要生成人物角色，需要服裝、姿勢參考或中英提示詞時 |
 | [banana-claude](https://github.com/AgriciDaniel/banana-claude)（T-88） | 待試 | 部分付費 | MIT（寬鬆） | 要用 Gemini 生圖並由 agent 當創意總監時 |
 | [video2x](https://github.com/k4yt3x/video2x)（T-16） | 未採用 | 免費 | AGPL-3.0（本機限定） | 素材畫質太低、需要 AI 放大或補幀時（只支援 Linux、Windows） |
 | [FlashVSR](https://github.com/OpenImagingLab/FlashVSR)（T-17） | 未採用 | 免費 | Apache-2.0（寬鬆） | 有 NVIDIA GPU、需要即時超解析度時 |
@@ -71,6 +70,7 @@
 | [Higgsfield Genjutsu](https://higgsfield.ai/)（T-70） | 未採用 | 付費 | 商用條款依方案（未標） | 要做動作轉移、換掉畫面裡的物件時 |
 | [ArtCraft](https://github.com/storytold/artcraft)（T-80） | 未採用 | 付費 | Apache-2.0（寬鬆） | — |
 | [Open Generative AI](https://github.com/Anil-matcha/Open-Generative-AI)（T-81） | 未採用 | 付費 | MIT（寬鬆） | — |
+| [拍片哥服裝與姿勢參考庫（nvzhuang、ai-pose-gallery、omilic.com）](https://github.com/paipiange/nvzhuang)（T-86） | 未採用 | 免費 | MIT（模特庫 CC0；圖片為 AI 生成）（寬鬆） | 要生成人物角色，需要服裝、姿勢參考或中英提示詞時 |
 | [GPT Image（OpenAI）](https://platform.openai.com/docs/guides/images)（T-91） | 未採用 | 付費 | 商業服務（特殊） | 生成圖片素材時 |
 | [ElevenLabs 語音合成（TTS）](https://elevenlabs.io)（T-93） | 未採用 | 部分付費 | 商業服務（特殊） | 需要 AI 配音時 |
 | [hypit](https://github.com/hypit-ai/hypit)（T-30） | 避開 | 不明 | 未明確（未標） | 換臉、換台詞複製別人的爆紅影片（肖像權和平台政策風險） |
