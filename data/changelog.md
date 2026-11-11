@@ -35,3 +35,4 @@
 - 2026-11-12 桌上試驗：P6 逐字辨識（sherpa-onnx 依停頓切段時間最準、whisper 辨字最準）
 - 2026-11-12 收錄：Shaan Johari 字幕教學（S55）／Modern Web Guidance（S64），並掛進配方
 - 2026-11-12 桌上試驗：P5 語音合成（Pocket TTS 與 Kokoro 都清楚，待試聽；VoiceStudio 只做可行性評估）
+- 2026-11-12 桌上試驗：P9 動效規格寫法（S3-21 最完整）；P10 等做法改實戰的建議記在 bench/README
