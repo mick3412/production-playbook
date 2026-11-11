@@ -20,3 +20,10 @@
 | 2026-11-12 | S3-11、S3-12、S3-13、S1-03、S1-04、S1-08、S2-12、S3-23 | 試法改「實戰」 | 都要真實參考片或負責人挑選、核准才判斷得出，樣本測不出效果 |
 | 2026-11-12 | T-46 Pocket TTS | 等負責人試聽 compare_pocket_then_kokoro.m4a 再定 | 兩者字錯率都 0%，速度相近 |
 | 2026-11-12 | T-77 VoiceStudio | 未採用 | AGPL 大型桌面 app（repo 206 MB、引擎另下載），Kokoro 和 Pocket TTS 已足夠 |
+| 2026-11-12 | T-78 Cap、T-79 Concat、T-75 FilmCraft | 未採用 | 都是桌面錄影或剪輯軟體（Cap 授權未標明、Concat 是 AGPL）；我們的流程是程式產生畫面（HyperFrames／Remotion）加 ffmpeg，用不到圖形介面剪輯器 |
+| 2026-11-12 | T-45 Faceless Video Studio | 未採用 | GitHub 只有 2 顆星、維護者不明，流程和現有的重疊 |
+| 2026-11-12 | T-76 MoneyPrinterTurbo | 未採用 | 用圖庫素材自動湊無人臉影片，和「一支一種風格、真實素材」的做法不合，還要 LLM 金鑰 |
+| 2026-11-12 | T-87 FunClip | 保留待試，改「等中文口播樣本」 | 它的強項是中文語音辨識與自動切片；中文模型約 1 GB，等有中文口播再測 |
+| 2026-11-12 | T-85 Archify | 影片手冊改未採用，建議收到開發手冊 | 它是把程式 repo 畫成架構圖，不是影片圖解；repo 有 1.5 GB |
+| 2026-11-12 | T-88 banana-claude | 暫緩 | 需要 Gemini 金鑰；金鑰在 ITA 專案，不碰 |
+| 2026-11-12 | T-84 story-to-handdrawn-video | 暫緩 | 新插畫要接生圖工具，repo 628 MB |

@@ -36,3 +36,4 @@
 - 2026-11-12 收錄：Shaan Johari 字幕教學（S55）／Modern Web Guidance（S64），並掛進配方
 - 2026-11-12 桌上試驗：P5 語音合成（Pocket TTS 與 Kokoro 都清楚，待試聽；VoiceStudio 只做可行性評估）
 - 2026-11-12 桌上試驗：P9 動效規格寫法（S3-21 最完整）；P10 等做法改實戰的建議記在 bench/README
+- 2026-11-12 桌上試驗：P8 Pixel2Motion 轉向量有效；P7、P8 其餘以可行性評估提出建議
