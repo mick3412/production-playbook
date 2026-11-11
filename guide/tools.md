@@ -71,6 +71,7 @@
 | [Higgsfield Genjutsu](https://higgsfield.ai/)（T-70） | 未採用 | 付費 | 商用條款依方案（未標） | 要做動作轉移、換掉畫面裡的物件時 |
 | [ArtCraft](https://github.com/storytold/artcraft)（T-80） | 未採用 | 付費 | Apache-2.0（寬鬆） | — |
 | [Open Generative AI](https://github.com/Anil-matcha/Open-Generative-AI)（T-81） | 未採用 | 付費 | MIT（寬鬆） | — |
+| [GPT Image（OpenAI）](https://platform.openai.com/docs/guides/images)（T-91） | 未採用 | 付費 | 商業服務（特殊） | 生成圖片素材時 |
 | [hypit](https://github.com/hypit-ai/hypit)（T-30） | 避開 | 不明 | 未明確（未標） | 換臉、換台詞複製別人的爆紅影片（肖像權和平台政策風險） |
 | [Framesail](https://api.framesail.com/mcp)（T-47） | 避開 | 付費 | 商業服務（未標） | 長片 AI 生成、要處理角色一致性時（付費，價格未公開） |
 | [Suno 免費版](https://suno.com/)（T-64） | 避開 | 部分付費 | 免費版禁止商用（未標） | — |
@@ -92,6 +93,7 @@
 | [Concat](https://github.com/jub0t/Concat)（T-79） | 待試 | 免費 | AGPL-3.0（只當桌面剪輯軟體使用，不修改、不散布，無額外義務）（特殊） | 需要免費的 CapCut 類剪輯軟體時 |
 | [GSAP AI Skills（官方）](https://github.com/greensock/gsap-skills)（T-82） | 待試 | 免費 | MIT（GSAP 本身含全部外掛免費）（寬鬆） | 在 HyperFrames（底層是 GSAP）裡寫時間軸、文字拆分、SVG 變形動效時 |
 | [FunClip](https://github.com/modelscope/FunClip)（T-87） | 待試 | 免費 | MIT（寬鬆） | 要從長片轉字幕、讓 LLM 挑片段剪成短片時 |
+| [emilkowalski/skills（animate、choreograph 等）](https://github.com/emilkowalski/skills)（T-90） | 待試 | 免費 | MIT（寬鬆） | 做 HTML 動效（HyperFrames）要選曲線、時長、編排時 |
 | [kinocut](https://github.com/KyaniteLabs/kinocut)（T-04） | 未採用 | 免費 | Apache-2.0（寬鬆） | 想讓 agent 透過 MCP 做有護欄的剪輯時 |
 | [WhisperX](https://github.com/m-bain/whisperX)（T-06） | 未採用 | 免費 | BSD-2-Clause（寬鬆） | 需要分辨多位講者或音素級對齊時 |
 | [transcribe-anything](https://github.com/zackees/transcribe-anything)（T-07） | 未採用 | 免費 | MIT（寬鬆） | Mac M 晶片上想換一個多後端的轉錄工具時 |
