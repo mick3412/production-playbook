@@ -59,6 +59,8 @@
 | [story-to-handdrawn-video](https://github.com/gnipbao/story-to-handdrawn-video)（T-84） | 待試 | 免費 | MIT（底層 Remotion 另有授權）（特殊） | 要把中文故事或一組圖片做成手繪日記漫畫風的直式動畫時 |
 | [Archify](https://github.com/tt-a1i/archify)（T-85） | 待試 | 免費 | Apache-2.0（寬鬆） | 要把想法、計畫或流程做成互動式圖表時 |
 | [banana-claude](https://github.com/AgriciDaniel/banana-claude)（T-88） | 待試 | 部分付費 | MIT（寬鬆） | 要用 Gemini 生圖並由 agent 當創意總監時 |
+| [Beeble](https://beeble.ai)（T-96） | 待查 | 不明 | 商業服務（特殊） | 想把實拍場景換成另一個空間並重新打光時 |
+| [Adobe Podcast（Enhance Speech）](https://podcast.adobe.com/enhance)（T-97） | 待查 | 部分付費 | 商業服務（特殊） | 人聲錄音很差、DeepFilterNet 救不回來時 |
 | [resemble-enhance](https://github.com/resemble-ai/resemble-enhance)（T-11） | 未採用 | 免費 | MIT（寬鬆） | 降噪後音質還是很差，需要增強時 |
 | [video2x](https://github.com/k4yt3x/video2x)（T-16） | 未採用 | 免費 | AGPL-3.0（本機限定） | 素材畫質太低、需要 AI 放大或補幀時（只支援 Linux、Windows） |
 | [FlashVSR](https://github.com/OpenImagingLab/FlashVSR)（T-17） | 未採用 | 免費 | Apache-2.0（寬鬆） | 有 NVIDIA GPU、需要即時超解析度時 |
