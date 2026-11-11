@@ -88,13 +88,12 @@
 | [diagram-design](https://github.com/cathrynlavery/diagram-design)（T-31） | 已整合 | 免費 | MIT（圖示 Tabler MIT、Simple Icons CC0）（寬鬆） | 需要流程圖、架構圖、比較圖這類圖表（45 種，輸出 HTML＋SVG，可套品牌配色） |
 | [taste-skill（design-taste-frontend）](https://github.com/Leonxlnx/taste-skill)（T-32） | 已整合 | 免費 | MIT（寬鬆） | 網頁的美術方向：抽選研究過的方向、用開放圖庫真圖、三種寬度檢查 |
 | [Apple Vision 人物分割](https://developer.apple.com/documentation/vision/vngeneratepersonsegmentationrequest)（T-35） | 已整合 | 免費 | macOS 內建（寬鬆） | Mac 上的人物去背（預設）：免費、不用下載模型、邊緣細 |
+| [GSAP AI Skills（官方）](https://github.com/greensock/gsap-skills)（T-82） | 已安裝 | 免費 | MIT（GSAP 本身含全部外掛免費）（寬鬆） | 在 HyperFrames（底層是 GSAP）裡寫時間軸、文字拆分、SVG 變形動效時 |
+| [emilkowalski/skills（animate、choreograph 等）](https://github.com/emilkowalski/skills)（T-90） | 已安裝 | 免費 | MIT（寬鬆） | 做 HTML 動效（HyperFrames）要選曲線、時長、編排時 |
 | [Remotion](https://github.com/remotion-dev/remotion)（T-24） | 待試 | 免費 | Remotion License（特殊） | 想用 React 寫影片時；超過 3 人的公司要付費 |
-| [Motion Design 技能（LottieFiles）](https://github.com/LottieFiles/motion-design-skill)（T-68） | 待試 | 免費 | MIT（寬鬆） | 要設計動效的時間、緩動、編排時 |
 | [FilmCraft](https://github.com/storytold/filmcraft)（T-75） | 待試 | 免費 | MIT 或 Apache 2.0（寬鬆） | 需要免費的時間軸剪輯軟體（Premiere 類）時 |
 | [Concat](https://github.com/jub0t/Concat)（T-79） | 待試 | 免費 | AGPL-3.0（只當桌面剪輯軟體使用，不修改、不散布，無額外義務）（特殊） | 需要免費的 CapCut 類剪輯軟體時 |
-| [GSAP AI Skills（官方）](https://github.com/greensock/gsap-skills)（T-82） | 待試 | 免費 | MIT（GSAP 本身含全部外掛免費）（寬鬆） | 在 HyperFrames（底層是 GSAP）裡寫時間軸、文字拆分、SVG 變形動效時 |
 | [FunClip](https://github.com/modelscope/FunClip)（T-87） | 待試 | 免費 | MIT（寬鬆） | 要從長片轉字幕、讓 LLM 挑片段剪成短片時 |
-| [emilkowalski/skills（animate、choreograph 等）](https://github.com/emilkowalski/skills)（T-90） | 待試 | 免費 | MIT（寬鬆） | 做 HTML 動效（HyperFrames）要選曲線、時長、編排時 |
 | [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)（T-95） | 待試 | 免費 | Apache-2.0（寬鬆） | 需要本機離線語音辨識和逐字時間戳時 |
 | [kinocut](https://github.com/KyaniteLabs/kinocut)（T-04） | 未採用 | 免費 | Apache-2.0（寬鬆） | 想讓 agent 透過 MCP 做有護欄的剪輯時 |
 | [WhisperX](https://github.com/m-bain/whisperX)（T-06） | 未採用 | 免費 | BSD-2-Clause（寬鬆） | 需要分辨多位講者或音素級對齊時 |
@@ -105,6 +104,7 @@
 | [short-video-maker](https://github.com/gyoridavid/short-video-maker)（T-28） | 未採用 | 免費 | MIT（寬鬆） | 用 MCP 自動產生模板化短影音 |
 | [landing-page-design（elayadesign）](https://github.com/elayadesign/ai-design-skills)（T-50） | 未採用 | 免費 | MIT（寬鬆） | 做落地頁時參考它的規則：間距階梯、巢狀圓角公式、動效曲線、元件狀態、上線清單（字體規則很主觀，不照單全收） |
 | [design-to-motion（elayadesign）](https://github.com/elayadesign/ai-design-skills/tree/5e57840/skills/design-to-motion)（T-51） | 未採用 | 免費 | MIT（寬鬆） | 把靜態設計稿或截圖做成循環展示動畫（新 repo 尚未公開） |
+| [Motion Design 技能（LottieFiles）](https://github.com/LottieFiles/motion-design-skill)（T-68） | 未採用 | 免費 | MIT（寬鬆） | 要設計動效的時間、緩動、編排時 |
 | [remotion-reel 技能（Michael Ly）](https://milleemd.com/guides/claude-x-remotion/)（T-71） | 未採用 | 免費 | 未標（未標） | — |
 | [WAI 自動剪輯技能（理工威森）](https://wilson-men.tw/ai-auto-edit/)（T-73） | 未採用 | 免費 | 未標（未標） | 要在口播片上疊人後大字、玻璃卡、音效時 |
 | [video-autopilot-kit（Hao0321）](https://github.com/Hao0321/video-autopilot-kit)（T-89） | 未採用 | 免費 | MIT（寬鬆） | 想參考短影音自動化流程（CapCut JSON、ffmpeg）時 |
@@ -116,7 +116,7 @@
 
 | 工具 | 狀態 | 費用 | 授權 | 何時用 |
 |---|---|---|---|---|
-| [design-motion-principles（kylezantos）](https://github.com/kylezantos/design-motion-principles)（T-69） | 待試 | 免費 | MIT（寬鬆） | 要審查既有動畫時 |
+| [design-motion-principles（kylezantos）](https://github.com/kylezantos/design-motion-principles)（T-69） | 未採用 | 免費 | MIT（寬鬆） | 要審查既有動畫時 |
 
 ## 7 算圖與混音
 
