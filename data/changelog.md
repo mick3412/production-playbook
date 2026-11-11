@@ -29,3 +29,4 @@
 - 2026-11-11 待試分類（使用者同意）：直接採用事實與硬規則、★ 低價值降為參考或未採用；同類項目分成比較組
 - 2026-11-11 桌上試驗第 1 批：P2 音效來源（SFX Kit 有效、Openverse 需調整、S7-11 對齊規則有效）
 - 2026-11-11 桌上試驗第 1 批：P4 人聲增強（DeepFilterNet 最佳、ClearVoice 需調整、resemble-enhance 無效）
+- 2026-11-11 P4 定案：resemble-enhance 改未採用；ClearVoice 只留講者分離待測；測試不再複製 bench/

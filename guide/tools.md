@@ -46,8 +46,7 @@
 | [Poly Haven](https://polyhaven.com)（T-58） | 已整合 | 免費 | CC0（寬鬆） | 3D 場景用的材質、HDRI 和模型 |
 | [Kevin MacLeod（incompetech）](https://incompetech.com/music/)（T-59） | 已整合 | 免費 | CC BY 4.0（寬鬆） | 免費配樂；CC BY 4.0，說明欄一定要附標註 |
 | [LosslessCut](https://github.com/mifi/lossless-cut)（T-02） | 已安裝 | 免費 | GPL-2.0（本機限定） | 手動挑素材、切長錄影，不重新編碼 |
-| [resemble-enhance](https://github.com/resemble-ai/resemble-enhance)（T-11） | 待試 | 免費 | MIT（寬鬆） | 降噪後音質還是很差，需要增強時 |
-| [ClearerVoice-Studio](https://github.com/modelscope/ClearerVoice-Studio)（T-12） | 待試 | 免費 | Apache-2.0（寬鬆） | 多人對談只要抽出其中一位講者時 |
+| [ClearerVoice-Studio](https://github.com/modelscope/ClearerVoice-Studio)（T-12） | 待試 | 免費 | Apache-2.0（寬鬆） | 多人錄音要抽出單一講者的聲音時（降噪本身用 DeepFilterNet） |
 | [Pocket TTS（Kyutai）](https://github.com/kyutai-labs/pocket-tts)（T-46） | 待試 | 免費 | MIT（程式）；模型權重 CC BY 4.0（寬鬆） | 需要複製真人聲音、或要比 Kokoro 更自然的英文配音時；權重 CC BY 4.0 要標註 |
 | [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5)（T-60） | 待試 | 免費 | MIT（寬鬆） | 需要長度剛好的配樂、又不想付費或擔心 Content ID 時 |
 | [Stable Audio 3（Small／Medium）](https://stability.ai/)（T-61） | 待試 | 免費 | Stability 社群授權（年營收 100 萬美元以下可商用）（特殊） | 要快、長度要準的純音樂 |
@@ -60,6 +59,7 @@
 | [story-to-handdrawn-video](https://github.com/gnipbao/story-to-handdrawn-video)（T-84） | 待試 | 免費 | MIT（底層 Remotion 另有授權）（特殊） | 要把中文故事或一組圖片做成手繪日記漫畫風的直式動畫時 |
 | [Archify](https://github.com/tt-a1i/archify)（T-85） | 待試 | 免費 | Apache-2.0（寬鬆） | 要把想法、計畫或流程做成互動式圖表時 |
 | [banana-claude](https://github.com/AgriciDaniel/banana-claude)（T-88） | 待試 | 部分付費 | MIT（寬鬆） | 要用 Gemini 生圖並由 agent 當創意總監時 |
+| [resemble-enhance](https://github.com/resemble-ai/resemble-enhance)（T-11） | 未採用 | 免費 | MIT（寬鬆） | 降噪後音質還是很差，需要增強時 |
 | [video2x](https://github.com/k4yt3x/video2x)（T-16） | 未採用 | 免費 | AGPL-3.0（本機限定） | 素材畫質太低、需要 AI 放大或補幀時（只支援 Linux、Windows） |
 | [FlashVSR](https://github.com/OpenImagingLab/FlashVSR)（T-17） | 未採用 | 免費 | Apache-2.0（寬鬆） | 有 NVIDIA GPU、需要即時超解析度時 |
 | [FILM](https://github.com/google-research/frame-interpolation)（T-18） | 未採用 | 免費 | Apache-2.0（寬鬆） | 實拍素材需要補幀做慢動作時 |
