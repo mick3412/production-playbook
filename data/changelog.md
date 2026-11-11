@@ -31,3 +31,4 @@
 - 2026-11-11 桌上試驗第 1 批：P4 人聲增強（DeepFilterNet 最佳、ClearVoice 需調整、resemble-enhance 無效）
 - 2026-11-11 P4 定案：resemble-enhance 改未採用；ClearVoice 只留講者分離待測；測試不再複製 bench/
 - 2026-11-11 桌上試驗：P1 動效技能（emil 有效、GSAP 有效、LottieFiles 與 design-motion-principles 需調整）
+- 2026-11-12 動效技能定案：emil（animate、choreograph）與 GSAP 官方技能改已安裝；LottieFiles、design-motion-principles 未採用
