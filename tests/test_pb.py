@@ -245,9 +245,34 @@ class PlaybookTest(unittest.TestCase):
         self.assertIn("第 0–89 格（90 格）", out)
         self.assertNotIn("| 2 | 過場 |", out)          # the last shot gets no default transition
 
+    def test_spec_graphic_shots_skip_camera_and_light(self):
+        out = self.pb("spec", self._card(調性="活潑", 鏡頭=[{"編號": 1, "秒數": 3, "內容": "a", "畫面類型": "動態圖形"},
+                                                        {"編號": 2, "秒數": 3, "內容": "b", "畫面類型": "實拍"}]))
+        self.assertIn("第 1 鏡：動態圖形，不用 AI 生成", out)
+        self.assertNotIn("| 1 | 運鏡 |", out)
+        self.assertNotIn("| 1 | 布光 |", out)
+        self.assertIn("| 2 | 運鏡 |", out)
+        self.assertIn("要是 實拍、AI 生成、動態圖形 之一", self.pb("spec", self._card(畫面類型="螢幕"), ok=False))
+
     def test_spec_rejects_unknown_values_and_bad_length(self):
         self.assertIn("不在語彙裡", self.pb("spec", self._card(鏡頭=[{"編號": 1, "秒數": 6, "運鏡": "瞬移"}]), ok=False))
         self.assertIn("和片長 9 秒不符", self.pb("spec", self._card(片長=9), ok=False))
+
+    def test_probe_footage_cuts_at_pause_and_writes_edit_script(self):
+        import json, shutil, subprocess
+        if not shutil.which("ffmpeg"):
+            self.skipTest("no ffmpeg")
+        clip = self.tmp / "c.mp4"
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", "testsrc=s=180x320:d=3.2:r=30", "-f", "lavfi",
+                        "-i", "aevalsrc='if(between(t,1.2,2.0),0.0003*random(0),0.3*sin(2*PI*300*t))':s=16000:d=3.2",
+                        "-shortest", str(clip)], check=True)
+        out = self.tmp / "probe"
+        self.pb("probe", "footage", str(clip), "--out", str(out))
+        rep = json.loads((out / "footage.json").read_text(encoding="utf-8"))
+        self.assertTrue(any(a < 1.4 and b > 1.8 for a, b in rep["停頓"]), rep["停頓"])
+        card = json.loads((out / "draft_card.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(card["鏡頭"]), 2)
+        self.assertIn("between(t,", (out / "edit.sh").read_text(encoding="utf-8"))
 
     def test_vocab_lists_and_tone_presets(self):
         self.assertIn("whip pan", self.pb("vocab", "運鏡"))
