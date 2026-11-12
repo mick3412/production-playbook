@@ -2,22 +2,38 @@
 
 > 由 `python3 pb.py build` 產生。依第一個階段分組；狀態：已整合、已安裝、待試、待查、未採用、避開。
 
+## 0 開案
+
+| 工具 | 狀態 | 費用 | 授權 | 何時用 |
+|---|---|---|---|---|
+| [Meetily](https://github.com/Zackriya-Solutions/meetily)（T-108） | 待試 | 免費 | MIT（寬鬆） | 客戶訪談、諮詢通話要留下逐字稿和重點，拿來做受眾研究時 |
+| [anarlog（前身 Hyprnote）](https://github.com/fastrepl/anarlog)（T-109） | 待試 | 免費 | MIT（寬鬆） | 想要像 Granola 那樣邊開會邊記筆記、會後自動整理時 |
+
 ## 1 研究與參考
 
 | 工具 | 狀態 | 費用 | 授權 | 何時用 |
 |---|---|---|---|---|
 | [yt-dlp](https://github.com/yt-dlp/yt-dlp)（T-34） | 已安裝 | 免費 | Unlicense（寬鬆） | 下載自己發佈過的影片做重剪，或下載參考影片做分析（別人的影片不放進成品） |
 | [faster-whisper／mlx-whisper](https://github.com/SYSTRAN/faster-whisper)（T-56） | 已安裝 | 免費 | MIT（寬鬆） | 語音轉文字和逐字時間；Mac 用 mlx-whisper 較快 |
+| [SenseVoice（SenseVoiceSmall）](https://github.com/QwenAudio/SenseVoice)（T-102） | 待試 | 免費 | MIT（寬鬆） | 中文為主的逐字稿：中、粵、英、日、韓；要快、要標出笑聲掌聲等聲音事件時 |
+| [FunASR（modelscope）](https://github.com/modelscope/FunASR)（T-103） | 待試 | 免費 | MIT（寬鬆） | 中文逐字稿要一次做完語音偵測、加標點、講者分辨時 |
+| [whisper-diarization](https://github.com/MahmoudAshraf97/whisper-diarization)（T-106） | 待試 | 免費 | BSD-2-Clause（寬鬆） | 訪談或對談錄音要分出誰在說話時 |
+| [Scriberr](https://github.com/rishikanthc/Scriberr)（T-110） | 待試 | 免費 | MIT（寬鬆） | 要一個自架的網頁介面，批次上傳音檔轉錄時 |
 | [awesome-opus5-5-videos](https://github.com/yihui-dev/awesome-opus5-5-videos)（T-22） | 待試 | 免費 | MIT（寬鬆） | 開新系列前找靈感、學提示詞寫法 |
 | [claude-real-video（crv）](https://github.com/HUANGCHIHHUNGLeo/claude-real-video)（T-37） | 待試 | 免費 | MIT（寬鬆） | 拆解參考片或回頭檢查自己的成品：依場景挑關鍵畫面、縮圖表、逐字稿 |
 | [動態參考圖庫（Prompt Motion、Eyecandy、24fps、Raivcoo、Motionographer、Motion Index）](https://learnaiwithmariah.com/guides/websites-to-give-ai-taste/)（T-72） | 待試 | 部分付費 | 各網站內容各自所有（未標） | 找動態、剪輯、運鏡參考時 |
 | [youtube-agent-skill（11 個 YouTube 技能）](https://github.com/Jakeschincariol/youtube-agent-skill)（T-74） | 待試 | 免費 | MIT（寬鬆） | 寫 YouTube 腳本與開場、檢查標題縮圖、剪停頓清單、做章節、讀留存、切 Shorts、找同領域爆款時 |
+| [pyannote-audio](https://github.com/pyannote/pyannote-audio)（T-107） | 待查 | 免費 | MIT（寬鬆） | 講者分辨要最準時；模型要 Hugging Face 帳號、同意條款與 token |
 | [MotionClone](https://github.com/blixvip/MotionClone)（T-23） | 未採用 | 免費 | 未標（未標） | 想把參考影片重建成可編輯的 HyperFrames 專案（沒有授權，只參考概念） |
 
 ## 2 腳本
 
 | 工具 | 狀態 | 費用 | 授權 | 何時用 |
 |---|---|---|---|---|
+| [OpenWhispr](https://github.com/OpenWhispr/openwhispr)（T-100） | 待試 | 免費 | MIT（寬鬆） | 聽寫要能切換本機模型（Parakeet／Whisper）時；雲端模式要自己的金鑰，不用 |
+| [Umless（jatinbishla）](https://github.com/jatinbishla/Umless)（T-98） | 待試 | 免費 | Apache-2.0（寬鬆） | 口述想法要直接變成乾淨文字時（寫腳本、交代 AI）；比一般聽寫多做去贅詞、自我更正、依 App 調語氣、個人詞庫 |
+| [Handy（cjpais）](https://github.com/cjpais/Handy)（T-99） | 待試 | 免費 | MIT（寬鬆） | 要一個跨平台、離線、免費的按鍵聽寫 App 時 |
+| [VoiceInk](https://github.com/Beingpax/VoiceInk)（T-101） | 未採用 | 免費 | GPL-3.0（特殊） | 只當參考：macOS 聽寫做法 |
 | [Vyral content-skills](https://github.com/vyralcontent/content-skills)（T-39） | 未採用 | 免費 | MIT（寬鬆） | 找短影音鉤子和腳本的寫法（鉤子三層：畫面、口白、字卡） |
 | [digital-marketing-pro：video-script](https://github.com/indranilbanerjee/digital-marketing-pro)（T-40） | 未採用 | 免費 | MIT（寬鬆） | 需要含時間碼、畫面欄與聲音欄的腳本表格範本 |
 | [ClipForge](https://github.com/xixihhhh/clipforge)（T-43） | 未採用 | 免費 | AGPL-3.0（本機限定） | 實體商品的帶貨短片：商品圖 → 腳本 → 畫面、配音、字幕（AGPL，只在本機用） |
@@ -46,6 +62,8 @@
 | [Kevin MacLeod（incompetech）](https://incompetech.com/music/)（T-59） | 已整合 | 免費 | CC BY 4.0（寬鬆） | 免費配樂；CC BY 4.0，說明欄一定要附標註 |
 | [LosslessCut](https://github.com/mifi/lossless-cut)（T-02） | 已安裝 | 免費 | GPL-2.0（本機限定） | 手動挑素材、切長錄影，不重新編碼 |
 | [Kokoro TTS](https://github.com/hexgrad/kokoro)（T-55） | 已安裝 | 免費 | Apache-2.0（寬鬆） | 免費、本機、沒有額度限制的英文配音；每句分開生成，時間精準（數字要先拼成英文字）。預設英文配音（2026-11-12 比較定案：和 Pocket TTS 字錯率同為 0%，Kokoro 授權 Apache-2.0 免標註、聲音選擇多） |
+| [parakeet-mlx](https://github.com/senstella/parakeet-mlx)（T-104） | 待試 | 免費 | Apache-2.0（寬鬆） | 英文或歐洲語言的逐字稿要在 Apple Silicon 上跑得很快時 |
+| [whisper.cpp](https://github.com/ggml-org/whisper.cpp)（T-105） | 待試 | 免費 | MIT（寬鬆） | 不想裝 Python、要在命令列或其他程式裡直接跑 Whisper 時 |
 | [ClearerVoice-Studio](https://github.com/modelscope/ClearerVoice-Studio)（T-12） | 待試 | 免費 | Apache-2.0（寬鬆） | 多人錄音要抽出單一講者的聲音時（降噪本身用 DeepFilterNet） |
 | [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5)（T-60） | 待試 | 免費 | MIT（寬鬆） | 需要長度剛好的配樂、又不想付費或擔心 Content ID 時 |
 | [Stable Audio 3（Small／Medium）](https://stability.ai/)（T-61） | 待試 | 免費 | Stability 社群授權（年營收 100 萬美元以下可商用）（特殊） | 要快、長度要準的純音樂 |
@@ -96,7 +114,7 @@
 | [FunClip](https://github.com/modelscope/FunClip)（T-87） | 待試 | 免費 | MIT（寬鬆） | 要從長片轉字幕、讓 LLM 挑片段剪成短片時 |
 | [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)（T-95） | 待試 | 免費 | Apache-2.0（寬鬆） | 需要本機離線語音辨識和逐字時間戳時 |
 | [kinocut](https://github.com/KyaniteLabs/kinocut)（T-04） | 未採用 | 免費 | Apache-2.0（寬鬆） | 想讓 agent 透過 MCP 做有護欄的剪輯時 |
-| [WhisperX](https://github.com/m-bain/whisperX)（T-06） | 未採用 | 免費 | BSD-2-Clause（寬鬆） | 需要分辨多位講者或音素級對齊時 |
+| [WhisperX](https://github.com/m-bain/whisperX)（T-06） | 未採用 | 免費 | BSD-2-Clause（寬鬆） | 需要分辨多位講者或音素級對齊時。2026-11-12 重評：講者分辨要用 pyannote，同樣卡在 Hugging Face 帳號；改用 T-106 或 T-103 |
 | [transcribe-anything](https://github.com/zackees/transcribe-anything)（T-07） | 未採用 | 免費 | MIT（寬鬆） | Mac M 晶片上想換一個多後端的轉錄工具時 |
 | [auto-subtitle／subsai／Buzz](https://github.com/chidiwilliams/buzz)（T-08） | 未採用 | 免費 | MIT／GPL-3.0／MIT（寬鬆） | 只要現成的「產生並燒錄字幕」時 |
 | [RobustVideoMatting](https://github.com/PeterL1n/RobustVideoMatting)（T-14） | 未採用 | 免費 | GPL-3.0（本機限定） | 影片去背、需要前後格穩定時；GPL 只在本機用 |
