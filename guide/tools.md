@@ -18,11 +18,11 @@
 
 | 工具 | 狀態 | 費用 | 授權 | 何時用 |
 |---|---|---|---|---|
-| [Faceless Video Studio](https://github.com/cybiqon-ai/faceless-video-studio)（T-45） | 待試 | 免費 | MIT（寬鬆） | 想參考一整套自動化關卡：配音前腳本關卡、第二意見、混音與滿版檢查 |
 | [Vyral content-skills](https://github.com/vyralcontent/content-skills)（T-39） | 未採用 | 免費 | MIT（寬鬆） | 找短影音鉤子和腳本的寫法（鉤子三層：畫面、口白、字卡） |
 | [digital-marketing-pro：video-script](https://github.com/indranilbanerjee/digital-marketing-pro)（T-40） | 未採用 | 免費 | MIT（寬鬆） | 需要含時間碼、畫面欄與聲音欄的腳本表格範本 |
 | [ClipForge](https://github.com/xixihhhh/clipforge)（T-43） | 未採用 | 免費 | AGPL-3.0（本機限定） | 實體商品的帶貨短片：商品圖 → 腳本 → 畫面、配音、字幕（AGPL，只在本機用） |
 | [YouMind 影片腳本](https://youmind.com/zh-TW/video-script)（T-44） | 未採用 | 不明 | 商業服務（未標） | 雲端寫腳本、從網頁或影片抽逐字稿（素材要上傳，資料用途沒說明） |
+| [Faceless Video Studio](https://github.com/cybiqon-ai/faceless-video-studio)（T-45） | 未採用 | 免費 | MIT（寬鬆） | 想參考一整套自動化關卡：配音前腳本關卡、第二意見、混音與滿版檢查 |
 
 ## 3 分鏡與規格
 
@@ -41,23 +41,17 @@
 | [auto-editor](https://github.com/WyattBlue/auto-editor)（T-01） | 已整合 | 免費 | Unlicense（寬鬆） | 口播粗剪第一步：依音量剪掉停頓和空白；故意留的停頓要先排除 |
 | [DeepFilterNet](https://github.com/Rikorose/DeepFilterNet)（T-09） | 已整合 | 免費 | MIT／Apache-2.0（寬鬆） | 視訊或手機錄音的底噪 |
 | [Demucs](https://github.com/adefossez/demucs)（T-10） | 已整合 | 免費 | MIT（寬鬆） | 素材混著背景音樂時，抽出乾淨的人聲 |
-| [Kokoro TTS](https://github.com/hexgrad/kokoro)（T-55） | 已整合 | 免費 | Apache-2.0（寬鬆） | 免費、本機、沒有額度限制的英文配音；每句分開生成，時間精準（數字要先拼成英文字） |
 | [Pixabay（影片與照片）](https://pixabay.com/videos/)（T-57） | 已整合 | 免費 | Pixabay Content License（特殊） | 免費、可商用的實拍 B-roll；挑之前先看畫面，記下影片 ID |
 | [Poly Haven](https://polyhaven.com)（T-58） | 已整合 | 免費 | CC0（寬鬆） | 3D 場景用的材質、HDRI 和模型 |
 | [Kevin MacLeod（incompetech）](https://incompetech.com/music/)（T-59） | 已整合 | 免費 | CC BY 4.0（寬鬆） | 免費配樂；CC BY 4.0，說明欄一定要附標註 |
 | [LosslessCut](https://github.com/mifi/lossless-cut)（T-02） | 已安裝 | 免費 | GPL-2.0（本機限定） | 手動挑素材、切長錄影，不重新編碼 |
+| [Kokoro TTS](https://github.com/hexgrad/kokoro)（T-55） | 已安裝 | 免費 | Apache-2.0（寬鬆） | 免費、本機、沒有額度限制的英文配音；每句分開生成，時間精準（數字要先拼成英文字）。預設英文配音（2026-11-12 比較定案：和 Pocket TTS 字錯率同為 0%，Kokoro 授權 Apache-2.0 免標註、聲音選擇多） |
 | [ClearerVoice-Studio](https://github.com/modelscope/ClearerVoice-Studio)（T-12） | 待試 | 免費 | Apache-2.0（寬鬆） | 多人錄音要抽出單一講者的聲音時（降噪本身用 DeepFilterNet） |
-| [Pocket TTS（Kyutai）](https://github.com/kyutai-labs/pocket-tts)（T-46） | 待試 | 免費 | MIT（程式）；模型權重 CC BY 4.0（寬鬆） | 需要複製真人聲音、或要比 Kokoro 更自然的英文配音時；權重 CC BY 4.0 要標註 |
 | [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5)（T-60） | 待試 | 免費 | MIT（寬鬆） | 需要長度剛好的配樂、又不想付費或擔心 Content ID 時 |
 | [Stable Audio 3（Small／Medium）](https://stability.ai/)（T-61） | 待試 | 免費 | Stability 社群授權（年營收 100 萬美元以下可商用）（特殊） | 要快、長度要準的純音樂 |
 | [Openverse 音訊搜尋](https://api.openverse.org/v1/audio/)（T-65） | 待試 | 免費 | 各檔不同（篩 CC0、CC BY）（寬鬆） | 要找音效或配樂時先用它 |
-| [earshot](https://github.com/Leonxlnx/earshot)（T-67） | 待試 | 免費 | MIT（寬鬆） | Openverse 找不到想要的聲音、或要一整組風格統一的介面音效時 |
-| [MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo)（T-76） | 待試 | 免費 | MIT（寬鬆） | 要從主題快速做出一支素材拼接短片的初稿時 |
-| [VoiceStudio](https://github.com/debpalash/VoiceStudio)（T-77） | 待試 | 免費 | AGPL-3.0（另有商業授權）（本機限定） | 要在本機免費配音或複製聲音時 |
-| [Cap](https://github.com/CapSoftware/Cap)（T-78） | 待試 | 部分付費 | AGPL-3.0（部分 crate 為 MIT）（本機限定） | 錄螢幕操作、做產品示範或教學片時（Loom 類） |
 | [Pixel2Motion](https://github.com/nolangz/pixel2motion)（T-83） | 待試 | 免費 | MIT（寬鬆） | 要把點陣圖 logo 做成片頭或網頁的 logo 動畫時 |
 | [story-to-handdrawn-video](https://github.com/gnipbao/story-to-handdrawn-video)（T-84） | 待試 | 免費 | MIT（底層 Remotion 另有授權）（特殊） | 要把中文故事或一組圖片做成手繪日記漫畫風的直式動畫時 |
-| [Archify](https://github.com/tt-a1i/archify)（T-85） | 待試 | 免費 | Apache-2.0（寬鬆） | 要把想法、計畫或流程做成互動式圖表時 |
 | [banana-claude](https://github.com/AgriciDaniel/banana-claude)（T-88） | 待試 | 部分付費 | MIT（寬鬆） | 要用 Gemini 生圖並由 agent 當創意總監時 |
 | [Beeble](https://beeble.ai)（T-96） | 待查 | 不明 | 商業服務（特殊） | 想把實拍場景換成另一個空間並重新打光時 |
 | [Adobe Podcast（Enhance Speech）](https://podcast.adobe.com/enhance)（T-97） | 待查 | 部分付費 | 商業服務（特殊） | 人聲錄音很差、DeepFilterNet 救不回來時 |
@@ -67,11 +61,17 @@
 | [FILM](https://github.com/google-research/frame-interpolation)（T-18） | 未採用 | 免費 | Apache-2.0（寬鬆） | 實拍素材需要補幀做慢動作時 |
 | [OpenCreator（原 KrillinAI）](https://github.com/krillinai/OpenCreator)（T-26） | 未採用 | 付費 | Apache-2.0（寬鬆） | 需要影片翻譯和多語配音時（以 Codex 為引擎，要 OpenAI 付費帳號） |
 | [ViMax](https://github.com/HKUDS/ViMax)（T-27） | 未採用 | 付費 | MIT（寬鬆） | 劇情片：導演、編劇到生成全包（要接付費的影片和語言模型 API） |
+| [Pocket TTS（Kyutai）](https://github.com/kyutai-labs/pocket-tts)（T-46） | 未採用 | 免費 | MIT（程式）；模型權重 CC BY 4.0（寬鬆） | 需要複製真人聲音、或要比 Kokoro 更自然的英文配音時；權重 CC BY 4.0 要標註。比較後預設改用 T-55 Kokoro；只有要複製真人聲音時再開（聲音複製模型要在 Hugging Face 同意條款，權重 CC BY 4.0 要標註） |
 | [Mureka](https://www.mureka.ai/)（T-62） | 未採用 | 付費 | 商用授權（付費）（未標） | 要中文歌、歌詞要唱清楚時 |
 | [ElevenLabs Music v2.5](https://elevenlabs.io/music)（T-63） | 未採用 | 付費 | 商用授權（付費）（未標） | 要最快、長度準的配樂且有預算 |
+| [earshot](https://github.com/Leonxlnx/earshot)（T-67） | 未採用 | 免費 | MIT（寬鬆） | Openverse 找不到想要的聲音、或要一整組風格統一的介面音效時。進階功能要下載約 1.1 GB 模型，超過 1 GB 上限 |
 | [Higgsfield Genjutsu](https://higgsfield.ai/)（T-70） | 未採用 | 付費 | 商用條款依方案（未標） | 要做動作轉移、換掉畫面裡的物件時 |
+| [MoneyPrinterTurbo](https://github.com/harry0703/MoneyPrinterTurbo)（T-76） | 未採用 | 免費 | MIT（寬鬆） | 要從主題快速做出一支素材拼接短片的初稿時 |
+| [VoiceStudio](https://github.com/debpalash/VoiceStudio)（T-77） | 未採用 | 免費 | AGPL-3.0（另有商業授權）（本機限定） | 要在本機免費配音或複製聲音時 |
+| [Cap](https://github.com/CapSoftware/Cap)（T-78） | 未採用 | 部分付費 | AGPL-3.0（部分 crate 為 MIT）（本機限定） | 錄螢幕操作、做產品示範或教學片時（Loom 類） |
 | [ArtCraft](https://github.com/storytold/artcraft)（T-80） | 未採用 | 付費 | Apache-2.0（寬鬆） | — |
 | [Open Generative AI](https://github.com/Anil-matcha/Open-Generative-AI)（T-81） | 未採用 | 付費 | MIT（寬鬆） | — |
+| [Archify](https://github.com/tt-a1i/archify)（T-85） | 未採用 | 免費 | Apache-2.0（寬鬆） | 要把想法、計畫或流程做成互動式圖表時。它畫的是程式架構圖，不是影片圖解；已轉給開發手冊收件匣 |
 | [拍片哥服裝與姿勢參考庫（nvzhuang、ai-pose-gallery、omilic.com）](https://github.com/paipiange/nvzhuang)（T-86） | 未採用 | 免費 | MIT（模特庫 CC0；圖片為 AI 生成）（寬鬆） | 要生成人物角色，需要服裝、姿勢參考或中英提示詞時 |
 | [GPT Image（OpenAI）](https://platform.openai.com/docs/guides/images)（T-91） | 未採用 | 付費 | 商業服務（特殊） | 生成圖片素材時 |
 | [ElevenLabs 語音合成（TTS）](https://elevenlabs.io)（T-93） | 未採用 | 部分付費 | 商業服務（特殊） | 需要 AI 配音時 |
@@ -93,8 +93,6 @@
 | [GSAP AI Skills（官方）](https://github.com/greensock/gsap-skills)（T-82） | 已安裝 | 免費 | MIT（GSAP 本身含全部外掛免費）（寬鬆） | 在 HyperFrames（底層是 GSAP）裡寫時間軸、文字拆分、SVG 變形動效時 |
 | [emilkowalski/skills（animate、choreograph 等）](https://github.com/emilkowalski/skills)（T-90） | 已安裝 | 免費 | MIT（寬鬆） | 做 HTML 動效（HyperFrames）要選曲線、時長、編排時 |
 | [Remotion](https://github.com/remotion-dev/remotion)（T-24） | 待試 | 免費 | Remotion License（特殊） | 想用 React 寫影片時；超過 3 人的公司要付費 |
-| [FilmCraft](https://github.com/storytold/filmcraft)（T-75） | 待試 | 免費 | MIT 或 Apache 2.0（寬鬆） | 需要免費的時間軸剪輯軟體（Premiere 類）時 |
-| [Concat](https://github.com/jub0t/Concat)（T-79） | 待試 | 免費 | AGPL-3.0（只當桌面剪輯軟體使用，不修改、不散布，無額外義務）（特殊） | 需要免費的 CapCut 類剪輯軟體時 |
 | [FunClip](https://github.com/modelscope/FunClip)（T-87） | 待試 | 免費 | MIT（寬鬆） | 要從長片轉字幕、讓 LLM 挑片段剪成短片時 |
 | [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)（T-95） | 待試 | 免費 | Apache-2.0（寬鬆） | 需要本機離線語音辨識和逐字時間戳時 |
 | [kinocut](https://github.com/KyaniteLabs/kinocut)（T-04） | 未採用 | 免費 | Apache-2.0（寬鬆） | 想讓 agent 透過 MCP 做有護欄的剪輯時 |
@@ -109,6 +107,8 @@
 | [Motion Design 技能（LottieFiles）](https://github.com/LottieFiles/motion-design-skill)（T-68） | 未採用 | 免費 | MIT（寬鬆） | 要設計動效的時間、緩動、編排時 |
 | [remotion-reel 技能（Michael Ly）](https://milleemd.com/guides/claude-x-remotion/)（T-71） | 未採用 | 免費 | 未標（未標） | — |
 | [WAI 自動剪輯技能（理工威森）](https://wilson-men.tw/ai-auto-edit/)（T-73） | 未採用 | 免費 | 未標（未標） | 要在口播片上疊人後大字、玻璃卡、音效時 |
+| [FilmCraft](https://github.com/storytold/filmcraft)（T-75） | 未採用 | 免費 | MIT 或 Apache 2.0（寬鬆） | 需要免費的時間軸剪輯軟體（Premiere 類）時 |
+| [Concat](https://github.com/jub0t/Concat)（T-79） | 未採用 | 免費 | AGPL-3.0（只當桌面剪輯軟體使用，不修改、不散布，無額外義務）（特殊） | 需要免費的 CapCut 類剪輯軟體時 |
 | [video-autopilot-kit（Hao0321）](https://github.com/Hao0321/video-autopilot-kit)（T-89） | 未採用 | 免費 | MIT（寬鬆） | 想參考短影音自動化流程（CapCut JSON、ffmpeg）時 |
 | [Ultra Skills Edit Engine](https://www.ultra-skills.com)（T-92） | 未採用 | 付費 | 商業服務（特殊） | 想要現成的 AI 剪片流程與動畫效果時 |
 | [OpenMontage](https://github.com/calesthio/OpenMontage)（T-29） | 避開 | 免費 | AGPL-3.0（本機限定） | 完整的 agent 影片製作框架；AGPL，只借點子 |

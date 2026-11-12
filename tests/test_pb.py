@@ -57,7 +57,7 @@ class PlaybookTest(unittest.TestCase):
         self.assertIn("auto-editor", talking)
 
     def test_card_shows_condition_based_rechecks(self):
-        self.assertIn("複查條件：下次要配英文旁白時", self.pb("card", "4", "--type", "影片"))
+        self.assertIn("複查條件：開始經營 YouTube 頻道時", self.pb("card", "4", "--type", "影片"))
 
     def test_condition_hint_goes_away_once_ticked_or_its_step_is_done(self):
         self.pb("start", "demo", "--type", "影片")
@@ -185,6 +185,17 @@ class PlaybookTest(unittest.TestCase):
                 self.assertIn(i + " ", first, f"「{c['need']}」的第一個方案少了 {i}")
             self.assertNotIn("〔避開", out)
             self.assertNotIn("〔未採用", out)
+
+    def test_golden_briefs_three_steps(self):
+        """need → facets (step 1) → recipe (step 2) → ids (step 3, checked above)."""
+        for c in self._golden()["cases"]:
+            if c.get("facets"):
+                sug = self.pb("facets", "--suggest", c["need"])
+                for f in c["facets"]:
+                    self.assertIn(f, sug, f"「{c['need']}」推測的分面少了 {f}")
+            if c.get("recipe"):
+                out = self.pb("plan", c["need"], *(["--type", c["type"]] if c.get("type") else []))
+                self.assertIn(f"## 方案 1：{c['recipe']} ", out, f"「{c['need']}」的第一個方案不是 {c['recipe']}")
 
     def test_rules_file_leaves_items_out(self):
         c = self._golden()["cases"][0]
