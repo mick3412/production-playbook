@@ -213,6 +213,29 @@ class PlaybookTest(unittest.TestCase):
                 self.assertEqual((REPO / "data" / "shared.json").read_bytes(), o.read_bytes(), f"copy data/shared.json to {o.parent.parent.name}")
         self.assertIn("風格=新粗獷", self.pb("facets", "--suggest", "新粗獷風的活動"))
 
+    def test_strategy_to_work_orders_to_spec(self):
+        out = self.pb("strategy", "--from", "三個月內用 IG 和網站替新服務累積 300 筆名單，權威專業", "--save")
+        self.assertIn("指標：300 筆名單", out)
+        self.assertIn("主要受眾是誰", out)                     # never invented
+        self.assertIn("風格：瑞士國際主義", out)
+        works = self.pb("strategy", "--works")
+        self.assertIn("W01｜短期｜名單型 Reel", works)
+        spec = self.pb("spec", "--work", "W01")
+        self.assertIn("作品單 W01", spec)
+        self.assertIn("| 時長ms | 150–250 | 設計屬性：俐落 |", spec)
+        self.assertIn("沿用策略卡", self.pb("spec", "--from", "做一支 30 秒產品影片"))
+        self.assertIn("作品單 W01", self.pb("plan", "--work", "W01"))
+
+    def test_image_needs_land_without_motion_and_style_sheet_spans_media(self):
+        out = self.pb("spec", "--from", "IG 輪播圖卡，新粗獷")
+        self.assertIn("推測：媒材 圖片", out)
+        for d in ("| 運鏡 ", "| 過場 ", "| 剪輯節奏 "):
+            self.assertNotIn(d, out)
+        sheet = self.pb("style", "新粗獷")
+        for m in ("- 影片（", "- 圖片（", "- 網站（"):
+            self.assertIn(m, sheet)
+        self.assertIn("沒有策略卡，先問", self.pb("spec", "--from", "做一支 30 秒產品影片"))
+
     def test_rules_file_leaves_items_out(self):
         c = self._golden()["cases"][0]
         rules = self.tmp / "rules.txt"

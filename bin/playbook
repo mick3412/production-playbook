@@ -14,7 +14,10 @@ HELP = """playbook：查四本手冊（影片、行銷、網站、開發）
   playbook add 影片 網址 "原因"  把新資料丟進收件匣，不直接改手冊
   playbook vocab 網站 [維度]   製作語彙（影片 16 維、網站 15 維）
   playbook spec 影片 卡.json [--out spec.md]   規格卡轉成精準指令（--template 取得範本）
-  playbook probe 影片 footage 毛片.mp4 | breakdown 參考片.mp4   剪輯模式、拆解模式（只有影片）"""
+  playbook probe 影片 footage 毛片.mp4 | breakdown 參考片.mp4   剪輯模式、拆解模式（只有影片）
+  playbook strategy "目的（含期限與數字）" [--save]   產出策略卡（受眾、平台角色、短中長期內容、設計基因）
+  playbook works              把策略卡拆成作品單，每張註明交給哪本手冊和下一步指令
+  playbook style 新粗獷        一個風格在影片、圖片、網站的特徵、數值和寫法，加上四本標了它的項目"""
 
 
 def home(book):
@@ -80,6 +83,20 @@ def main(a):
     elif cmd == "add" and len(rest) >= 2:
         note = rest[2] if len(rest) > 2 else ""
         r = pb(book_of(rest[0]), "inbox", "add", rest[1], "--note", note); print(r.stdout or r.stderr, end="")
+    elif cmd == "strategy" and rest:
+        r = home("行銷")
+        sys.exit(subprocess.call([sys.executable, str(r / "pb.py"), "strategy", "--from", " ".join(x for x in rest if x != "--save"),
+                                  *(["--save"] if "--save" in rest else [])]))
+    elif cmd == "works":
+        sys.exit(subprocess.call([sys.executable, str(home("行銷") / "pb.py"), "strategy", "--works"]))
+    elif cmd == "style":
+        name = " ".join(rest)
+        subprocess.call([sys.executable, str(home("影片") / "pb.py"), "style", *([name] if name else [])])
+        if name:
+            print("\n## 四本標了這個風格的項目\n")
+            for b in BOOKS:
+                r = subprocess.run([sys.executable, str(home(b) / "pb.py"), "style", name, "--items"], capture_output=True, text=True)
+                print("- " + (r.stdout.strip() or r.stderr.strip()))
     elif cmd in ("vocab", "spec", "probe") and rest:
         r = home(book_of(rest[0]))   # file paths stay relative to where the user is
         sys.exit(subprocess.call([sys.executable, str(r / "pb.py"), cmd, *rest[1:]]))
