@@ -237,6 +237,48 @@ class PlaybookTest(unittest.TestCase):
         self.assertNotIn("可愛", line)
         self.assertIn("提醒：產業=金融保險 建議避開「可愛」", self.pb("plan", "海外投資說明", "--facets", "產業=金融保險；調性=可愛"))
 
+    def test_spec_from_need_gives_numbers_with_their_layer(self):
+        out = self.pb("spec", "--from", "45 秒訪談口播，安靜高級，IG Reels")
+        self.assertIn("推測：場景 訪談口播；調性 安靜高級", out)
+        for row in ("| 焦段mm | 50–85 | 場景：訪談口播 |", "| 光圈 | f/2–2.8 | 場景：訪談口播 |", "| 光比 | 1:3 | 場景：訪談口播 |",
+                    "| 主光水平角° | 45 | 場景：訪談口播 |", "| 色溫K | 5600 | 場景：訪談口播 |"):
+            self.assertIn(row, out)
+        self.assertIn("鏡頭與攝影機＝中長焦 寫 f/1.8", out)      # the general range is shown, not silently dropped
+        card = self.tmp / "c.json"
+        self.pb("spec", "--from", "45 秒訪談口播，安靜高級，IG Reels", "--out", str(card))
+        self.assertIn("全片生效數值（場景或畫風定的", self.pb("spec", str(card)))
+
+    def test_spec_from_offers_options_when_layers_disagree(self):
+        out = self.pb("spec", "--from", "活潑的訪談口播")
+        self.assertIn("## 要選一個", out)
+        self.assertIn("運鏡：固定（場景：訪談口播）或", out)
+
+    def test_styles_are_a_hierarchy_and_prompts_never_name_studios(self):
+        self.assertIn("畫風=吉卜力式手繪", self.pb("facets", "--suggest", "吉卜力風的品牌動畫"))
+        self.assertIn("畫風=動漫", self.pb("facets", "--suggest", "動漫風的介紹片"))
+        self.assertIn("畫風=美式超英漫畫", self.pb("facets", "--suggest", "美式漫畫風的數據解說"))
+        self.assertNotIn("等距", self.pb("facets", "--suggest", "三個圖示等距離排列"))
+        card = self.tmp / "g.json"
+        self.pb("spec", "--from", "吉卜力風的品牌動畫 30 秒", "--out", str(card))
+        self.assertIn("背景用紙紋＋水彩筆刷貼圖", self.pb("spec", str(card)))       # graphic shots: the style's build notes
+        self.pb("spec", "--from", "用 AI 生成吉卜力風的品牌動畫 30 秒", "--out", str(card))
+        prompt = self.pb("spec", str(card)).split("## 二")[0]
+        self.assertIn("hand-painted anime", prompt)
+        for name in ("吉卜力", "Ghibli", "宮崎駿"):
+            self.assertNotIn(name, prompt.split("（英文")[1])
+        import json as _json
+        p = self.home / "data" / "vocab.json"
+        v = _json.loads(p.read_text(encoding="utf-8"))
+        v["維度"]["畫風"]["吉卜力式手繪"]["寫法"]["AI 生成"] += ", Ghibli style"
+        p.write_text(_json.dumps(v, ensure_ascii=False), encoding="utf-8")
+        self.assertIn("出現專有名稱「Ghibli」", self.pb("check", ok=False))
+
+    def test_every_vocab_value_has_numbers_or_criteria(self):
+        import json as _json
+        v = _json.loads((self.home / "data" / "vocab.json").read_text(encoding="utf-8"))
+        missing = [f"{d}/{k}" for d, vals in v["維度"].items() for k, x in vals.items() if "數值" not in x]
+        self.assertEqual(missing, [])
+
     def test_unknown_facet_value_fails_check(self):
         import csv as _csv
         p = self.home / "data" / "entries.csv"
@@ -261,7 +303,7 @@ class PlaybookTest(unittest.TestCase):
         for part in ("## 一、AI 生成提示詞", "## 二、程式動畫規格", "## 三、實拍拍攝單", "## 四、審片對照表"):
             self.assertIn(part, out)
         self.assertIn("警告：第 1 鏡：運鏡=手持 和 構圖=置中對稱 衝突", out)
-        self.assertIn("| 2 | 運鏡 | 固定 | 預設 |", out)
+        self.assertIn("| 2 | 運鏡 | 固定 （位移 0、縮放 0） | 預設 |", out)
         self.assertIn("第 0–89 格（90 格）", out)
         self.assertNotIn("| 2 | 過場 |", out)          # the last shot gets no default transition
 

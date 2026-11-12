@@ -62,3 +62,4 @@
 "S59","CameraBench（NeurIPS 2025）運鏡分類：平搖、俯仰、翻滾、推拉、橫移、升降、變焦、環繞與穩定程度","https://github.com/sy77777en/CameraBench","2026-11-12","授權未標，只引用分類概念"
 "S60","gl-transitions 開放過場庫（約 214 種，逐檔多為 MIT）","https://github.com/gl-transitions/gl-transitions","2026-11-12","用到哪個檔先查授權"
 "S61","video-shotcraft 鏡頭配方卡（Apache-2.0）","https://github.com/Vincentwei1021/video-shotcraft","2026-11-12","已整合（T-20）；多為動態圖形宣傳片手法"
+"S62","動畫與插畫風格的公開資料：Wikipedia〈Anime〉〈Cel shading〉〈Limited animation〉（一拍二、一拍三）、〈Ligne claire〉、〈Clay animation〉、〈Low poly〉、〈Isometric projection〉、〈Synthwave〉、〈International Typographic Style〉、〈Bauhaus〉、〈Memphis Group〉","https://en.wikipedia.org/wiki/Ligne_claire ；https://en.wikipedia.org/wiki/Limited_animation ；https://en.wikipedia.org/wiki/International_Typographic_Style","2026-11-12","畫風維度的特徵描述依據；工作室與作者名稱只當檢索詞，提示詞寫特徵"
