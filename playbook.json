@@ -3,5 +3,12 @@
   "title": "Production Playbook",
   "home_env": "PLAYBOOK_HOME",
   "state_dir": ".production",
-  "track_prefix": {"協作": "CO", "工具": "TL"}
+  "track_prefix": {
+    "協作": "CO",
+    "工具": "TL"
+  },
+  "媒材": [
+    "影片",
+    "圖片"
+  ]
 }
