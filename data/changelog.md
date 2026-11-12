@@ -55,3 +55,4 @@
 - 2026-11-12 網站語彙 113 個值補上結構化數值（依八套設計系統 token、ui-ux-pro-max、WCAG、Core Web Vitals）
 - 2026-11-12 三層架構：strategy --from／--works（策略卡與作品單，存在專案 .strategy/）；plan、spec 加 --work；單獨調用自動沿用策略卡、否則最多問三題；style 跨媒材風格表；全域 playbook 加 strategy、works、style
 - 2026-11-12 逐字稿桌上試驗：P12 中文辨識（Paraformer 0.8%／12.6% 最準、SenseVoice、faster-whisper）、P13 講者分辨（sherpa-onnx 92.7%，CAM++ 缺標點模型失敗）；狀態建議寫進 bench/README
+- 2026-11-12 照建議改：Paraformer-zh（T-103）為中文逐字稿預設、SenseVoice（T-102）保留多語與事件、sherpa-onnx（T-95）為講者分辨預設、whisper-diarization（T-106）未採用、Handy／OpenWhispr 改實戰試法
