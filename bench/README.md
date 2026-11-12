@@ -14,10 +14,11 @@
 
 ## 待負責人決定的狀態建議
 
-（目前沒有。）
-
 | 日期 | 項目 | 建議 | 依據 |
 |---|---|---|---|
+| 2026-11-12 | P12 中文辨識（T-103、T-102、T-56） | T-103 Paraformer-zh 設為中文逐字稿預設（配 OpenCC 轉繁、標點另外處理）；T-102 SenseVoice 保留給多語自動辨識與聲音事件；T-56 faster-whisper 保留給要直接繁體加標點的情況 | 字錯率 Paraformer 0.8%／12.6%、SenseVoice 9.1%／17.6%、whisper small 3.8%／13.4%；Paraformer 快 4–6 倍 |
+| 2026-11-12 | P13 講者分辨（T-95、T-103、T-106） | T-95 sherpa-onnx 採用為講者分辨；T-103 的 CAM++ 未採用（要 1.1 GB 標點模型）；T-106 whisper-diarization 未採用（要裝整套 NeMo，sherpa 已夠） | sherpa 正確率 92.7%、自動判斷 2 人、模型 46 MB；CAM++ 只分出 1 人 |
+| 2026-11-12 | P11 聽寫（T-98、T-99、T-100） | T-99 Handy、T-100 OpenWhispr 試法改「實戰」；T-98 Umless 等負責人同意裝 Rust 再測 | 都是圖形介面 App，要負責人實際按鍵口述才判斷得出；Umless 的 CLI 可自動測但要先建置 |
 
 ## 已處理的狀態建議（2026-11-12 負責人授權照建議做；「等負責人」的項目由 agent 判斷）
 
