@@ -11,7 +11,10 @@ HELP = """playbook：查四本手冊（影片、行銷、網站、開發）
   playbook plan 影片 "需求"   某一本的完整方案（2–3 個，依階段列代號）
   playbook show 影片 S8-06    看一條的完整內容
   playbook card 影片 8        看某階段的重點（加 --full 看完整清單）
-  playbook add 影片 網址 "原因"  把新資料丟進收件匣，不直接改手冊"""
+  playbook add 影片 網址 "原因"  把新資料丟進收件匣，不直接改手冊
+  playbook vocab 網站 [維度]   製作語彙（影片 16 維、網站 15 維）
+  playbook spec 影片 卡.json [--out spec.md]   規格卡轉成精準指令（--template 取得範本）
+  playbook probe 影片 footage 毛片.mp4 | breakdown 參考片.mp4   剪輯模式、拆解模式（只有影片）"""
 
 
 def home(book):
@@ -77,6 +80,9 @@ def main(a):
     elif cmd == "add" and len(rest) >= 2:
         note = rest[2] if len(rest) > 2 else ""
         r = pb(book_of(rest[0]), "inbox", "add", rest[1], "--note", note); print(r.stdout or r.stderr, end="")
+    elif cmd in ("vocab", "spec", "probe") and rest:
+        r = home(book_of(rest[0]))   # file paths stay relative to where the user is
+        sys.exit(subprocess.call([sys.executable, str(r / "pb.py"), cmd, *rest[1:]]))
     else:
         print(HELP); sys.exit(1)
 
