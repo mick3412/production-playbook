@@ -64,3 +64,4 @@
 "2026-11-12","桌上試驗","bench","","T-56","有效","P12 基準：faster-whisper small 字錯率 3.8%／13.4%／6.5%，每段 1.8–4.7 秒（慢 4–6 倍）；直接輸出繁體加標點（initial_prompt）。large-v3-turbo 1.6 GB 超過上限未測"
 "2026-11-12","桌上試驗","bench","","T-95","有效","P13 講者分辨：sherpa-onnx（pyannote-segmentation-3.0＋3D-Speaker eres2net，合計 46 MB）兩人對談正確率 92.7%，講者數自動判斷也是 2，2.8 秒"
 "2026-11-12","桌上試驗","bench","","S5-11","需調整","三個辨識模型都把中文裡的英文品牌詞聽錯（IG→一、Reels→Rose／漏掉）：逐字稿要配熱詞或個人詞庫，或事後用名詞表替換"
+"2026-11-12","桌上試驗","bench","","T-98","需調整","Umless Lite（英文，16 秒合成口述，含贅詞、no wait 更正、三個專有名詞）：辨識 54 倍即時、清理 0.3–0.5 秒；清理後贅詞全去；加詞庫後 HyperFrames、Kokoro、Priya 全拼對（沒詞庫時 Kokoro→Kakuro）。對本意 WER：faster-whisper 原文 26.3%、Umless 辨識 18.4%、清理後 15.8%；但 launch on 被聽成 Long John，清理救不回，no wait 之後的語意也沒正確收斂。中文要 Max（3.1 GB）超過上限，Lite 與 Standard 都不支援中文。建置：Rust 1.99 minimal＋cmake（bench venv），CLI 2 分 24 秒"

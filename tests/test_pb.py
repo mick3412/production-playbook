@@ -236,6 +236,23 @@ class PlaybookTest(unittest.TestCase):
             self.assertIn(m, sheet)
         self.assertIn("沒有策略卡，先問", self.pb("spec", "--from", "做一支 30 秒產品影片"))
 
+    def test_blueprint_has_every_section_and_stage(self):
+        out = self.pb("blueprint", "45 秒 IG Reels 口播，安靜高級，要留名單")
+        for n in range(1, 10):
+            self.assertIn(f"## {n}. ", out)
+        import json as _json
+        st = _json.loads((self.home / "data" / "stages.json").read_text(encoding="utf-8"))["stages"]
+        for s in st:
+            self.assertIn(f"- **{s['id']} {s['name']}**", out)
+        self.assertIn("  - 步驟：", out)
+        self.assertIn("  - 過關：", out)
+        if (Path.home() / ".config" / "marketing-playbook" / "home").is_file():
+            self.assertIn("行銷手冊 R-02", out)
+        self.assertIn("IG Reels：尺寸 1080×1920", out)
+        self.pb("blueprint", "45 秒 IG Reels 口播，安靜高級，要留名單", "--save")
+        saved = list((self.project / ".strategy" / "計畫").glob("*.md"))
+        self.assertEqual(len(saved), 1)
+
     def test_rules_file_leaves_items_out(self):
         c = self._golden()["cases"][0]
         rules = self.tmp / "rules.txt"

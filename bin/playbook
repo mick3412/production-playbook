@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """One command for all four playbooks. Read-only except `add`, which only drops into an inbox."""
-import csv, re, subprocess, sys
+import csv, json, re, subprocess, sys
 from pathlib import Path
 
 BOOKS = {"影片": "production-playbook", "行銷": "marketing-playbook", "網站": "web-playbook", "開發": "engineering-playbook"}
@@ -15,6 +15,7 @@ HELP = """playbook：查四本手冊（影片、行銷、網站、開發）
   playbook vocab 網站 [維度]   製作語彙（影片 16 維、網站 15 維）
   playbook spec 影片 卡.json [--out spec.md]   規格卡轉成精準指令（--template 取得範本）
   playbook probe 影片 footage 毛片.mp4 | breakdown 參考片.mp4   剪輯模式、拆解模式（只有影片）
+  playbook blueprint [手冊] "需求" [--save]   完整計畫書（不指定手冊時用 find 最符合的那本）
   playbook strategy "目的（含期限與數字）" [--save]   產出策略卡（受眾、平台角色、短中長期內容、設計基因）
   playbook works              把策略卡拆成作品單，每張註明交給哪本手冊和下一步指令
   playbook style 新粗獷        一個風格在影片、圖片、網站的特徵、數值和寫法，加上四本標了它的項目"""
@@ -87,6 +88,25 @@ def main(a):
         r = home("行銷")
         sys.exit(subprocess.call([sys.executable, str(r / "pb.py"), "strategy", "--from", " ".join(x for x in rest if x != "--save"),
                                   *(["--save"] if "--save" in rest else [])]))
+    elif cmd == "blueprint" and rest:
+        if rest[0] in BOOKS or rest[0].lower() in ALIAS:
+            book, args = book_of(rest[0]), rest[1:]
+        else:
+            args = rest
+            need = " ".join(x for x in args if x != "--save")
+            best = None
+            for b in BOOKS:
+                r = subprocess.run([sys.executable, str(home(b) / "pb.py"), "plan", need, "--json"], capture_output=True, text=True)
+                try:
+                    o = json.loads(r.stdout)["options"]
+                except Exception:
+                    continue
+                if o and o[0]["id"] != "自組" and (best is None or o[0]["score"] > best[1]):
+                    best = (b, o[0]["score"])
+            book = best[0] if best else "影片"
+            print(f"（依需求選了{book}手冊）\n", flush=True)
+        need = " ".join(x for x in args if x != "--save")
+        sys.exit(subprocess.call([sys.executable, str(home(book) / "pb.py"), "blueprint", need, *(["--save"] if "--save" in args else [])]))
     elif cmd == "works":
         sys.exit(subprocess.call([sys.executable, str(home("行銷") / "pb.py"), "strategy", "--works"]))
     elif cmd == "style":
