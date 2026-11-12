@@ -227,5 +227,32 @@ class PlaybookTest(unittest.TestCase):
         self.assertIn("不在 facets.json", self.pb("check", ok=False))
 
 
+    def _card(self, **over):
+        import json
+        card = {"片名": "t", "畫幅": "直式 9:16", "格率": 30, "片長": 6, "調性": "安靜高級",
+                "鏡頭": [{"編號": 1, "秒數": 3, "內容": "a", "景別": "近景", "運鏡": "手持", "構圖": "置中對稱", "過場到下一鏡": "溶接"},
+                         {"編號": 2, "秒數": 3, "內容": "b"}]}
+        card.update(over)
+        p = self.tmp / "card.json"; p.write_text(json.dumps(card, ensure_ascii=False), encoding="utf-8")
+        return str(p)
+
+    def test_spec_renders_four_parts_with_defaults_and_conflicts(self):
+        out = self.pb("spec", self._card())
+        for part in ("## 一、AI 生成提示詞", "## 二、程式動畫規格", "## 三、實拍拍攝單", "## 四、審片對照表"):
+            self.assertIn(part, out)
+        self.assertIn("警告：第 1 鏡：運鏡=手持 和 構圖=置中對稱 衝突", out)
+        self.assertIn("| 2 | 運鏡 | 固定 | 預設 |", out)
+        self.assertIn("第 0–89 格（90 格）", out)
+        self.assertNotIn("| 2 | 過場 |", out)          # the last shot gets no default transition
+
+    def test_spec_rejects_unknown_values_and_bad_length(self):
+        self.assertIn("不在語彙裡", self.pb("spec", self._card(鏡頭=[{"編號": 1, "秒數": 6, "運鏡": "瞬移"}]), ok=False))
+        self.assertIn("和片長 9 秒不符", self.pb("spec", self._card(片長=9), ok=False))
+
+    def test_vocab_lists_and_tone_presets(self):
+        self.assertIn("whip pan", self.pb("vocab", "運鏡"))
+        self.assertIn("運鏡：固定、慢推", self.pb("vocab", "--tone", "安靜高級"))
+
+
 if __name__ == "__main__":
     unittest.main()

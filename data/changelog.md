@@ -44,3 +44,4 @@
 - 2026-11-12 桌上試驗：birefnet-portrait 與 u2net 去背比較
 - 2026-11-12 情境分面：新增「情境」欄位、data/facets.json（同義詞、上層、調性關聯、限制衝突）、plan --facets、facets 指令與檢查
 - 2026-11-12 製作語彙 data/vocab.json：16 維 180 值、17 個調性預設；來源 S56–S61
+- 2026-11-12 pb.py spec／vocab 上線；以負責人口播實作一版並審片
