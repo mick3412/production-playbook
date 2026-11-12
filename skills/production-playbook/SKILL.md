@@ -82,7 +82,7 @@ Ask before adding anything. When the user agrees:
 
 ## Rules
 
-- Every new or merged item names the recipe (R-NN in `data/recipes.csv`) it belongs to and is added to that recipe's 項目, or the intake note says why no recipe fits. New items also get 試法 (桌上 or 實戰). `check` reports live items no recipe uses; `plan --unused` lists them.
+- Every new or merged item names the recipe (R-NN in `data/recipes.csv`) it belongs to and is added to that recipe's 項目, or the intake note says why no recipe fits. New items also get 試法 (桌上 or 實戰). `check` reports live items no recipe uses; `plan --unused` lists them. Tag each new item's 情境 (工作項目 always; other facets only when its text says so; the most specific value, e.g. a sub-style rather than its family), then run `facets --audit`: the item must be callable from its own tags, and `check` fails on a missing 工作項目, a parent tagged with its child, or tags that conflict with each other.
 - `data/*.csv` and `data/stages.json` are the only hand-edited data. Never edit `guide/`; run `build`.
 - Ids are permanent. Never renumber or reuse; removed entries move to `archive/`.
 - Product-specific rules (brand colours, fonts, wording, compliance) live in each product's own project, not here. Stage 0.4 reminds you to read them.
