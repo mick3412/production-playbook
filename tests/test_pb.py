@@ -265,10 +265,11 @@ class PlaybookTest(unittest.TestCase):
 
     def test_design_values_carry_presentation_layers(self):
         # a design value prints its full recipe or the five layers; motion numbers alone only give a skeleton (C6, 2026-11-13)
-        out = self.pb("spec", "影片", "--from", "產品短片，碎裂過場，數字跳動，標題卡")
+        out = self.pb("spec", "影片", "--from", "產品短片，碎裂過場，數字跳動，標題卡，雙語字幕")
         self.assertIn("## 呈現層", out)
         self.assertIn("2.5 px 白邊", out)          # 碎裂: full recipe from #142
-        self.assertIn("陪襯元素：", out)           # 數字跳動: five layers
+        self.assertIn("陪襯元素：", out)           # 雙語字幕: five layers only
+        self.assertIn("左側向上箭頭圓", out)       # 數字跳動: full recipe from #007
         V = json.loads((REPO / "data/vocab.json").read_text(encoding="utf-8"))["維度"]
         for d in ("動態圖像", "過場", "文字與字幕"):
             for k, x in V[d].items():
