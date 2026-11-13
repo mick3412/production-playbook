@@ -61,6 +61,7 @@
 | [Poly Haven](https://polyhaven.com)（T-58） | 已整合 | 免費 | CC0（寬鬆） | 3D 場景用的材質、HDRI 和模型 |
 | [Kevin MacLeod（incompetech）](https://incompetech.com/music/)（T-59） | 已整合 | 免費 | CC BY 4.0（寬鬆） | 免費配樂；CC BY 4.0，說明欄一定要附標註 |
 | [LosslessCut](https://github.com/mifi/lossless-cut)（T-02） | 已安裝 | 免費 | GPL-2.0（本機限定） | 手動挑素材、切長錄影，不重新編碼 |
+| [media-use（HyperFrames 技能）](https://github.com/heygen-com/hyperframes)（T-111） | 已安裝 | 免費 | Apache-2.0（寬鬆） | 影片需要配樂、音效或圖片時，先用它找可用的素材，再照 4.5 登記授權 |
 | [Kokoro TTS](https://github.com/hexgrad/kokoro)（T-55） | 已安裝 | 免費 | Apache-2.0（寬鬆） | 免費、本機、沒有額度限制的英文配音；每句分開生成，時間精準（數字要先拼成英文字）。預設英文配音（2026-11-12 比較定案：和 Pocket TTS 字錯率同為 0%，Kokoro 授權 Apache-2.0 免標註、聲音選擇多） |
 | [parakeet-mlx](https://github.com/senstella/parakeet-mlx)（T-104） | 待試 | 免費 | Apache-2.0（寬鬆） | 英文或歐洲語言的逐字稿要在 Apple Silicon 上跑得很快時 |
 | [whisper.cpp](https://github.com/ggml-org/whisper.cpp)（T-105） | 待試 | 免費 | MIT（寬鬆） | 不想裝 Python、要在命令列或其他程式裡直接跑 Whisper 時 |
@@ -104,7 +105,7 @@
 | [ffmpeg-skill](https://github.com/kajisho5/ffmpeg-skill)（T-03） | 已整合 | 免費 | MIT（寬鬆） | 剪、接、轉檔、音量、平台規格檢查（check.py）、縮圖表（look.py） |
 | [stable-ts](https://github.com/jianfch/stable-ts)（T-05） | 已整合 | 免費 | MIT（寬鬆） | 已經有定稿文字時，把文字強制對齊到聲音，產生逐字時間 |
 | [rembg（U2-Net／BiRefNet）](https://github.com/danielgatis/rembg)（T-13） | 已整合 | 免費 | MIT（寬鬆） | 非 Mac 平台的去背；邊緣品質看模型 |
-| [HyperFrames](https://github.com/heygen-com/hyperframes)（T-19） | 已整合 | 免費 | Apache-2.0（寬鬆） | 主要的影片引擎：用 HTML、CSS、GSAP 做畫面，逐格算成影片；snapshot 指令可以取任意時間點的定格 |
+| [HyperFrames](https://github.com/heygen-com/hyperframes)（T-19） | 已整合 | 免費 | Apache-2.0（寬鬆） | 主要的影片引擎：用 HTML、CSS、GSAP 做畫面，逐格算成影片；snapshot 指令可以取任意時間點的定格。同一套生態的技能：hyperframes-cli 管指令操作（建專案、預覽、算圖）；hyperframes-registry 有約 450 個現成轉場和字卡，第 5 階段先從這裡挑，不從零寫 |
 | [diagram-design](https://github.com/cathrynlavery/diagram-design)（T-31） | 已整合 | 免費 | MIT（圖示 Tabler MIT、Simple Icons CC0）（寬鬆） | 需要流程圖、架構圖、比較圖這類圖表（45 種，輸出 HTML＋SVG，可套品牌配色） |
 | [taste-skill（design-taste-frontend）](https://github.com/Leonxlnx/taste-skill)（T-32） | 已整合 | 免費 | MIT（寬鬆） | 網頁的美術方向：抽選研究過的方向、用開放圖庫真圖、三種寬度檢查 |
 | [Apple Vision 人物分割](https://developer.apple.com/documentation/vision/vngeneratepersonsegmentationrequest)（T-35） | 已整合 | 免費 | macOS 內建（寬鬆） | Mac 上的人物去背（預設）：免費、不用下載模型、邊緣細 |
