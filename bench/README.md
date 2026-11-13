@@ -1,5 +1,7 @@
 # 桌上試驗樣本包
 
+> 存放位置（2026-11-13 起）：`vendor/`、`runs/`、`samples/` 實體在 `~/Dev Projects/playbook-bench/production/`，這裡是符號連結。外掛更新會複製整個手冊資料夾，大檔放在外面才不會每版多出數 GB。新機器要先建好那個資料夾再連回來。
+
 `pb.py bench` 排出的待試項目用這裡的樣本測，結果用 `pb.py run-log --bench` 記進 `data/runs.csv`。樣本和輸出不進 git（見 `.gitignore`），這份說明記來源，換電腦時照著重建。
 
 | 樣本 | 內容 | 來源 |
