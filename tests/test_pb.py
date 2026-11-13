@@ -216,7 +216,7 @@ class PlaybookTest(unittest.TestCase):
     def test_strategy_to_work_orders_to_spec(self):
         out = self.pb("strategy", "--from", "三個月內用 IG 和網站替新服務累積 300 筆名單，權威專業", "--save")
         self.assertIn("指標：300 筆名單", out)
-        self.assertIn("主要受眾是誰", out)                     # never invented
+        self.assertIn("Q1｜受眾", out)                     # never invented
         self.assertIn("風格：瑞士國際主義", out)
         works = self.pb("strategy", "--works")
         self.assertIn("W01｜短期｜名單型 Reel", works)
@@ -234,7 +234,7 @@ class PlaybookTest(unittest.TestCase):
         sheet = self.pb("style", "新粗獷")
         for m in ("- 影片（", "- 圖片（", "- 網站（"):
             self.assertIn(m, sheet)
-        self.assertIn("沒有策略卡，先問", self.pb("spec", "--from", "做一支 30 秒產品影片"))
+        self.assertIn("沒有策略卡，這一輪先問", self.pb("spec", "--from", "做一支 30 秒產品影片"))
 
     def test_blueprint_has_every_section_and_stage(self):
         out = self.pb("blueprint", "45 秒 IG Reels 口播，安靜高級，要留名單")
@@ -252,6 +252,15 @@ class PlaybookTest(unittest.TestCase):
         self.pb("blueprint", "45 秒 IG Reels 口播，安靜高級，要留名單", "--save")
         saved = list((self.project / ".strategy" / "計畫").glob("*.md"))
         self.assertEqual(len(saved), 1)
+
+    def test_questions_come_in_rounds(self):
+        out = self.pb("blueprint", "做一支產品影片")
+        self.assertIn("❓ Q1｜目的", out)
+        self.assertIn("沒有建議，這要你決定", out)                 # audience is never invented
+        self.assertIn("下一輪（等上面的答案）：平台", out)
+        out2 = self.pb("blueprint", "做一支 IG Reels 產品影片，給 30 歲上班族，要留名單")
+        self.assertNotIn("｜目的：", out2)
+        self.assertIn("｜篇幅：", out2)
 
     def test_rules_file_leaves_items_out(self):
         c = self._golden()["cases"][0]
