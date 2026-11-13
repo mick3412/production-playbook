@@ -2,6 +2,7 @@
 
     python3 -m unittest discover tests
 """
+import json
 import os
 import shutil
 import subprocess
@@ -261,6 +262,17 @@ class PlaybookTest(unittest.TestCase):
         out2 = self.pb("blueprint", "做一支 IG Reels 產品影片，給 30 歲上班族，要留名單")
         self.assertNotIn("｜目的：", out2)
         self.assertIn("｜篇幅：", out2)
+
+    def test_design_values_carry_presentation_layers(self):
+        # a design value prints its full recipe or the five layers; motion numbers alone only give a skeleton (C6, 2026-11-13)
+        out = self.pb("spec", "影片", "--from", "產品短片，碎裂過場，數字跳動，標題卡")
+        self.assertIn("## 呈現層", out)
+        self.assertIn("2.5 px 白邊", out)          # 碎裂: full recipe from #142
+        self.assertIn("陪襯元素：", out)           # 數字跳動: five layers
+        V = json.loads((REPO / "data/vocab.json").read_text(encoding="utf-8"))["維度"]
+        for d in ("動態圖像", "過場", "文字與字幕"):
+            for k, x in V[d].items():
+                self.assertTrue(x.get("完整做法") or x.get("呈現層"), f"{d}＝{k} has no presentation layers")
 
     def test_terms_table_and_any_name_finds_the_value(self):
         for need, want in (("甩镜过场要快", "過場=甩鏡過場"), ("レンブラントライティング", "布光=林布蘭光"), ("dolly zoom 的效果", "運鏡=推拉變焦"),
