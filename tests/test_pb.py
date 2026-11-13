@@ -262,6 +262,17 @@ class PlaybookTest(unittest.TestCase):
         self.assertNotIn("｜目的：", out2)
         self.assertIn("｜篇幅：", out2)
 
+    def test_terms_table_and_any_name_finds_the_value(self):
+        for need, want in (("甩镜过场要快", "過場=甩鏡過場"), ("レンブラントライティング", "布光=林布蘭光"), ("dolly zoom 的效果", "運鏡=推拉變焦"),
+                           ("浮世繪風的片頭", "風格=浮世繪"), ("做一個玻璃碎裂的轉場", "過場=碎裂"), ("text scramble 標題", "動態圖像=文字亂碼")):
+            self.assertIn(want, self.pb("facets", "--suggest", need))
+        out = self.pb("facets", "--suggest", "用 Zoom 錄的訪談")
+        self.assertNotIn("運鏡=", out)                       # a bare English word inside a longer phrase or another meaning
+        self.assertIn("篇幅=多張輪播", self.pb("facets", "--suggest", "IG 輪播圖卡"))
+        table = self.pb("vocab", "過場", "--terms")
+        self.assertIn("| 甩鏡過場 | whip pan transition", table)
+        self.assertIn("#043", table)
+
     def test_rules_file_leaves_items_out(self):
         c = self._golden()["cases"][0]
         rules = self.tmp / "rules.txt"
