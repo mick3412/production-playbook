@@ -66,3 +66,4 @@
 "S63","Umless（jatinbishla，Apache-2.0）README：本機聽寫＋清理模型，三級模型與字錯率實測；負責人提供的連結","https://github.com/jatinbishla/Umless","2026-11-12","連帶查證 Handy、OpenWhispr、VoiceInk、SenseVoice、FunASR、parakeet-mlx、whisper.cpp、whisper-diarization、pyannote、Meetily、anarlog、Scriberr（gh api，2026-11-12）"
 "S64","skills.sh 安裝排行前 10 名截圖；HyperFrames 生態技能 hyperframes-cli、hyperframes-registry、media-use（heygen-com/hyperframes，Apache-2.0）","https://github.com/heygen-com/hyperframes","2026-11-13","skills.sh 安裝排行截圖（負責人提供，2026-11-13）；安裝數以 npx skills find 查證"
 "S65","ShortGenius 部落格（繁中）2026 年文章","https://shortgenius.com/tw/blog","2026-11-13","ShortGenius 部落格 2026 年 253 篇（廠商 SEO 文，數字多為轉引；只收可照做的做法與有出處的規格）；整理見 production-playbook/bench/runs/intake/shortgenius/knowhow.md"
+"S66","FlexClip 直式影片範本（1,636 支公開數據；322 支深拆：文字動態 89、照片故事 77、口播訪談 69、輪播圖卡 87）","https://www.flexclip.com/tw/create/vertical-video.html","2026-11-14","只取結構（鋪陳、版型、串場、節奏、量測），不收文案和畫面；預覽影片與審片圖只存本機 playbook-bench；整理成 data/storyboards.json"

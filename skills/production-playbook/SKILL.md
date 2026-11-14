@@ -24,6 +24,8 @@ If `~/.config/production-playbook/home` does not exist, tell the user to run `py
 | One piece of work | `blueprint "<need>"`: the full plan (needs and questions, recipe, deliverable spec with numbers, every stage with its items, steps and gates, approvals, trials, risks, other books' recipes, success measure) | work stage by stage with `card <stage> --brief`; `blueprint ... --save` records it |
 | Raw footage to edit (video book) | `probe footage <clip>` | draft card → `spec` |
 | A reference to imitate (video book) | `probe breakdown <video>` | fill the breakdown card → `--to-spec` → `spec` |
+| Choosing the storyboard (video book) | `storyboard "<need>"` | series format (SF-) or 3 templates (SB-) → `storyboard --use <id>` |
+| A finished video to review (video book) | `qa <video.mp4> --template <id>` | fix every FAIL; explain any WARN |
 | Only a style or exact numbers | `style <name>` or `spec --from "<need>"` | — |
 | New material to file (link, screenshot, PDF) | the intake steps below | `check`, `facets --audit` |
 
@@ -45,6 +47,12 @@ This handbook is only useful if requests are built from it. For every new reques
 4. **Save the choice.** After the user picks, `plan "<request>" --pick <n> --save` stores the chosen ids on the piece of work. From then on `card --brief` lists them first under 方案項目, and `done` lists the ones still without a result.
 5. **Cite ids.** Every recommendation, five-line summary and review names the ids it comes from, so the user can see what came from the handbook and what did not.
 6. **Prefer proven items.** Use 已內建／採用／已整合 items first. 待試 items enter a real piece of work only through `trials` (at most three per stage, two tools per work, 實戰 items first); 桌上 items are cleared on the bench (below).
+
+## Storyboard library: dispatch and measured review
+
+- **Dispatch.** `storyboard "<need>"` (data/storyboards.json) first checks whether the need belongs to a running series (SF-, fixed structure, kit and compliance slot), otherwise ranks the 35 templates (SB-) across four formats — 文字動態, 照片故事, 口播訪談, 輪播圖卡 — by format words, purpose and audience. `storyboard --use <id>` gives the segment skeleton with seconds, word budget, asset slots, review points, the format's shared rules and its most common measured mistakes. Templates are 待試: make the first piece by the template, then review it with `qa` before upgrading. Built from 322 FlexClip vertical templates broken down to saturation (structure only, nothing copied).
+- **Measured review.** `qa <video.mp4> [--template <id>] [--card kit-card.json] [--platform reels-tiktok|shorts] [--require "phrase"]` measures the finished video with the same tools that measured the references (Vision OCR, frames, contrast): hook text by 0.6 s, reading speed, text size, the S0-06 safe zone, contrast, beat lengths, required phrases; then lists the template's own review points. Stage 6.6 and gate G6.4 require no FAIL.
+- **Kit.** `kits/storyboard/text_motion.html` is the text-motion brand component set (HyperFrames convention, `window.__timelines.card`), driven by a JSON card with the brand colours; `&wire=1` renders the grey animatic that gate G3.1 asks the owner to approve before rendering.
 
 ## From storyboard to exact instructions: vocabulary, spec card, footage and breakdown
 

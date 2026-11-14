@@ -4,6 +4,7 @@
 """
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -421,6 +422,55 @@ class PlaybookTest(unittest.TestCase):
     def test_vocab_lists_and_tone_presets(self):
         self.assertIn("whip pan", self.pb("vocab", "運鏡"))
         self.assertIn("運鏡：固定、慢推", self.pb("vocab", "--tone", "安靜高級"))
+
+    def test_storyboard_dispatch_golden_cases(self):
+        out = self.pb("storyboard", "Stay the Course 第 9 集，純文字 Reels")
+        self.assertIn("SF-01 系列格式：Stay the Course", out)
+        cases = {"純文字動態，三個重點清單教學 S1": "SB-T1", "純文字動態，A 和 B 的比較": "SB-T5",
+                 "峇里島別墅的生活照片 Reels，給 S6 看一天怎麼過": "SB-P1", "照片故事：客戶家庭搬到峇里的起承轉合": "SB-P5",
+                 "顧問口播介紹自己，建立信任": "SB-K6", "客戶訪談見證短片": "SB-K4",
+                 "IG 輪播比較租金和長期配置 S1": "SB-C3", "輪播圖卡：迷思測驗，題目和揭曉": "SB-C8"}
+        for need, tid in cases.items():
+            top = re.findall(r"^### (SB-\w+)", self.pb("storyboard", need), re.M)
+            self.assertIn(tid, top, need)
+        full = self.pb("storyboard", "--use", "SB-T1")
+        self.assertIn("這種形式的共用規則", full)
+        self.assertIn("S0-06", full)
+        self.assertIn("SB-", self.pb("blueprint", "純文字動態 Reels，三個重點清單教學"))
+
+    def test_storyboard_library_rejects_old_safe_zone(self):
+        p = self.home / "data" / "storyboards.json"
+        d = json.loads(p.read_text(encoding="utf-8"))
+        d["模板"][0]["審片要點"].append("字幕下緣 y≤78%")
+        p.write_text(json.dumps(d, ensure_ascii=False), encoding="utf-8")
+        self.assertIn("舊安全區", self.pb("check", ok=False))
+
+    @unittest.skipUnless(shutil.which("ffmpeg") and shutil.which("swift") and sys.platform == "darwin", "needs ffmpeg, swift and macOS Vision")
+    def test_qa_catches_a_badly_made_video(self):
+        # frames drawn with AppKit (no Pillow, no ffmpeg drawtext needed): black, then a late hook and a caption in the button area
+        swift = self.tmp / "frames.swift"
+        swift.write_text("""import AppKit
+func frame(_ path: String, _ texts: [(String, CGFloat, CGFloat)]) {
+  let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: 1080, pixelsHigh: 1920, bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!
+  NSGraphicsContext.saveGraphicsState(); NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
+  NSColor.black.setFill(); NSRect(x: 0, y: 0, width: 1080, height: 1920).fill()
+  for (t, size, top) in texts { (t as NSString).draw(at: NSPoint(x: 140, y: 1920 - top - size), withAttributes: [.font: NSFont.boldSystemFont(ofSize: size), .foregroundColor: NSColor.white]) }
+  NSGraphicsContext.restoreGraphicsState(); try! rep.representation(using: .png, properties: [:])!.write(to: URL(fileURLWithPath: path))
+}
+let d = CommandLine.arguments[1]
+frame(d + "/blank.png", [])
+frame(d + "/late.png", [("LATE HOOK", 120, 600), ("tiny caption under the buttons", 34, 1700)])
+""", encoding="utf-8")
+        subprocess.run(["swift", str(swift), str(self.tmp)], check=True, capture_output=True)
+        blank, late = self.tmp / "blank.png", self.tmp / "late.png"
+        bad = self.tmp / "bad.mp4"   # 1.5 s of nothing, then a hook and a caption in the button area
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-loop", "1", "-t", "1.5", "-i", str(blank), "-loop", "1", "-t", "2.5", "-i", str(late),
+                        "-filter_complex", "[0][1]concat=n=2:v=1,fps=24,format=yuv420p", str(bad)], check=True)
+        out = self.pb("qa", str(bad), "--out", str(self.tmp / "qa.json"), "--template", "SB-T1", "--require", "General information only", ok=False)
+        self.assertIn("FAIL  鉤子：0.6 秒內有大字", out)
+        self.assertRegex(out, r"FAIL  第 1 段安全區：.*tiny")
+        self.assertIn("FAIL  必要字句", out)
+        self.assertIn("SB-T1 的審片要點", out)
 
     def test_video_qa_safe_zone_follows_handbook_s0_06(self):
         sys.path.insert(0, str(REPO / "bin"))
