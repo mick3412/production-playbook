@@ -3,7 +3,7 @@
   Text-motion kit (production-playbook, storyboard library). One composition, driven by a JSON card:
     ?card=<url of card.json>   the beats to play (layout + text + seconds) and the brand (colours, fonts, handle)
     &wire=1                    animatic: grey slot boxes with the real timing instead of the finished design
-  Layouts (each one is a component): hook, bignumber, statement, compare, takeaway, disclosure.
+  Layouts (each one is a component): hook, bignumber, statement, compare, takeaway, quote (SB-T3), disclosure.
   Motion follows the vocabulary's full recipes: 遮罩揭示字 (lines rise inside a fixed mask, quintic out),
   數字跳動 (quartic out, tabular figures), 描邊繪製 (underline draw, cubic in-out), 滑入推出 / 色塊換場 (brand panel push).
   Safe zone (handbook S0-06, 1080×1920): text inside x 120–960, y 270–1248, and right of x 780 only above y 840.
@@ -27,6 +27,7 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}
 .rule{height:8px;background:var(--accent);width:0;margin-top:34px;border-radius:4px}
 .box{max-width:560px;border:5px solid currentColor;border-radius:28px;padding:28px 40px;font:600 78px/1.1 var(--head)}
 .ne{font:600 90px/1 var(--head);color:var(--accent);text-align:center;margin:10px 0}
+.qw{display:block;font:600 96px/1.04 var(--head);letter-spacing:-.015em}.qw.key{font-size:236px;line-height:.95;color:var(--accent)} .light .qw.key{color:var(--accent-ink)}
 .panel{position:absolute;inset:0;z-index:5}
 .handle{position:absolute;left:120px;top:1170px;font:500 54px var(--body);opacity:.85}
 .series{position:absolute;left:120px;top:290px;font:600 60px var(--body);letter-spacing:.12em;opacity:.9}
@@ -73,7 +74,7 @@ function build(card) {
 // ---- layouts (components) --------------------------------------------------------------
 const rise = (tl, items, at, stagger = 0.12) => { tl.from(items, { yPercent: 110, duration: 0.7, ease: 'expo.out', stagger }, at); return at + 0.7 + stagger * (items.length - 1); };
 const LAYOUT = {
-  hook(beat, b) { if (b.kicker) beat.appendChild(el('div', 'kicker', b.kicker)); const ls = lines(beat, b.text, 'h1'); const r = el('div', 'rule'); beat.appendChild(r);
+  hook(beat, b) { if (b.kicker) beat.appendChild(el('div', 'kicker', b.kicker)); const ls = lines(beat, b.text, 'h1'); if (b.size) ls.forEach(l => { l.style.fontSize = b.size + 'px'; }); /* short hooks can go bigger */ const r = el('div', 'rule'); beat.appendChild(r);
     return { in: (tl, at) => { const e = rise(tl, ls, at, 0.09); tl.to(r, { width: 260, duration: 0.6, ease: 'power2.inOut' }, e - 0.2); return e; } }; },
   bignumber(beat, b) { const n = el('div', 'num accent', '0'); beat.appendChild(n); const ls = lines(beat, b.text, 'h2');
     return { in: (tl, at) => { const o = { v: 0 }; tl.to(o, { v: b.value, duration: 1.4, ease: 'power4.out', onUpdate: () => { n.textContent = Math.round(o.v).toLocaleString('en-US'); } }, at);
@@ -85,6 +86,12 @@ const LAYOUT = {
     beat.append(a, ne, c); if (b.note) beat.appendChild(el('div', 'body', b.note)).style.marginTop = '40px';
     return { in: (tl, at) => { tl.from(a, { y: 60, autoAlpha: 0, duration: 0.6, ease: 'expo.out' }, at).from(ne, { scale: 0, duration: 0.5, ease: 'back.out(2)' }, at + 0.45)
       .from(c, { y: 60, autoAlpha: 0, duration: 0.6, ease: 'expo.out' }, at + 0.7); return at + 1.3; } }; },
+  quote(beat, b) {   // SB-T3 金句強調字幕: words stack one by one, the key word is the biggest thing on screen, one underline under it
+    if (b.kicker) beat.appendChild(el('div', 'kicker', b.kicker));
+    const ws = b.words.map(w => { const m = el('div', 'mask'); const l = el('span', 'line qw' + (w.key ? ' key' : ''), w.text); m.appendChild(l); beat.appendChild(m); return l; });
+    const r = el('div', 'rule'); beat.appendChild(r);
+    return { in: (tl, at) => { ws.forEach((w, i) => tl.from(w, { yPercent: 110, duration: 0.6, ease: 'expo.out' }, at + i * (b.step || 0.45)));
+      const e = at + (ws.length - 1) * (b.step || 0.45) + 0.6; if (b.underline !== 0) tl.to(r, { width: b.underline || 360, duration: 0.6, ease: 'power2.inOut' }, e - 0.15); return e; } }; },
   takeaway(beat, b) { const ls = lines(beat, b.text, 'h1'); const r = el('div', 'rule'); beat.appendChild(r);
     return { in: (tl, at) => { const e = rise(tl, ls, at, 0.1); tl.to(r, { width: 420, duration: 0.7, ease: 'power2.inOut' }, e - 0.2); return e; } }; },
   disclosure(beat, b) { beat.style.justifyContent = 'flex-end'; beat.style.paddingBottom = '760px'; beat.style.paddingRight = '300px'; beat.appendChild(el('div', 'kicker', b.title || 'Important information'));
