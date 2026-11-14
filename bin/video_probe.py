@@ -365,8 +365,8 @@ def motion(img_a: str, img_b: str) -> float:
     return round(sum(abs(x - y) for x, y in zip(a, b)) / max(1, len(a)) / 2.55, 1) if a and b else 0.0
 
 
-def grab(path: str, t: float, out: Path) -> str:
-    subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{max(0, t):.2f}", "-i", path, "-frames:v", "1", "-vf", "scale=540:-2", str(out)])
+def grab(path: str, t: float, out: Path, width: int = 540) -> str:
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{max(0, t):.2f}", "-i", path, "-frames:v", "1", "-vf", f"scale={width}:-2", str(out)])
     return str(out)
 
 

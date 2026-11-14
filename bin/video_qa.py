@@ -31,7 +31,8 @@ NORM = {"hook_by": 0.6, "hook_min_h": 8.0, "hook_max_s": 3.0, "wps": 2.5, "wps_d
 # text boxes must stay inside these, as fractions of 1080×1920: (left, top, right, bottom, button_row_top, button_col_left)
 SAFE = {"reels-tiktok": (120 / 1080, 270 / 1920, 960 / 1080, 1248 / 1920, 840 / 1920, 780 / 1080),
         "shorts": (60 / 1080, 380 / 1920, 960 / 1080, 1540 / 1920, 1.0, 1.0),
-        "feed": (0.05, 0.04, 0.95, 0.96, 1.0, 1.0)}   # static carousel pages (1080×1350): no platform UI on top, keep a margin
+        "feed": (0.05, 0.04, 0.95, 0.96, 1.0, 1.0),
+        "story": (0.05, 0.13, 0.95, 0.82, 1.0, 1.0)}   # IG / FB Stories: profile bar on top, reply bar and stickers' edge at the bottom   # static carousel pages (1080×1350): no platform UI on top, keep a margin
 
 
 def unsafe(b: dict, z: tuple, slack: float = 0.01) -> bool:
@@ -51,11 +52,12 @@ def lum(rgb: tuple) -> float:
 def box_contrast(img: str, b: dict, W: int, H: int) -> float:
     x, y = max(0, min(W - 4, int(b["x"] * W))), max(0, min(H - 4, int(b["y"] * H)))
     w, h = max(4, min(W - x, int(b["w"] * W))), max(4, min(H - y, int(b["h"] * H)))
-    px = subprocess.run(["ffmpeg", "-v", "error", "-i", img, "-vf", f"crop={w}:{h}:{x}:{y},scale=48:12", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True).stdout
+    # sample the box at full resolution: shrinking it first averages thin strokes into the background and under-reads small text
+    px = subprocess.run(["ffmpeg", "-v", "error", "-i", img, "-vf", f"crop={w}:{h}:{x}:{y}", "-f", "rawvideo", "-pix_fmt", "rgb24", "-"], capture_output=True).stdout
     ls = sorted(lum(tuple(px[i:i + 3])) for i in range(0, len(px) - 2, 3))
     if not ls:
         return 0.0
-    lo, hi = ls[int(len(ls) * 0.03)], ls[int(len(ls) * 0.97)]
+    lo, hi = ls[int(len(ls) * 0.02)], ls[int(len(ls) * 0.98)]
     return round((hi + 0.05) / (lo + 0.05), 1)
 
 
@@ -78,8 +80,29 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
     else:
         cs = [0.0] + vp.cuts(video) + [dur]
         beats = [{"layout": "", "a": a, "b": b} for a, b in zip(cs, cs[1:]) if b - a > 0.2]
+    # with a card we know which words the overlay puts on screen; anything else OCR reads (a calendar, a calculator, a sign in a photo)
+    # belongs to the footage: it is reported, not counted as text to read
+    known = None
+    if card:
+        def walk(v):
+            if isinstance(v, str): return v
+            if isinstance(v, list): return " ".join(walk(x) for x in v)
+            if isinstance(v, dict): return " ".join((f"{x:,} {x}" if k in ("v", "value") and isinstance(x, (int, float)) else walk(x))
+                                                    for k, x in v.items() if k not in ("image", "fg", "layout", "tone", "side", "kind", "role"))
+            return ""   # numbers in a card are timings and sizes, not words on screen (chart values are written out as label strings)
+        raw = re.sub(r"<[^>]+>|&[a-z]+;", " ", walk(card.get("beats", [])) + " " + str(card.get("series", "")) + " " + walk(card.get("brand", {}).get("handle", "")))
+        known = {w for w in re.findall(r"[a-z0-9]+|[\u3400-\u9fff]", raw.lower())}
+        blob = re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", raw.lower())   # OCR often drops the spaces ("Whatif"): also match with spaces removed
+    def overlay(x):
+        if known is None: return True
+        ws = re.findall(r"[a-z0-9]+|[\u3400-\u9fff]", x["text"].lower())
+        flat = re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", x["text"].lower())
+        return not ws or sum(w in known for w in ws) / len(ws) >= 0.5 or (len(flat) >= 4 and (flat in blob or flat[1:] in blob))
+    footage_text = []
     checks, rows = [], []
     add = lambda name, ok, val, need, warn=False: checks.append({"項目": name, "結果": "PASS" if ok else ("WARN" if warn else "FAIL"), "量到": val, "標準": need})
+    if card:   # what the card promises on its closing frame must really be on screen (a kit bug once dropped every call to action)
+        require = list(require) + [re.sub(r"<[^>]+>", "", b["cta"]) for b in card["beats"] if b.get("layout") == "disclosure" and b.get("cta")]
     hook_img = vp.grab(video, NORM["hook_by"], tmp / "hook.jpg")
     hb = [x for x in vp.ocr([hook_img]).get(hook_img, []) if x["conf"] >= 0.3]
     hh = round(max([x["h"] for x in hb] or [0]) * 100, 1)
@@ -93,29 +116,38 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
     frames = {}
     for i, bt in enumerate(beats, 1):
         span = bt["b"] - bt["a"]; img = vp.grab(video, bt["a"] + span * 0.75, tmp / f"beat{i:02d}.jpg")
-        frames[i] = (img, [x for x in vp.ocr([img]).get(img, []) if x["conf"] >= 0.3 and x["text"].strip()])
+        vp.grab(video, bt["a"] + span * 0.75, tmp / f"beat{i:02d}_full.jpg", width=W)   # contrast is read on the full-resolution frame
+        # OCR sometimes reads a chart dot or a bullet as "•": a box with no letter, digit or CJK character is not text to read
+        got = [x for x in vp.ocr([img]).get(img, []) if x["conf"] >= 0.3 and re.search(r"[A-Za-z0-9\u3400-\u9fff]", x["text"])]
+        footage_text += [f"第 {i} 段：{x['text'][:20]}" for x in got if not overlay(x)]
+        frames[i] = (img, [x for x in got if overlay(x)])
     from collections import Counter
     key = lambda t: re.sub(r"[\W_]+", "", t.lower())   # OCR spacing and punctuation vary from frame to frame
     rep = Counter(k for _, bx in frames.values() for k in {key(y["text"]) for y in bx})
     chrome = {k for k, n in rep.items() if k and len(beats) >= 3 and n >= max(3, len(beats) // 2)}
+    import difflib
+    def is_chrome(t):   # OCR misreads a repeated label now and then ("（代身）" without its bracket): match it loosely
+        k = key(t)
+        return k in chrome or any(len(c) >= 4 and difflib.SequenceMatcher(None, k, c).ratio() >= 0.75 for c in chrome)
     for i, bt in enumerate(beats, 1):
         span = bt["b"] - bt["a"]; img, bx = frames[i]
         text = " ".join(x["text"] for x in sorted(bx, key=lambda x: (x["y"], x["x"]))); seen_text += " " + text
-        text = " ".join(x["text"] for x in sorted(bx, key=lambda x: (x["y"], x["x"])) if key(x["text"]) not in chrome)
+        text = " ".join(x["text"] for x in sorted(bx, key=lambda x: (x["y"], x["x"])) if not is_chrome(x["text"]))
         en, zh = words(text); hs = [x["h"] * 100 for x in bx]
         disc = bt["layout"] == "disclosure"
         rate = en / span if span else 0
         limit = NORM["wps_disclosure"] if disc else NORM["wps"]
         out = [x["text"][:24] for x in bx if unsafe(x, SAFE[platform])]
-        iw, ih = 540, int(round(H * 540 / W / 2) * 2)   # vp.grab saves frames 540 px wide
-        con = [box_contrast(img, x, iw, ih) for x in bx]
+        full = str(tmp / f"beat{i:02d}_full.jpg")
+        con = [box_contrast(full, x, W, H) for x in bx]
         row = {"段": i, "版型": bt["layout"], "起訖": f"{bt['a']:.1f}–{bt['b']:.1f}", "秒數": round(span, 1), "英文字數": en, "中文字數": zh,
                "每秒字數": round(rate, 2), "最大字高%": round(max(hs or [0]), 1), "最小字高%": round(min(hs or [0]), 1), "安全區外": out, "最低對比": min(con or [0]), "文字": text[:160]}
         rows.append(row)
         if en or zh:
             if not static: add(f"第 {i} 段閱讀速度", rate <= limit and zh / max(span, 0.1) <= NORM["cps"], f"{rate:.2f} 字／秒" + (f"、中文 {zh / span:.1f} 字／秒" if zh else ""), f"≤ {limit} 字／秒")
             add(f"第 {i} 段字級", row["最大字高%"] >= NORM["min_h"] or disc, f"最大 {row['最大字高%']}%", f"≥ {NORM['min_h']}%", warn=True)
-            add(f"第 {i} 段最小字", row["最小字高%"] >= NORM["floor_h"], f"最小 {row['最小字高%']}%", f"≥ {NORM['floor_h']}%")
+            # a line of lower-case letters measures about 0.3 points shorter than the same size with capitals, so 2.2–2.5 % is a warning, below 2.2 % fails
+            add(f"第 {i} 段最小字", row["最小字高%"] >= NORM["floor_h"], f"最小 {row['最小字高%']}%", f"≥ {NORM['floor_h']}%", warn=row["最小字高%"] >= NORM["floor_h"] - 0.3)
             add(f"第 {i} 段安全區", not out, "、".join(out) or "都在內", f"{platform} 安全區（S0-06）")
             add(f"第 {i} 段對比", row["最低對比"] >= NORM["contrast"], f"{row['最低對比']} : 1", f"≥ {NORM['contrast']} : 1", warn=True)
         lo, hi = NORM["beat"]
@@ -124,8 +156,14 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
     add("結尾長度", beats[-1]["b"] - beats[-1]["a"] >= NORM["last_min"], f"{beats[-1]['b'] - beats[-1]['a']:.1f} 秒", f"≥ {NORM['last_min']} 秒")
     norm = lambda s: re.sub(r"[^a-z0-9]+", "", s.lower())
     for ph in require:
-        ok = norm(ph)[:40] in norm(seen_text)
+        want, got = norm(ph)[:40], norm(seen_text)
+        ok = want in got
+        if not ok and want:   # display fonts make OCR swap a letter ("Ouestions"): accept a window that matches 85 % of the phrase
+            import difflib
+            ok = any(difflib.SequenceMatcher(None, want, got[i:i + len(want)]).ratio() >= 0.85 for i in range(0, max(1, len(got) - len(want) + 1)))
         add(f"必要字句：{ph[:30]}…", ok, "畫面上找到" if ok else "沒找到", "要出現且讀得完")
+    if footage_text:
+        add("素材裡的文字（不算閱讀量，確認不是亂碼或別人的品牌）", False, "、".join(footage_text[:8]), "素材本身最好沒有可讀的字", warn=True)
     worst = "FAIL" if any(c["結果"] == "FAIL" for c in checks) else ("WARN" if any(c["結果"] == "WARN" for c in checks) else "PASS")
     return {"影片": video, "片長": round(dur, 2), "總評": worst, "檢查": checks, "各段": rows}
 
