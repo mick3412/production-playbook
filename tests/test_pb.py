@@ -422,6 +422,19 @@ class PlaybookTest(unittest.TestCase):
         self.assertIn("whip pan", self.pb("vocab", "運鏡"))
         self.assertIn("運鏡：固定、慢推", self.pb("vocab", "--tone", "安靜高級"))
 
+    def test_video_qa_safe_zone_follows_handbook_s0_06(self):
+        sys.path.insert(0, str(REPO / "bin"))
+        import video_qa
+        box = lambda x, y, w, h: {"x": x / 1080, "y": y / 1920, "w": w / 1080, "h": h / 1920}
+        z = video_qa.SAFE["reels-tiktok"]
+        self.assertFalse(video_qa.unsafe(box(150, 500, 700, 100), z))          # upper area, full width inside 120–960
+        self.assertTrue(video_qa.unsafe(box(150, 900, 700, 100), z))           # below y 840 the right edge passes 780 (button column)
+        self.assertFalse(video_qa.unsafe(box(150, 900, 500, 100), z))
+        self.assertTrue(video_qa.unsafe(box(150, 1300, 300, 60), z))           # under y 1248: caption area
+        self.assertTrue(video_qa.unsafe(box(150, 200, 300, 60), z))            # above y 270
+        self.assertFalse(video_qa.unsafe(box(113, 500, 300, 60), z))           # a few px of OCR side bearing is tolerated
+        self.assertFalse(video_qa.unsafe(box(150, 1300, 300, 60), video_qa.SAFE["shorts"]))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,0 +1,94 @@
+<!doctype html>
+<!--
+  Text-motion kit (production-playbook, storyboard library). One composition, driven by a JSON card:
+    ?card=<url of card.json>   the beats to play (layout + text + seconds) and the brand (colours, fonts, handle)
+    &wire=1                    animatic: grey slot boxes with the real timing instead of the finished design
+  Layouts (each one is a component): hook, bignumber, statement, compare, takeaway, disclosure.
+  Motion follows the vocabulary's full recipes: 遮罩揭示字 (lines rise inside a fixed mask, quintic out),
+  數字跳動 (quartic out, tabular figures), 描邊繪製 (underline draw, cubic in-out), 滑入推出 / 色塊換場 (brand panel push).
+  Safe zone (handbook S0-06, 1080×1920): text inside x 120–960, y 270–1248, and right of x 780 only above y 840.
+  The timeline is registered as window.__timelines.card (HyperFrames convention), paused; a renderer seeks it frame by frame.
+-->
+<html lang="en"><head><meta charset="utf-8">
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<style>
+html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}
+#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
+.beat{position:absolute;inset:0;padding:400px 120px 672px 148px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;visibility:hidden}
+.kicker{font:600 60px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:40px}
+.mask{overflow:hidden;padding-bottom:.08em}
+.line{display:block;will-change:transform}
+.h1{font:600 134px/1.0 var(--head);letter-spacing:-.02em}
+.h2{font:600 84px/1.08 var(--head);letter-spacing:-.015em}
+.body{font:400 50px/1.32 var(--body)}
+.small{font:400 54px/1.3 var(--body)}
+.accent{color:var(--accent)} .light .accent,.light .kicker,.light .ne{color:var(--accent-ink)} .light .rule{background:var(--accent-ink)}
+.num{font:600 300px/1 var(--head);font-variant-numeric:tabular-nums;letter-spacing:-.04em;padding-left:28px}
+.rule{height:8px;background:var(--accent);width:0;margin-top:34px;border-radius:4px}
+.box{max-width:560px;border:5px solid currentColor;border-radius:28px;padding:28px 40px;font:600 78px/1.1 var(--head)}
+.ne{font:600 90px/1 var(--head);color:var(--accent);text-align:center;margin:10px 0}
+.panel{position:absolute;inset:0;z-index:5}
+.handle{position:absolute;left:120px;top:1170px;font:500 54px var(--body);opacity:.85}
+.series{position:absolute;left:120px;top:290px;font:600 60px var(--body);letter-spacing:.12em;opacity:.9}
+.dark{background:var(--ink);color:var(--paper)} .light{background:var(--paper);color:var(--ink)}
+.wire .beat *{color:transparent!important;background:#cfcfcf!important;border-color:#bdbdbd!important;border-radius:10px}
+.wire .beat{background:#efefef!important} .wire .slotlabel{position:absolute;left:96px;top:96px;font:600 28px monospace;color:#666!important;background:none!important}
+</style></head>
+<body><div id="stage"></div>
+<script>
+// ---- the card (series format instance) -------------------------------------------------
+const qs = new URLSearchParams(location.search), WIRE = qs.get('wire') === '1';
+window.__timelines = {};
+fetch(qs.get('card')).then(r => r.json()).then(build);
+
+function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; }
+function lines(parent, txt, cls) { const out = []; for (const t of [].concat(txt)) { const m = el('div', 'mask'); const l = el('span', 'line ' + (cls || ''), t); m.appendChild(l); parent.appendChild(m); out.push(l); } return out; }
+
+function build(card) {
+  const B = card.brand, root = document.documentElement.style;
+  root.setProperty('--paper', B.colors.background); root.setProperty('--ink', B.colors.primary); root.setProperty('--accent', B.colors.accent); root.setProperty('--accent-ink', B.colors.accent_ink || B.colors.accent);
+  root.setProperty('--head', `'${B.fonts.heading}', Georgia, serif`); root.setProperty('--body', `'${B.fonts.body}', Helvetica, sans-serif`);
+  const link = el('link'); link.rel = 'stylesheet'; link.href = `https://fonts.googleapis.com/css2?family=${B.fonts.heading.replace(/ /g, '+')}:wght@400;600&family=${B.fonts.body.replace(/ /g, '+')}:wght@400;500;600&display=swap`; document.head.appendChild(link);
+  const stage = document.getElementById('stage'); if (WIRE) stage.classList.add('wire');
+  const tl = gsap.timeline({ paused: true }); let t = 0;
+  card.beats.forEach((b, i) => {
+    const tone = b.tone || (i % 2 ? 'dark' : 'light');
+    const beat = el('section', 'beat ' + tone); stage.appendChild(beat);
+    if (WIRE) beat.appendChild(el('div', 'slotlabel', `${i + 1}｜${b.layout}｜${b.seconds}s`));
+    if (b.layout !== 'disclosure') beat.appendChild(el('div', 'series', card.series || ''));   // the closing frame needs the room
+    if (b.layout === 'disclosure') beat.appendChild(el('div', 'handle', B.handle || ''));
+    const L = LAYOUT[b.layout](beat, b);                       // returns {in: (tl, at) => end, out: (tl, at)}
+    tl.set(beat, { visibility: 'visible' }, t);
+    L.in(tl, t + (i ? 0.25 : 0.05));
+    if (i < card.beats.length - 1) {                             // brand panel push into the next beat (色塊換場)
+      const p = el('div', 'panel ' + (tone === 'dark' ? 'light' : 'dark')); stage.appendChild(p); gsap.set(p, { xPercent: 100 });
+      const T = t + b.seconds; tl.fromTo(p, { xPercent: 100 }, { xPercent: 0, duration: 0.32, ease: 'power3.in' }, T - 0.32)
+        .set(beat, { visibility: 'hidden' }, T).to(p, { xPercent: -100, duration: 0.3, ease: 'power3.out' }, T);
+    }
+    t += b.seconds;
+  });
+  tl.set({}, {}, t); window.__timelines.card = tl; window.__duration = t; window.__ready = true;
+}
+
+// ---- layouts (components) --------------------------------------------------------------
+const rise = (tl, items, at, stagger = 0.12) => { tl.from(items, { yPercent: 110, duration: 0.7, ease: 'expo.out', stagger }, at); return at + 0.7 + stagger * (items.length - 1); };
+const LAYOUT = {
+  hook(beat, b) { if (b.kicker) beat.appendChild(el('div', 'kicker', b.kicker)); const ls = lines(beat, b.text, 'h1'); const r = el('div', 'rule'); beat.appendChild(r);
+    return { in: (tl, at) => { const e = rise(tl, ls, at, 0.09); tl.to(r, { width: 260, duration: 0.6, ease: 'power2.inOut' }, e - 0.2); return e; } }; },
+  bignumber(beat, b) { const n = el('div', 'num accent', '0'); beat.appendChild(n); const ls = lines(beat, b.text, 'h2');
+    return { in: (tl, at) => { const o = { v: 0 }; tl.to(o, { v: b.value, duration: 1.4, ease: 'power4.out', onUpdate: () => { n.textContent = Math.round(o.v).toLocaleString('en-US'); } }, at);
+      tl.fromTo(n, { scale: .9 }, { scale: 1, duration: 1.2, ease: 'expo.out', transformOrigin: 'left center' }, at); return rise(tl, ls, at + 0.5); } }; },
+  statement(beat, b) { if (b.kicker) beat.appendChild(el('div', 'kicker', b.kicker)); const ls = lines(beat, b.text, 'h2'); let r = null;
+    if (b.underline) { r = el('div', 'rule'); beat.appendChild(r); }
+    return { in: (tl, at) => { const e = rise(tl, ls, at); if (r) tl.to(r, { width: b.underline, duration: 0.7, ease: 'power2.inOut' }, e - 0.1); return e; } }; },
+  compare(beat, b) { if (b.kicker) beat.appendChild(el('div', 'kicker', b.kicker)); const a = el('div', 'box', b.left); const ne = el('div', 'ne', '≠'); const c = el('div', 'box', b.right);
+    beat.append(a, ne, c); if (b.note) beat.appendChild(el('div', 'body', b.note)).style.marginTop = '40px';
+    return { in: (tl, at) => { tl.from(a, { y: 60, autoAlpha: 0, duration: 0.6, ease: 'expo.out' }, at).from(ne, { scale: 0, duration: 0.5, ease: 'back.out(2)' }, at + 0.45)
+      .from(c, { y: 60, autoAlpha: 0, duration: 0.6, ease: 'expo.out' }, at + 0.7); return at + 1.3; } }; },
+  takeaway(beat, b) { const ls = lines(beat, b.text, 'h1'); const r = el('div', 'rule'); beat.appendChild(r);
+    return { in: (tl, at) => { const e = rise(tl, ls, at, 0.1); tl.to(r, { width: 420, duration: 0.7, ease: 'power2.inOut' }, e - 0.2); return e; } }; },
+  disclosure(beat, b) { beat.style.justifyContent = 'flex-end'; beat.style.paddingBottom = '760px'; beat.style.paddingRight = '300px'; beat.appendChild(el('div', 'kicker', b.title || 'Important information'));
+    const p = el('div', 'small', b.text); beat.appendChild(p); if (b.cta) { const c = el('div', 'h2', b.cta); c.style.marginBottom = '60px'; beat.insertBefore(c, beat.querySelector('.kicker')); }
+    return { in: (tl, at) => { tl.from(beat.querySelectorAll('.kicker,.small,.h2'), { autoAlpha: 0, y: 30, duration: 0.6, ease: 'power2.out', stagger: 0.15 }, at); return at + 1; } }; },
+};
+</script></body></html>

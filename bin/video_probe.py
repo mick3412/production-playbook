@@ -311,10 +311,74 @@ def keep_segments(ps: list, dur: float) -> list[list[float]]:
     return keep
 
 
-def breakdown(path: str, words: list | None, out_dir: Path, threshold: float) -> dict:
+# ---------------------------------------------------------------- measurement for storyboard breakdowns (text boxes, colours, motion)
+def ocr_bin() -> str | None:
+    """The Vision OCR helper (bin/ocr.swift), compiled once into ~/.cache/playbook/ocr. macOS only."""
+    exe = Path.home() / ".cache/playbook/ocr"
+    src = Path(__file__).with_name("ocr.swift")
+    if not exe.exists() or exe.stat().st_mtime < src.stat().st_mtime:
+        exe.parent.mkdir(parents=True, exist_ok=True)
+        if subprocess.run(["swiftc", "-O", str(src), "-o", str(exe)], capture_output=True).returncode != 0:
+            return None
+    return str(exe)
+
+
+def ocr(images: list[str]) -> dict[str, list[dict]]:
+    exe = ocr_bin()
+    if not exe or not images:
+        return {}
+    out = subprocess.run([exe, *images], capture_output=True, text=True).stdout
+    return {d["file"]: d["boxes"] for d in map(json.loads, filter(None, out.splitlines()))}
+
+
+def text_stats(boxes: list[dict]) -> dict:
+    """Blocks, words (Latin) and characters (CJK), tallest line as a share of the frame height, area covered, and where the text sits."""
+    boxes = [b for b in boxes if b.get("conf", 1) >= 0.3 and b["text"].strip()]
+    if not boxes:
+        return {"文字區塊": 0, "英文字數": 0, "中文字數": 0, "最大字高%": 0, "文字面積%": 0, "位置": []}
+    cjk = sum(len(re.findall(r"[\u3400-\u9fff]", b["text"])) for b in boxes)
+    latin = sum(len(re.findall(r"[A-Za-z0-9][A-Za-z0-9'’.%$-]*", b["text"])) for b in boxes)
+    zone = lambda y: "上" if y < 0.33 else ("中" if y < 0.66 else "下")
+    return {"文字區塊": len(boxes), "英文字數": latin, "中文字數": cjk, "最大字高%": round(max(b["h"] for b in boxes) * 100, 1),
+            "文字面積%": round(sum(b["w"] * b["h"] for b in boxes) * 100, 1),
+            "位置": [{"字": b["text"][:40], "x": round(b["x"], 3), "y": round(b["y"], 3), "w": round(b["w"], 3), "h": round(b["h"], 3), "區": zone(b["y"] + b["h"] / 2)}
+                   for b in sorted(boxes, key=lambda b: (b["y"], b["x"]))]}
+
+
+def raw_pixels(img: str, w: int, h: int, fmt: str) -> bytes:
+    return subprocess.run(["ffmpeg", "-v", "error", "-i", img, "-vf", f"scale={w}:{h}", "-f", "rawvideo", "-pix_fmt", fmt, "-"], capture_output=True).stdout
+
+
+def palette(img: str, n: int = 4) -> list[str]:
+    """Main colours: 32×56 pixels quantised to 4 levels per channel, most common first (pure Python, no numpy)."""
+    px = raw_pixels(img, 32, 56, "rgb24"); counts: dict = {}
+    for i in range(0, len(px) - 2, 3):
+        key = tuple(v // 64 for v in px[i:i + 3])
+        counts.setdefault(key, []).append(px[i:i + 3])
+    top = sorted(counts.values(), key=len, reverse=True)[:n]
+    return ["#%02X%02X%02X" % tuple(sum(p[c] for p in grp) // len(grp) for c in range(3)) for grp in top]
+
+
+def motion(img_a: str, img_b: str) -> float:
+    """Mean absolute grey difference between two frames (0–100)."""
+    a, b = raw_pixels(img_a, 32, 56, "gray"), raw_pixels(img_b, 32, 56, "gray")
+    return round(sum(abs(x - y) for x, y in zip(a, b)) / max(1, len(a)) / 2.55, 1) if a and b else 0.0
+
+
+def grab(path: str, t: float, out: Path) -> str:
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-ss", f"{max(0, t):.2f}", "-i", path, "-frames:v", "1", "-vf", "scale=540:-2", str(out)])
+    return str(out)
+
+
+def breakdown(path: str, words: list | None, out_dir: Path, threshold: float, boards: list[float] | None = None, measure: bool = False) -> dict:
     info = probe(path)
     cs = cuts(path, threshold)
-    bounds = [0.0] + cs + [round(info["duration"], 2)]
+    if boards:   # known shot lengths (e.g. a template's published per-scene seconds), scaled to the file's real length
+        k = info["duration"] / sum(boards); acc, bounds = 0.0, [0.0]
+        for d in boards:
+            acc += d * k; bounds.append(round(acc, 2))
+    else:
+        bounds = [0.0] + cs + [round(info["duration"], 2)]
     out_dir.mkdir(parents=True, exist_ok=True)
     rows = frame_stats(path)
     cols = colour_stats(path)
@@ -333,6 +397,18 @@ def breakdown(path: str, words: list | None, out_dir: Path, threshold: float) ->
                 "畫面類型": "（實拍／AI 生成／動態圖形）", "景別": "", "視角與機位": "", "運鏡": "", "構圖": [], "布光": [], "色彩": [], "質感": [], "氛圍": "",
                 "主體動作與表演": "", "文字與字幕": [], "動態圖像": [], "過場到下一鏡": "", "聲音設計": [],
                 "作用": "（這一鏡在整支片裡負責什麼：開場、證據、轉折、CTA…）", "保留或改": {}}
+        if boards:
+            shot["內部切點"] = [c for c in cs if a + 0.15 < c < b - 0.15]
+        if measure:
+            fin, fmid, fout = (grab(path, a + min(0.2, (b - a) / 4), out_dir / f"shot{i:02d}_in.jpg"), grab(path, mid, out_dir / f"shot{i:02d}_mid.jpg"),
+                               grab(path, b - min(0.2, (b - a) / 4), out_dir / f"shot{i:02d}_out.jpg"))
+            boxes = ocr([fin, fmid, fout])
+            shot["量測"].update({"文字（進場）": text_stats(boxes.get(fin, [])), "文字（中段）": text_stats(boxes.get(fmid, [])),
+                               "文字（出場）": text_stats(boxes.get(fout, [])), "主色": palette(fmid), "動態強度": motion(fin, fout)})
+            if b < info["duration"] - 0.3:
+                shot["交界格"] = [Path(grab(path, b - 0.25, out_dir / f"cut{i:02d}_a.jpg")).name, Path(grab(path, b + 0.25, out_dir / f"cut{i:02d}_b.jpg")).name]
+            shot["版型"] = "（單一畫面：主體在哪、幾個文字區塊與層級、背景處理）"
+            shot["串場"] = "（到下一鏡怎麼接：過場類型＋連接手法）"
         if words:
             shot["台詞"] = words_between(words, a, b)
         shots.append(shot)
@@ -355,7 +431,8 @@ def breakdown(path: str, words: list | None, out_dir: Path, threshold: float) ->
             "說明": "量測欄是程式量的；畫面類型先判斷（螢幕、介面、文字卡＝動態圖形，布光與運鏡的建議值不適用）；其餘維度請看 contact_sheet.jpg 和各鏡關鍵格，用 `pb.py vocab <維度>` 的值填；"
                     "每個維度在「保留或改」標 KEEP、CHANGE 或 SKIP，只借結構和節奏，不抄畫面和文案（S1-04、S1-07）。"
                     "填好後 `pb.py breakdown --to-spec <拆解卡>` 轉成模仿用的規格卡。",
-            "鏡頭": shots}
+            "結構": [], "鏡頭": shots}
+    card["結構說明"] = "依鏡頭角色分段填寫 結構：[{\"段\": \"鉤子\", \"鏡\": [1], \"秒數\": 2.5, \"做什麼\": \"…\"}, …]；to_spec 會帶進規格卡的 參考結構"
     (out_dir / "breakdown.json").write_text(json.dumps(card, ensure_ascii=False, indent=1), encoding="utf-8")
     return card
 
@@ -401,6 +478,8 @@ def main() -> int:
         if name == "breakdown":
             p.add_argument("--threshold", type=float, default=10)
             p.add_argument("--to-spec")
+            p.add_argument("--boards", help="known shot lengths in seconds, comma separated (e.g. a template's per-scene seconds)")
+            p.add_argument("--measure", action="store_true", help="three frames per shot, cut frames, text boxes (macOS Vision), main colours, motion")
     a = ap.parse_args()
     words = json.loads(Path(a.words).read_text(encoding="utf-8")) if getattr(a, "words", None) else None
     out = Path(a.out)
@@ -421,7 +500,8 @@ def main() -> int:
         (out / "imitation_card.json").write_text(json.dumps(spec, ensure_ascii=False, indent=1), encoding="utf-8")
         print(f"已寫出 {out}/imitation_card.json（KEEP 照抄、CHANGE 寫進備註由調性預設補；補上調性後跑 pb.py spec）")
         return 0
-    card = breakdown(a.video, words, out, a.threshold)
+    boards = [float(x) for x in a.boards.split(",")] if a.boards else None
+    card = breakdown(a.video, words, out, a.threshold, boards, a.measure)
     print(f"參考片：{a.video}｜{card['鏡數']} 鏡、平均每鏡 {card['平均每鏡秒數']} 秒、每分鐘 {card['每分鐘切點']} 個切點 → {card['剪輯節奏']}")
     for s in card["鏡頭"]:
         hint = "、".join(f"{k}={v}" for k, v in s["建議值"].items())
