@@ -478,6 +478,14 @@ frame(d + "/late.png", [("LATE HOOK", 120, 600), ("tiny caption under the button
         self.assertNotIn("閱讀速度", out)
         self.assertNotRegex(out, r"FAIL  第 1 段安全區")
         self.assertIn("SB-C1 的審片要點", out)
+        # with a card: words the card promises but the picture does not show (covered, clipped, dropped) fail; the planned lower block is design
+        card = self.tmp / "card.json"
+        card.write_text(json.dumps({"beats": [{"layout": "hook", "seconds": 4, "text": ["LATE HOOK", "hidden headline"],
+                                                "lower": {"type": "panel", "text": "tiny caption under the buttons"}}]}), encoding="utf-8")
+        out = self.pb("qa", str(bad), "--card", str(card), "--out", str(self.tmp / "card_qa.json"), ok=None)
+        self.assertRegex(out, r"FAIL  第 1 段文字完整出現：.*沒讀到：hidden、headline")
+        self.assertNotRegex(out, r"第 1 段安全區：.*tiny")
+        self.assertIn("下方區塊", self.pb("storyboard", "--use", "SB-T1"))
 
     def test_video_qa_safe_zone_follows_handbook_s0_06(self):
         sys.path.insert(0, str(REPO / "bin"))

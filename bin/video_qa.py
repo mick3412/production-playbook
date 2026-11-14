@@ -88,7 +88,7 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
             if isinstance(v, str): return v
             if isinstance(v, list): return " ".join(walk(x) for x in v)
             if isinstance(v, dict): return " ".join((f"{x:,} {x}" if k in ("v", "value") and isinstance(x, (int, float)) else walk(x))
-                                                    for k, x in v.items() if k not in ("image", "fg", "layout", "tone", "side", "kind", "role", "deco", "deco_style"))
+                                                    for k, x in v.items() if k not in ("image", "fg", "layout", "tone", "side", "kind", "role", "deco", "deco_style", "lower"))
             return ""   # numbers in a card are timings and sizes, not words on screen (chart values are written out as label strings)
         raw = re.sub(r"<[^>]+>|&[a-z]+;", " ", walk(card.get("beats", [])) + " " + str(card.get("series", "")) + " " + walk(card.get("brand", {}).get("handle", "")))
         known = {w for w in re.findall(r"[a-z0-9]+|[\u3400-\u9fff]", raw.lower())}
@@ -100,10 +100,16 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
         flat = re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", x["text"].lower())
         return not ws or sum(w in known for w in ws) / len(ws) >= 0.5 or (len(flat) >= 4 and (flat in blob or flat[1:] in blob))
     # decorative type declared on the card (b["deco"]) may sit outside the safe zone and be covered by platform UI: it is not text to read
-    deco = [re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", str(b.get("deco", "")).lower()) for b in (card or {}).get("beats", []) if b.get("deco")]
+    def low(v):
+        if isinstance(v, str): return [v]
+        if isinstance(v, list): return [y for x in v for y in low(x)]
+        if isinstance(v, dict): return [y for k, x in v.items() if k != "image" for y in low(x)]
+        return [str(v)] if isinstance(v, (int, float)) else []
+    deco = [re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", re.sub(r"&[a-z]+;", "", t.lower())) for b in (card or {}).get("beats", []) for t in ([str(b["deco"])] if b.get("deco") else []) + low(b.get("lower"))]
+    deco = [d for d in deco if d]
     def is_deco(x, size):
         flat = re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", x["text"].lower())
-        return bool(flat) and x["h"] >= size and any(flat in d or d in flat for d in deco)
+        return bool(flat) and (x["h"] >= size or x["y"] > 0.6) and any(flat == d or (len(d) >= 3 and d in flat) or (len(flat) >= 3 and flat in d) for d in deco)   # the planned lower block sits in the bottom 40 %: its words are design
     footage_text = []
     checks, rows = [], []
     add = lambda name, ok, val, need, warn=False: checks.append({"項目": name, "結果": "PASS" if ok else ("WARN" if warn else "FAIL"), "量到": val, "標準": need})
@@ -136,9 +142,27 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
     def is_chrome(t):   # OCR misreads a repeated label now and then ("（代身）" without its bracket): match it loosely
         k = key(t)
         return k in chrome or any(len(c) >= 4 and difflib.SequenceMatcher(None, k, c).ratio() >= 0.75 for c in chrome)
+    import difflib
+    SAY = ("text", "title", "kicker", "items", "q", "a", "myth", "why", "big", "cta", "topic", "hook", "tag", "note", "sub", "foot", "cols", "nodes", "points", "captions", "chapter", "verdict", "ask", "name")
+    def expected(b):   # every word the card puts on this beat (not its decoration, not numbers that count up)
+        def walk(v, k=""):
+            if isinstance(v, str): return v
+            if isinstance(v, list): return " ".join(walk(x, k) for x in v)
+            if isinstance(v, dict): return " ".join(walk(x, kk) for kk, x in v.items() if kk in ("text", "label", "k", "v", "s") and isinstance(x, str))
+            return ""
+        raw = " ".join(walk(b.get(k), k) for k in SAY if b.get(k))
+        return re.findall(r"[a-z]{3,}|[\u3400-\u9fff]", re.sub(r"<[^>]+>|&[a-z]+;", " ", raw).lower())
     for i, bt in enumerate(beats, 1):
         span = bt["b"] - bt["a"]; img, bx = frames[i]
         text = " ".join(x["text"] for x in sorted(bx, key=lambda x: (x["y"], x["x"]))); seen_text += " " + text
+        if card and i <= len(card["beats"]):   # the words on the card must really be readable on screen: a box drawn over a title, a clipped line or a dropped element shows up here
+            want = expected(card["beats"][i - 1]); flat = re.sub(r"[^a-z\u3400-\u9fff]+", "", text.lower()); toks = re.findall(r"[a-z]{3,}", text.lower())
+            near = lambda w: any(difflib.SequenceMatcher(None, w, flat[j:j + len(w)]).ratio() >= 0.84 for j in range(0, max(1, len(flat) - len(w) + 1)))   # OCR swaps a letter now and then
+            flat = re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", text.lower())
+            miss = [w for w in dict.fromkeys(want) if w not in flat and not any(difflib.SequenceMatcher(None, w, t).ratio() >= 0.75 for t in toks) and not (len(w) >= 6 and near(w))]
+            if want:
+                cov = 1 - len(miss) / len(set(want))
+                add(f"第 {i} 段文字完整出現", not miss, f"{round(cov * 100)}%" + (f"，沒讀到：{'、'.join(miss[:6])}" if miss else ""), "卡片上的字都讀得到（少 5% 以內算警告）", warn=cov >= 0.95)
         text = " ".join(x["text"] for x in sorted(bx, key=lambda x: (x["y"], x["x"])) if not is_chrome(x["text"]))
         en, zh = words(text); hs = [x["h"] * 100 for x in bx]
         disc = bt["layout"] == "disclosure"

@@ -100,7 +100,7 @@ html,body{margin:0;width:var(--W,1080px);height:var(--H,1920px);overflow:hidden;
 /* diagram (R-02 圖解) */
 .dg{padding:0} .dghead{position:absolute;left:8%;right:8%;top:7%} .dgnum{font:600 54px var(--body);letter-spacing:.2em;opacity:.8;margin-bottom:14px} .dgt{font-size:76px}
 .dgsvg{position:absolute;inset:0;width:100%;height:100%;overflow:visible} .dgedge{stroke:currentColor;stroke-width:4;opacity:.9} .dgtip{fill:var(--accent)}
-.dgstack{position:absolute;left:12%;width:56%;top:33.5%;display:flex;flex-direction:column;gap:46px} .dgstack .dgnode{position:static;width:auto}
+.dgstack{margin-top:40px;width:74%;display:flex;flex-direction:column;gap:32px} .dgstack .dgnode{position:static;width:auto}
 .dgnode{position:absolute;width:20%;padding:20px 18px;border:3px solid currentColor;font:500 40px/1.25 var(--body);text-align:center;box-sizing:border-box;background:var(--bg-node,transparent)}
 .dgnode.key{border-width:5px;font-weight:700;color:var(--accent)} .dgnote{position:absolute;left:8%;bottom:8%;right:30%;font:400 36px/1.4 var(--body);opacity:.85}
 body:not(.landscape) .dghead{top:15%;left:12%;right:12%} body:not(.landscape) .dgnote{bottom:36%;left:12%;right:30%}
@@ -113,7 +113,7 @@ body:not(.landscape) .dghead{top:15%;left:12%;right:12%} body:not(.landscape) .d
 /* parallax / leak */
 .fg{object-fit:cover} .leak{position:absolute;inset:-20%;background:radial-gradient(ellipse at 30% 40%,rgba(255,170,90,.55),rgba(255,90,40,.25) 35%,transparent 60%);mix-blend-mode:screen;pointer-events:none}
 /* themes */
-.theme-swiss .h1,.theme-swiss .h2{letter-spacing:-.03em} .theme-swiss .beat::after{content:'';position:absolute;left:120px;right:120px;top:270px;height:4px;background:var(--accent)}
+.theme-swiss .h1{letter-spacing:-.02em} .theme-swiss .h2{letter-spacing:0}   /* tight tracking turned rn into m (retum): the review could not read it, nor can a phone */ .theme-swiss .beat::after{content:'';position:absolute;left:120px;right:120px;top:270px;height:4px;background:var(--accent)}
 .theme-swiss .kicker{letter-spacing:.02em;text-transform:none}
 .theme-bauhaus .cv::after,.theme-bauhaus .tb::after{content:'';position:absolute;right:-110px;top:-110px;width:300px;height:300px;border-radius:50%;background:#E4B21B}
 .theme-bauhaus .cv::before{content:'';position:absolute;left:0;bottom:0;width:0;height:0;border-left:320px solid #1D4E9E;border-top:320px solid transparent}
@@ -140,7 +140,7 @@ body:not(.landscape) .dghead{top:15%;left:12%;right:12%} body:not(.landscape) .d
 .ntp::before{content:'';position:absolute;left:0;top:34px;width:12px;height:12px;border-radius:50%;background:var(--accent)} .ntfoot{margin-top:20px;font:600 37px/1.36 var(--body)}
 body.square .phbox{top:150px} body.square .phbig{font-size:120px} body.square .beat:not(.ph){padding:150px 120px 120px}
 .plat-shorts .beat:not(.ph):not(.sp){padding-top:440px;padding-right:140px} .theme-swiss .dark .accent,.theme-swiss .dark .num{color:#FF5A5A} .theme-organic .small{font-size:56px;line-height:1.24}
-body:not(.landscape) .dgt{font-size:104px} body:not(.landscape) .dgnode{font-size:58px;padding:16px 10px} body:not(.landscape) .dgnum{font-size:68px} .landscape .dgt{font-size:92px} .landscape .dgnode{font-size:44px}
+body:not(.landscape) .dgt{font-size:92px} body:not(.landscape) .dgnode{font-size:52px;padding:14px 10px} body:not(.landscape) .dgnum{font-size:68px} .landscape .dgt{font-size:92px} .landscape .dgnode{font-size:44px}
 .theme-cinema .phbig{font-size:150px;font-weight:500}
 .beat.sp:not(.spfull) .spname{top:22px;bottom:auto} .plat-story .handle{display:none}
 .theme-synthwave .ctaline{font-family:var(--body);text-shadow:none}   /* the closing call to action stays in the plain face: OCR (and tired eyes) lost it in the neon display face */
@@ -151,6 +151,20 @@ body:not(.landscape) .dgt{font-size:104px} body:not(.landscape) .dgnode{font-siz
 .dark .deco.block{background:var(--accent);color:var(--ink)}
 .deco.outline{color:transparent;-webkit-text-stroke:3px var(--accent);opacity:.5;font-size:500px}
 .landscape .deco{font-size:520px;bottom:-60px;left:auto;right:40px} .landscape .deco.block{display:none}
+
+/* lower block (under the safe zone; 9:16) */
+.lower{position:absolute;left:0;right:0;bottom:0;height:30%;z-index:0;box-sizing:border-box;overflow:hidden}
+.lw-panel{background:var(--accent);color:var(--ink);padding:44px 120px 0 148px} .dark .lw-panel{background:var(--accent);color:var(--ink)} .light .lw-panel{background:var(--ink);color:var(--paper)}
+.lwbig{font:700 300px/.9 var(--head);letter-spacing:-.03em;white-space:nowrap} .lwsub{font:600 50px/1.2 var(--body);margin-top:18px;opacity:.9}
+.lw-progress{padding:110px 120px 0 148px} .lwrail{display:flex;gap:26px;align-items:center}
+.lwdot{flex:1;height:22px;border-radius:11px;background:currentColor;opacity:.22;display:flex;align-items:center;justify-content:center;font:700 0px var(--body)}
+.lwdot.done{opacity:.6} .lwdot.on{opacity:1;flex:2.2;height:120px;border-radius:60px;background:var(--accent);color:var(--ink);font-size:72px}
+.lw-chips{display:flex;gap:28px;padding:90px 96px 0;justify-content:center} .lwchip{flex:1;height:260px;border-radius:44px;border:6px solid currentColor;display:flex;align-items:center;justify-content:center;font:700 130px var(--head)}
+.lwchip.on{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.lw-photo{height:32%} .lwimg{width:100%;height:100%;object-fit:cover}
+.lw-sun{height:34%} .lwsun{position:absolute;left:50%;bottom:22%;width:560px;height:560px;margin-left:-280px;border-radius:50%;background:linear-gradient(180deg,#FFD23F 0%,#FF7A3D 45%,#FF3DD6 100%);-webkit-mask-image:repeating-linear-gradient(180deg,#000 0 46px,transparent 46px 60px);mask-image:repeating-linear-gradient(180deg,#000 0 46px,transparent 46px 60px);opacity:.95}
+.theme-synthwave .lw-sun{z-index:-1}
+.landscape .lower,body.square .lower{display:none} .landscape .lower.lw-progress{display:block;height:24%;padding:60px 160px 0}
 .nochrome .series{display:none}
 .wire .bg,.wire .spimg{visibility:hidden}
 </style></head>
@@ -189,6 +203,7 @@ function build(card) {
     tl.set(beat, { visibility: 'visible' }, fade ? t - 0.45 : t);
     if (fade) tl.fromTo(beat, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.45, ease: 'sine.inOut' }, t - 0.45);
     if (L.hold) L.hold(tl, fade ? t - 0.45 : t, b.seconds + (fade ? 0.45 : 0));
+    if (b.lower) lowerBlock(beat, b.lower, tl, fade ? t - 0.45 : t, b.seconds);
     if (deco) tl.fromTo(deco, { xPercent: 0 }, { xPercent: deco.classList.contains('vertical') ? 0 : -3, yPercent: deco.classList.contains('vertical') ? -3 : 0, duration: b.seconds, ease: 'none' }, t);
     L.in(tl, t + (i ? 0.25 : 0.05));
     if (card.transition === 'fade' || card.transition === 'cut') {
@@ -203,6 +218,24 @@ function build(card) {
   tl.set({}, {}, t); window.__timelines.card = tl; window.__duration = t;
   if (PAGE !== null) tl.seek(t, false);
   Promise.all([document.fonts.ready, ...[...document.images].map(im => im.complete ? 1 : new Promise(r => { im.onload = im.onerror = r; }))]).then(() => new Promise(r => setTimeout(r, 400))).then(() => { FIX.forEach(f => f()); tl.seek(PAGE !== null ? t : 0, false); window.__ready = true; });
+}
+
+// ---- the lower block: what fills the frame under the safe zone, planned in the storyboard (owner rule 2026-11-14) ------------------------
+// Platform UI may cover it, so it carries design or a repeat of what the beat already says, never the only copy of information.
+//   {type:'panel', text, sub}      brand colour panel with the beat's key word or number, large and solid
+//   {type:'progress', n, i, label} where this beat sits in the piece: n marks, the i-th filled
+//   {type:'chips', items, on}      big rounded option cards (on = index of the highlighted one)
+//   {type:'photo', image}          a real photo strip, slow push
+//   {type:'sun'}                   synthwave sun on the horizon (theme piece)
+function lowerBlock(beat, L, tl, at, dur) {
+  const box = el('div', 'lower lw-' + L.type); box.setAttribute('aria-hidden', 'true'); beat.appendChild(box);
+  if (L.type === 'panel') { const big = el('div', 'lwbig', L.text || ''); if (L.size) big.style.fontSize = L.size + 'px'; box.appendChild(big); if (L.sub) box.appendChild(el('div', 'lwsub', L.sub)); }
+  if (L.type === 'progress') { const r = el('div', 'lwrail'); for (let j = 0; j < L.n; j++) r.appendChild(el('span', 'lwdot' + (j < L.i ? ' done' : j === L.i ? ' on' : ''), j === L.i ? String(j + 1) : '')); box.appendChild(r); if (L.label) box.appendChild(el('div', 'lwsub', L.label)); }
+  if (L.type === 'chips') (L.items || []).forEach((x, j) => box.appendChild(el('div', 'lwchip' + (j === L.on ? ' on' : ''), x)));
+  if (L.type === 'photo') { const im = el('img', 'lwimg'); im.src = L.image; box.appendChild(im); tl.fromTo(im, { scale: 1 }, { scale: 1.06, duration: dur, ease: 'none' }, at); }
+  if (L.type === 'sun') box.appendChild(el('div', 'lwsun'));
+  tl.from(box, { yPercent: 12, autoAlpha: 0, duration: 0.6, ease: 'expo.out' }, at + 0.15);
+  if (L.type === 'chips') tl.from(box.children, { scale: 0.6, autoAlpha: 0, duration: 0.45, ease: 'back.out(2)', stagger: 0.12 }, at + 0.4);
 }
 
 // ---- layouts (components) --------------------------------------------------------------
@@ -372,7 +405,7 @@ const LAYOUT = {
     head.appendChild(el('div', 'dgnum', b.chapter || '')); const ls = lines(head, b.title || [], 'h2 dgt');
     const NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'dgsvg'); beat.appendChild(svg);
     // portrait cut-down: the boxes stack in a column with an even gap, so they can never overlap whatever their height
-    const stack = b.stack ? el('div', 'dgstack') : null; if (stack) beat.appendChild(stack);
+    const stack = b.stack ? el('div', 'dgstack') : null; if (stack) head.appendChild(stack);   // inside the heading block, so it always starts under the last title line
     const nodes = (b.nodes || []).map(n => { const d = el('div', 'dgnode ' + (n.kind || ''), n.label);
       if (stack) stack.appendChild(d); else { d.style.left = n.x + '%'; d.style.top = n.y + '%'; if (n.w) d.style.width = n.w + '%'; beat.appendChild(d); } return d; });
     const box = n => { let x = 0, y = 0, e = n; while (e && e !== beat) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent; } return { x, y, w: n.offsetWidth, h: n.offsetHeight }; };
