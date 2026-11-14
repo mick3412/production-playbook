@@ -99,7 +99,8 @@ html,body{margin:0;width:var(--W,1080px);height:var(--H,1920px);overflow:hidden;
 .rvsub{margin-top:18px}
 /* diagram (R-02 圖解) */
 .dg{padding:0} .dghead{position:absolute;left:8%;right:8%;top:7%} .dgnum{font:600 54px var(--body);letter-spacing:.2em;opacity:.8;margin-bottom:14px} .dgt{font-size:76px}
-.dgsvg{position:absolute;inset:0;width:100%;height:100%;overflow:visible} .dgedge{fill:none;stroke:currentColor;stroke-width:4;stroke-dasharray:none;opacity:.9}
+.dgsvg{position:absolute;inset:0;width:100%;height:100%;overflow:visible} .dgedge{stroke:currentColor;stroke-width:4;opacity:.9} .dgtip{fill:var(--accent)}
+.dgstack{position:absolute;left:12%;width:56%;top:33.5%;display:flex;flex-direction:column;gap:46px} .dgstack .dgnode{position:static;width:auto}
 .dgnode{position:absolute;width:20%;padding:20px 18px;border:3px solid currentColor;font:500 40px/1.25 var(--body);text-align:center;box-sizing:border-box;background:var(--bg-node,transparent)}
 .dgnode.key{border-width:5px;font-weight:700;color:var(--accent)} .dgnote{position:absolute;left:8%;bottom:8%;right:30%;font:400 36px/1.4 var(--body);opacity:.85}
 body:not(.landscape) .dghead{top:15%;left:12%;right:12%} body:not(.landscape) .dgnote{bottom:36%;left:12%;right:30%}
@@ -143,6 +144,13 @@ body:not(.landscape) .dgt{font-size:104px} body:not(.landscape) .dgnode{font-siz
 .theme-cinema .phbig{font-size:150px;font-weight:500}
 .beat.sp:not(.spfull) .spname{top:22px;bottom:auto} .plat-story .handle{display:none}
 .theme-synthwave .ctaline{font-family:var(--body);text-shadow:none}   /* the closing call to action stays in the plain face: OCR (and tired eyes) lost it in the neon display face */
+.beat{isolation:isolate}
+.deco{position:absolute;z-index:-1;pointer-events:none;left:-30px;bottom:110px;font:800 560px/.8 var(--head);letter-spacing:-.04em;white-space:nowrap;opacity:.08}
+.deco.vertical{writing-mode:vertical-rl;left:auto;right:-46px;top:90px;bottom:auto;font-size:230px;line-height:.85;opacity:.09}
+.deco.block{left:0;right:0;bottom:0;height:28%;padding:22px 0 0 100px;box-sizing:border-box;background:var(--accent);color:var(--paper);opacity:1;font-size:520px;line-height:.86;overflow:hidden}
+.dark .deco.block{background:var(--accent);color:var(--ink)}
+.deco.outline{color:transparent;-webkit-text-stroke:3px var(--accent);opacity:.5;font-size:500px}
+.landscape .deco{font-size:520px;bottom:-60px;left:auto;right:40px} .landscape .deco.block{display:none}
 .nochrome .series{display:none}
 .wire .bg,.wire .spimg{visibility:hidden}
 </style></head>
@@ -150,7 +158,7 @@ body:not(.landscape) .dgt{font-size:104px} body:not(.landscape) .dgnode{font-siz
 <script>
 // ---- the card (series format instance) -------------------------------------------------
 const qs = new URLSearchParams(location.search), WIRE = qs.get('wire') === '1';
-window.__timelines = {};
+window.__timelines = {}; const FIX = [];   // geometry that needs the final fonts and layout runs just before the page reports ready
 fetch(qs.get('card')).then(r => r.json()).then(build);
 
 function el(tag, cls, html) { const e = document.createElement(tag); if (cls) e.className = cls; if (html !== undefined) e.innerHTML = html; return e; }
@@ -174,11 +182,14 @@ function build(card) {
     if (b.layout !== 'disclosure') beat.appendChild(el('div', 'series', card.series || ''));   // the closing frame needs the room
     b._handle = B.handle || '';
     const L = LAYOUT[b.layout](beat, b, card);                 // returns {in: (tl, at) => end}
+    // design outside the safe zone (owner rule): decorative type or a colour block that may be covered by platform UI without losing information
+    const deco = b.deco ? el('div', 'deco ' + (b.deco_style || card.deco_style || 'ghost'), b.deco) : null; if (deco) { deco.setAttribute('aria-hidden', 'true'); beat.appendChild(deco); }
     if (PAGE !== null) { if (+PAGE === i) { tl.set(beat, { visibility: 'visible' }, 0); L.in(tl, 0); } else beat.remove(); t = Math.max(t, +PAGE === i ? b.seconds || 3 : t); return; }
     const fade = card.transition === 'fade' && i > 0;            // photo stories: soft cross-fade instead of the brand panel
     tl.set(beat, { visibility: 'visible' }, fade ? t - 0.45 : t);
     if (fade) tl.fromTo(beat, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.45, ease: 'sine.inOut' }, t - 0.45);
     if (L.hold) L.hold(tl, fade ? t - 0.45 : t, b.seconds + (fade ? 0.45 : 0));
+    if (deco) tl.fromTo(deco, { xPercent: 0 }, { xPercent: deco.classList.contains('vertical') ? 0 : -3, yPercent: deco.classList.contains('vertical') ? -3 : 0, duration: b.seconds, ease: 'none' }, t);
     L.in(tl, t + (i ? 0.25 : 0.05));
     if (card.transition === 'fade' || card.transition === 'cut') {
       if (i < card.beats.length - 1) tl.set(beat, { visibility: 'hidden' }, t + b.seconds + (card.transition === 'fade' ? 0.01 : 0));
@@ -191,7 +202,7 @@ function build(card) {
   });
   tl.set({}, {}, t); window.__timelines.card = tl; window.__duration = t;
   if (PAGE !== null) tl.seek(t, false);
-  Promise.all([...document.images].map(im => im.complete ? 1 : new Promise(r => { im.onload = im.onerror = r; }))).then(() => { window.__ready = true; });
+  Promise.all([document.fonts.ready, ...[...document.images].map(im => im.complete ? 1 : new Promise(r => { im.onload = im.onerror = r; }))]).then(() => new Promise(r => setTimeout(r, 400))).then(() => { FIX.forEach(f => f()); tl.seek(PAGE !== null ? t : 0, false); window.__ready = true; });
 }
 
 // ---- layouts (components) --------------------------------------------------------------
@@ -359,15 +370,32 @@ const LAYOUT = {
     beat.classList.add('dg');
     const head = el('div', 'dghead'); beat.appendChild(head);
     head.appendChild(el('div', 'dgnum', b.chapter || '')); const ls = lines(head, b.title || [], 'h2 dgt');
-    const NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'dgsvg'); svg.setAttribute('viewBox', '0 0 100 100'); svg.setAttribute('preserveAspectRatio', 'none'); beat.appendChild(svg);
-    const nodes = (b.nodes || []).map(n => { const d = el('div', 'dgnode ' + (n.kind || ''), n.label); d.style.left = n.x + '%'; d.style.top = n.y + '%'; if (n.w) d.style.width = n.w + '%'; beat.appendChild(d); return d; });
-    const edges = (b.edges || []).map(([a, c]) => { const A = b.nodes[a], C = b.nodes[c]; const p = document.createElementNS(NS, 'path');
-      p.setAttribute('d', `M${A.x + (A.w || 20) / 2},${A.y + 4} L${C.x + (C.w || 20) / 2},${C.y + 4}`); p.setAttribute('class', 'dgedge'); p.setAttribute('vector-effect', 'non-scaling-stroke'); svg.appendChild(p); return p; });
+    const NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'dgsvg'); beat.appendChild(svg);
+    // portrait cut-down: the boxes stack in a column with an even gap, so they can never overlap whatever their height
+    const stack = b.stack ? el('div', 'dgstack') : null; if (stack) beat.appendChild(stack);
+    const nodes = (b.nodes || []).map(n => { const d = el('div', 'dgnode ' + (n.kind || ''), n.label);
+      if (stack) stack.appendChild(d); else { d.style.left = n.x + '%'; d.style.top = n.y + '%'; if (n.w) d.style.width = n.w + '%'; beat.appendChild(d); } return d; });
+    const box = n => { let x = 0, y = 0, e = n; while (e && e !== beat) { x += e.offsetLeft; y += e.offsetTop; e = e.offsetParent; } return { x, y, w: n.offsetWidth, h: n.offsetHeight }; };
+    // a line runs from the edge of one box to the edge of the next (never under a box); direction is shown by an arrow that travels along it
+    const edges = (b.edges || []).map(([a, c]) => { const line = document.createElementNS(NS, 'line'); line.setAttribute('class', 'dgedge'); svg.appendChild(line);
+      const tip = document.createElementNS(NS, 'polygon'); tip.setAttribute('points', '-16,-11 6,0 -16,11'); tip.setAttribute('class', 'dgtip'); svg.appendChild(tip);
+      const g = { a, c, line, tip, x1: 0, y1: 0, x2: 0, y2: 0 };
+      FIX.push(() => { const A = box(nodes[a]), C = box(nodes[c]); svg.setAttribute('viewBox', `0 0 ${beat.offsetWidth} ${beat.offsetHeight}`);
+        const my = (Math.max(A.y, C.y) + Math.min(A.y + A.h, C.y + C.h)) / 2, level = Math.min(A.y + A.h, C.y + C.h) > Math.max(A.y, C.y);   // side by side: one level line through the height both boxes share
+        if (C.x >= A.x + A.w) Object.assign(g, { x1: A.x + A.w + 8, y1: level ? my : A.y + A.h / 2, x2: C.x - 12, y2: level ? my : C.y + C.h / 2 });
+        else if (C.x + C.w <= A.x) Object.assign(g, { x1: A.x - 8, y1: level ? my : A.y + A.h / 2, x2: C.x + C.w + 12, y2: level ? my : C.y + C.h / 2 });
+        else if (C.y >= A.y + A.h) Object.assign(g, { x1: A.x + A.w / 2, y1: A.y + A.h + 8, x2: C.x + C.w / 2, y2: C.y - 12 });
+        else Object.assign(g, { x1: A.x + A.w / 2, y1: A.y - 8, x2: C.x + C.w / 2, y2: C.y + C.h + 12 });
+        line.setAttribute('x1', g.x1); line.setAttribute('y1', g.y1); line.setAttribute('x2', g.x2); line.setAttribute('y2', g.y2); });
+      return g; });
     if (b.note) beat.appendChild(el('div', 'dgnote', b.note));
-    return { in: (tl, at) => { const e = rise(tl, ls, at);
-      nodes.forEach((n, i) => tl.from(n, { autoAlpha: 0, scale: 0.8, duration: 0.45, ease: 'back.out(2)' }, e + i * 0.35));
-      edges.forEach((p, i) => { gsap.set(p, { strokeDasharray: 200, strokeDashoffset: 200 }); tl.to(p, { strokeDashoffset: 0, duration: 0.6, ease: 'power2.inOut' }, e + 0.3 + i * 0.35); });
-      const n = beat.querySelector('.dgnote'); if (n) tl.from(n, { autoAlpha: 0, duration: 0.4 }, e + nodes.length * 0.35); return e + nodes.length * 0.35; } };
+    return { in: (tl, at) => { const e = rise(tl, ls, at), step = 0.4, shown = i => e + i * step + 0.45;
+      nodes.forEach((n, i) => tl.from(n, { autoAlpha: 0, scale: 0.85, duration: 0.45, ease: 'back.out(2)' }, e + i * step));     // boxes first
+      edges.forEach(g => { const t0 = Math.max(shown(g.a), shown(g.c)), o = { p: 0 };                                     // a line only after both of its boxes
+        const place = () => { const x = g.x1 + (g.x2 - g.x1) * o.p, y = g.y1 + (g.y2 - g.y1) * o.p, r = Math.atan2(g.y2 - g.y1, g.x2 - g.x1) * 180 / Math.PI; g.tip.setAttribute('transform', `translate(${x},${y}) rotate(${r})`); };
+        tl.fromTo(g.line, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, t0).fromTo(g.tip, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, t0)
+          .fromTo(o, { p: 0 }, { p: 1, duration: 0.8, ease: 'power1.inOut', onUpdate: place, repeat: 1, repeatDelay: 0.5 }, t0); });
+      const n = beat.querySelector('.dgnote'); if (n) tl.from(n, { autoAlpha: 0, duration: 0.4 }, e + nodes.length * step); return e + nodes.length * step + 1.2; } };
   },
   // ---- SB-K9 限時動態: wavy title (波浪字), spring pop (彈簧), optional poll-sticker space kept empty for the real sticker ----------
   story(beat, b) {

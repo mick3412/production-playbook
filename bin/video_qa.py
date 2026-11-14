@@ -88,16 +88,22 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
             if isinstance(v, str): return v
             if isinstance(v, list): return " ".join(walk(x) for x in v)
             if isinstance(v, dict): return " ".join((f"{x:,} {x}" if k in ("v", "value") and isinstance(x, (int, float)) else walk(x))
-                                                    for k, x in v.items() if k not in ("image", "fg", "layout", "tone", "side", "kind", "role"))
+                                                    for k, x in v.items() if k not in ("image", "fg", "layout", "tone", "side", "kind", "role", "deco", "deco_style"))
             return ""   # numbers in a card are timings and sizes, not words on screen (chart values are written out as label strings)
         raw = re.sub(r"<[^>]+>|&[a-z]+;", " ", walk(card.get("beats", [])) + " " + str(card.get("series", "")) + " " + walk(card.get("brand", {}).get("handle", "")))
         known = {w for w in re.findall(r"[a-z0-9]+|[\u3400-\u9fff]", raw.lower())}
+        known |= {f"{i:02d}" for i in range(1, 10)}   # list numbers the kit adds itself (01, 02, …)
         blob = re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", raw.lower())   # OCR often drops the spaces ("Whatif"): also match with spaces removed
     def overlay(x):
         if known is None: return True
         ws = re.findall(r"[a-z0-9]+|[\u3400-\u9fff]", x["text"].lower())
         flat = re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", x["text"].lower())
         return not ws or sum(w in known for w in ws) / len(ws) >= 0.5 or (len(flat) >= 4 and (flat in blob or flat[1:] in blob))
+    # decorative type declared on the card (b["deco"]) may sit outside the safe zone and be covered by platform UI: it is not text to read
+    deco = [re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", str(b.get("deco", "")).lower()) for b in (card or {}).get("beats", []) if b.get("deco")]
+    def is_deco(x, size):
+        flat = re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", x["text"].lower())
+        return bool(flat) and x["h"] >= size and any(flat in d or d in flat for d in deco)
     footage_text = []
     checks, rows = [], []
     add = lambda name, ok, val, need, warn=False: checks.append({"項目": name, "結果": "PASS" if ok else ("WARN" if warn else "FAIL"), "量到": val, "標準": need})
@@ -119,6 +125,7 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
         vp.grab(video, bt["a"] + span * 0.75, tmp / f"beat{i:02d}_full.jpg", width=W)   # contrast is read on the full-resolution frame
         # OCR sometimes reads a chart dot or a bullet as "•": a box with no letter, digit or CJK character is not text to read
         got = [x for x in vp.ocr([img]).get(img, []) if x["conf"] >= 0.3 and re.search(r"[A-Za-z0-9\u3400-\u9fff]", x["text"])]
+        got = [x for x in got if not is_deco(x, 0.12)]   # decorative type is at least 12 % of the frame tall; smaller matches are real text
         footage_text += [f"第 {i} 段：{x['text'][:20]}" for x in got if not overlay(x)]
         frames[i] = (img, [x for x in got if overlay(x)])
     from collections import Counter
