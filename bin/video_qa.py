@@ -3,6 +3,7 @@
 (bin/video_probe.py: Vision OCR text boxes, frames, colours). Each check is PASS, WARN or FAIL with the measured number.
 
   video_qa.py <video.mp4> [--card card.json] [--platform reels-tiktok|shorts] [--require "phrase" ...] [--out qa.json]
+  video_qa.py page01.png --images page02.png ... [--out qa.json]     static carousel pages (feed safe zone, no timing checks)
 
 With --card the beat boundaries come from the card (layout and seconds per beat); without it, from scene cuts.
 Norms (2026-11-13, storyboard pilot; readability from 20 measured FlexClip templates, hook from the handbook's own rules):
@@ -29,7 +30,8 @@ NORM = {"hook_by": 0.6, "hook_min_h": 8.0, "hook_max_s": 3.0, "wps": 2.5, "wps_d
 
 # text boxes must stay inside these, as fractions of 1080×1920: (left, top, right, bottom, button_row_top, button_col_left)
 SAFE = {"reels-tiktok": (120 / 1080, 270 / 1920, 960 / 1080, 1248 / 1920, 840 / 1920, 780 / 1080),
-        "shorts": (60 / 1080, 380 / 1920, 960 / 1080, 1540 / 1920, 1.0, 1.0)}
+        "shorts": (60 / 1080, 380 / 1920, 960 / 1080, 1540 / 1920, 1.0, 1.0),
+        "feed": (0.05, 0.04, 0.95, 0.96, 1.0, 1.0)}   # static carousel pages (1080×1350): no platform UI on top, keep a margin
 
 
 def unsafe(b: dict, z: tuple, slack: float = 0.01) -> bool:
@@ -61,7 +63,8 @@ def words(t: str) -> tuple[int, int]:
     return len(re.findall(r"[A-Za-z0-9][A-Za-z0-9'’.&%$-]*", t)), len(re.findall(r"[㐀-鿿]", t))
 
 
-def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: list[float] | None = None, platform: str = "reels-tiktok") -> dict:
+def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: list[float] | None = None, platform: str = "reels-tiktok", static: bool = False) -> dict:
+    """static=True: pages of a carousel shown as a slideshow; the reader sets the pace, so hook timing and reading speed are not checked."""
     info = vp.probe(video); W, H, dur = info["width"], info["height"], info["duration"]
     tmp.mkdir(parents=True, exist_ok=True)
     if card:
@@ -80,8 +83,11 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
     hook_img = vp.grab(video, NORM["hook_by"], tmp / "hook.jpg")
     hb = [x for x in vp.ocr([hook_img]).get(hook_img, []) if x["conf"] >= 0.3]
     hh = round(max([x["h"] for x in hb] or [0]) * 100, 1)
-    add("鉤子：0.6 秒內有大字", hh >= NORM["hook_min_h"], f"最大字高 {hh}%", f"≥ {NORM['hook_min_h']}%")
-    add("鉤子：第一段長度", beats[0]["b"] - beats[0]["a"] <= NORM["hook_max_s"], f"{beats[0]['b'] - beats[0]['a']:.1f} 秒", f"≤ {NORM['hook_max_s']} 秒")
+    if static:
+        add("封面有大字", hh >= NORM["hook_min_h"], f"最大字高 {hh}%", f"≥ {NORM['hook_min_h']}%")
+    else:
+        add("鉤子：0.6 秒內有大字", hh >= NORM["hook_min_h"], f"最大字高 {hh}%", f"≥ {NORM['hook_min_h']}%")
+    if not static: add("鉤子：第一段長度", beats[0]["b"] - beats[0]["a"] <= NORM["hook_max_s"], f"{beats[0]['b'] - beats[0]['a']:.1f} 秒", f"≤ {NORM['hook_max_s']} 秒")
     seen_text = ""
     # labels that repeat on most beats (series name, handle) are page furniture: checked for size and safe zone, not counted as reading
     frames = {}
@@ -107,7 +113,7 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
                "每秒字數": round(rate, 2), "最大字高%": round(max(hs or [0]), 1), "最小字高%": round(min(hs or [0]), 1), "安全區外": out, "最低對比": min(con or [0]), "文字": text[:160]}
         rows.append(row)
         if en or zh:
-            add(f"第 {i} 段閱讀速度", rate <= limit and zh / max(span, 0.1) <= NORM["cps"], f"{rate:.2f} 字／秒" + (f"、中文 {zh / span:.1f} 字／秒" if zh else ""), f"≤ {limit} 字／秒")
+            if not static: add(f"第 {i} 段閱讀速度", rate <= limit and zh / max(span, 0.1) <= NORM["cps"], f"{rate:.2f} 字／秒" + (f"、中文 {zh / span:.1f} 字／秒" if zh else ""), f"≤ {limit} 字／秒")
             add(f"第 {i} 段字級", row["最大字高%"] >= NORM["min_h"] or disc, f"最大 {row['最大字高%']}%", f"≥ {NORM['min_h']}%", warn=True)
             add(f"第 {i} 段最小字", row["最小字高%"] >= NORM["floor_h"], f"最小 {row['最小字高%']}%", f"≥ {NORM['floor_h']}%")
             add(f"第 {i} 段安全區", not out, "、".join(out) or "都在內", f"{platform} 安全區（S0-06）")
@@ -125,10 +131,17 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
 
 
 def main() -> int:
-    ap = argparse.ArgumentParser(prog="video_qa.py"); ap.add_argument("video"); ap.add_argument("--card"); ap.add_argument("--require", action="append", default=[]); ap.add_argument("--boards", help="known shot lengths, comma separated")
+    ap = argparse.ArgumentParser(prog="video_qa.py"); ap.add_argument("video", help="a video, or the first page image with --images"); ap.add_argument("--images", nargs="*", help="more carousel pages (static check)"); ap.add_argument("--card"); ap.add_argument("--require", action="append", default=[]); ap.add_argument("--boards", help="known shot lengths, comma separated")
     ap.add_argument("--platform", choices=sorted(SAFE), default="reels-tiktok"); ap.add_argument("--out", default="qa.json"); a = ap.parse_args()
     card = json.loads(Path(a.card).read_text(encoding="utf-8")) if a.card else None
-    res = qa(a.video, card, a.require, Path(a.out).parent / (Path(a.out).stem + "_frames"), [float(x) for x in a.boards.split(",")] if a.boards else None, a.platform)
+    static = a.images is not None
+    video, boards, plat = a.video, [float(x) for x in a.boards.split(",")] if a.boards else None, a.platform
+    if static:   # pages → a 4 s-per-page slideshow measured with the same tools; the feed safe zone unless one is given
+        pages = [a.video] + a.images; tmpd = Path(a.out).parent / (Path(a.out).stem + "_pages"); tmpd.mkdir(parents=True, exist_ok=True)
+        video = str(tmpd / "pages.mp4"); boards = [4.0] * len(pages); plat = a.platform if a.platform != "reels-tiktok" else "feed"
+        args = sum([["-loop", "1", "-t", "4", "-i", x] for x in pages], [])
+        subprocess.run(["ffmpeg", "-v", "error", "-y", *args, "-filter_complex", "".join(f"[{i}]scale=1080:-2,setsar=1[v{i}];" for i in range(len(pages))) + "".join(f"[v{i}]" for i in range(len(pages))) + f"concat=n={len(pages)}:v=1,fps=24,format=yuv420p", video], check=True)
+    res = qa(video, card, a.require, Path(a.out).parent / (Path(a.out).stem + "_frames"), boards, plat, static)
     Path(a.out).write_text(json.dumps(res, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"總評 {res['總評']}｜{a.video}（{res['片長']} 秒）")
     for c in res["檢查"]:

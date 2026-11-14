@@ -471,6 +471,13 @@ frame(d + "/late.png", [("LATE HOOK", 120, 600), ("tiny caption under the button
         self.assertRegex(out, r"FAIL  第 1 段安全區：.*tiny")
         self.assertIn("FAIL  必要字句", out)
         self.assertIn("SB-T1 的審片要點", out)
+        # the same images as static carousel pages: feed safe zone, no timing or reading-speed checks
+        out = self.pb("qa", str(late), str(blank), "--out", str(self.tmp / "pages.json"), "--template", "SB-C1", ok=None)
+        self.assertIn("封面有大字", out)
+        self.assertNotIn("0.6 秒內", out)
+        self.assertNotIn("閱讀速度", out)
+        self.assertNotRegex(out, r"FAIL  第 1 段安全區")
+        self.assertIn("SB-C1 的審片要點", out)
 
     def test_video_qa_safe_zone_follows_handbook_s0_06(self):
         sys.path.insert(0, str(REPO / "bin"))

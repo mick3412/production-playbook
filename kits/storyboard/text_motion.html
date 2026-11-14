@@ -12,8 +12,8 @@
 <html lang="en"><head><meta charset="utf-8">
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
 <style>
-html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}
-#stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:var(--bg)}
+html,body{margin:0;width:1080px;height:var(--H,1920px);overflow:hidden;background:#000}
+#stage{position:relative;width:1080px;height:var(--H,1920px);overflow:hidden;background:var(--bg)}
 .beat{position:absolute;inset:0;padding:400px 120px 672px 148px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;visibility:hidden}
 .kicker{font:600 60px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:40px}
 .mask{overflow:hidden;padding-bottom:.08em}
@@ -34,6 +34,44 @@ html,body{margin:0;width:1080px;height:1920px;overflow:hidden;background:#000}
 .dark{background:var(--ink);color:var(--paper)} .light{background:var(--paper);color:var(--ink)}
 .wire .beat *{color:transparent!important;background:#cfcfcf!important;border-color:#bdbdbd!important;border-radius:10px}
 .wire .beat{background:#efefef!important} .wire .slotlabel{position:absolute;left:96px;top:96px;font:600 28px monospace;color:#666!important;background:none!important}
+
+/* photo story (SB-P) */
+.beat.ph,.beat.sp,.beat.cv,.beat.qa,.beat.ct{padding:0}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
+.scrim{position:absolute;inset:0;pointer-events:none}
+.scrim.top{background:linear-gradient(180deg,rgba(0,0,0,.62) 0%,rgba(0,0,0,.38) 30%,rgba(0,0,0,0) 52%)}
+.scrim.bottom{background:linear-gradient(0deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,.3) 40%,rgba(0,0,0,0) 60%)}
+.phbox{position:absolute;left:136px;right:120px;top:300px;color:#fff;text-shadow:0 2px 18px rgba(0,0,0,.35)} .phbox.mid{top:520px}
+.tag{display:inline-block;font:600 54px var(--body);letter-spacing:.06em;padding:10px 26px;border:3px solid currentColor;border-radius:44px;margin-bottom:30px}
+.phline{font:600 92px/1.12 var(--head);letter-spacing:.01em} .phbig{font-size:152px;line-height:1.04}
+.phnote{font:500 50px/1.4 var(--body);margin-top:24px;max-width:640px}
+/* speaker (SB-K) */
+.spfull .spframe{position:absolute;left:136px;top:392px;width:auto;height:auto;box-shadow:none;overflow:visible;border-radius:0} .spfull .spname{position:static;display:inline-block}
+.scrim.both{background:linear-gradient(180deg,rgba(0,0,0,.72) 0%,rgba(0,0,0,.6) 22%,rgba(0,0,0,0) 34%,rgba(0,0,0,0) 42%,rgba(0,0,0,.84) 52%,rgba(0,0,0,.86) 66%,rgba(0,0,0,.6) 100%)}
+.spfull .spimg{object-position:50% 50%}
+.spbg{filter:blur(30px) brightness(.34);transform:scale(1.15)}
+.sptopic{position:absolute;left:136px;right:120px;top:290px;color:#fff;font:600 58px/1.15 var(--head)}
+.sptopic.hook{font:700 146px/1.06 var(--head);color:#fff;padding-left:10px} .sptopic.hook::before{display:none}
+.sptopic::before{content:'';display:block;width:120px;height:8px;background:var(--accent);border-radius:4px;margin-bottom:22px}
+.spframe{position:absolute;left:120px;top:630px;width:840px;height:360px;border-radius:28px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.spimg{width:100%;height:100%;object-fit:cover;object-position:50% 38%;will-change:transform}
+.spname{position:absolute;left:28px;bottom:24px;font:600 40px var(--body);color:#fff;background:rgba(0,0,0,.45);padding:8px 20px;border-radius:30px}
+.spcap{position:absolute;left:136px;width:624px;top:1010px;height:236px;color:#fff}
+.cap{position:absolute;left:0;top:0;width:100%;visibility:hidden;font:600 76px/1.3 var(--body);text-shadow:0 2px 14px rgba(0,0,0,.6)}
+.cap.key{font:700 84px/1.18 var(--head);color:var(--accent)} .cap.fact{font:600 76px/1.3 var(--body);border-left:8px solid var(--accent);padding-left:24px}
+/* carousel pages (SB-C, 1080×1350) */
+.cv{background:var(--ink);color:#fff} .cv .kicker{color:color-mix(in srgb,var(--accent) 55%,#fff)} .cv .scrim.top{background:linear-gradient(180deg,rgba(0,0,0,.74) 0%,rgba(0,0,0,.58) 34%,rgba(0,0,0,0) 62%)} .cvbox{position:absolute;left:96px;right:96px;top:120px;text-shadow:0 2px 18px rgba(0,0,0,.35)}
+.cvh{font:600 118px/1.12 var(--head)} .cvsub{font:500 50px/1.4 var(--body);text-wrap:pretty;margin-top:28px;max-width:820px}
+.swipe{position:absolute;right:84px;bottom:84px;font:600 44px var(--body);color:#fff;background:rgba(0,0,0,.35);padding:14px 30px;border-radius:44px}
+.swipe span{display:inline-block;margin-left:8px;color:var(--accent)}
+.qa{background:var(--paper);color:var(--ink)} .qaframe{position:absolute;inset:72px;border:4px solid var(--ink);border-radius:36px;padding:72px 72px 150px;display:flex;flex-direction:column;justify-content:flex-start}
+.qanum{font:600 220px/1 var(--head);color:var(--accent-ink);margin-bottom:36px} .qaq{font:600 92px/1.2 var(--head)}
+.qaa{font:400 56px/1.6 var(--body);text-wrap:pretty;margin-top:auto;padding-top:40px;border-top:3px solid var(--accent)} .qasrc{position:absolute;left:64px;bottom:56px;font:400 34px var(--body);opacity:.7}
+.pageno{position:absolute;right:120px;bottom:120px;font:600 38px var(--body);opacity:.8}
+.ct{background:var(--ink);color:#fff;display:flex;align-items:center} .ctbox{position:absolute;left:96px;right:96px;top:50%;transform:translateY(-50%)}
+.cth{font:600 132px/1.12 var(--head)} .ctsub{font:500 50px/1.45 var(--body);margin-top:32px} .cthandle{font:600 50px var(--body);margin-top:56px;color:var(--accent)}
+.nochrome .series{display:none}
+.wire .bg,.wire .spimg{visibility:hidden}
 </style></head>
 <body><div id="stage"></div>
 <script>
@@ -47,6 +85,9 @@ function lines(parent, txt, cls) { const out = []; for (const t of [].concat(txt
 
 function build(card) {
   const B = card.brand, root = document.documentElement.style;
+  const H = card.height || 1920, PAGE = qs.get('page');           // carousel cards: height 1350 and ?page=N renders one page, finished
+  document.documentElement.style.setProperty('--H', H + 'px');
+  if (card.chrome === false) document.body.classList.add('nochrome');
   root.setProperty('--paper', B.colors.background); root.setProperty('--ink', B.colors.primary); root.setProperty('--accent', B.colors.accent); root.setProperty('--accent-ink', B.colors.accent_ink || B.colors.accent);
   root.setProperty('--head', `'${B.fonts.heading}', Georgia, serif`); root.setProperty('--body', `'${B.fonts.body}', Helvetica, sans-serif`);
   const link = el('link'); link.rel = 'stylesheet'; link.href = `https://fonts.googleapis.com/css2?family=${B.fonts.heading.replace(/ /g, '+')}:wght@400;600&family=${B.fonts.body.replace(/ /g, '+')}:wght@400;500;600&display=swap`; document.head.appendChild(link);
@@ -58,17 +99,25 @@ function build(card) {
     if (WIRE) beat.appendChild(el('div', 'slotlabel', `${i + 1}｜${b.layout}｜${b.seconds}s`));
     if (b.layout !== 'disclosure') beat.appendChild(el('div', 'series', card.series || ''));   // the closing frame needs the room
     if (b.layout === 'disclosure') beat.appendChild(el('div', 'handle', B.handle || ''));
-    const L = LAYOUT[b.layout](beat, b);                       // returns {in: (tl, at) => end, out: (tl, at)}
-    tl.set(beat, { visibility: 'visible' }, t);
+    const L = LAYOUT[b.layout](beat, b, card);                 // returns {in: (tl, at) => end}
+    if (PAGE !== null) { if (+PAGE === i) { tl.set(beat, { visibility: 'visible' }, 0); L.in(tl, 0); } else beat.remove(); t = Math.max(t, +PAGE === i ? b.seconds || 3 : t); return; }
+    const fade = card.transition === 'fade' && i > 0;            // photo stories: soft cross-fade instead of the brand panel
+    tl.set(beat, { visibility: 'visible' }, fade ? t - 0.45 : t);
+    if (fade) tl.fromTo(beat, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.45, ease: 'sine.inOut' }, t - 0.45);
+    if (L.hold) L.hold(tl, fade ? t - 0.45 : t, b.seconds + (fade ? 0.45 : 0));
     L.in(tl, t + (i ? 0.25 : 0.05));
-    if (i < card.beats.length - 1) {                             // brand panel push into the next beat (色塊換場)
+    if (card.transition === 'fade' || card.transition === 'cut') {
+      if (i < card.beats.length - 1) tl.set(beat, { visibility: 'hidden' }, t + b.seconds + (card.transition === 'fade' ? 0.01 : 0));
+    } else if (i < card.beats.length - 1) {                      // brand panel push into the next beat (色塊換場)
       const p = el('div', 'panel ' + (tone === 'dark' ? 'light' : 'dark')); stage.appendChild(p); gsap.set(p, { xPercent: 100 });
       const T = t + b.seconds; tl.fromTo(p, { xPercent: 100 }, { xPercent: 0, duration: 0.32, ease: 'power3.in' }, T - 0.32)
         .set(beat, { visibility: 'hidden' }, T).to(p, { xPercent: -100, duration: 0.3, ease: 'power3.out' }, T);
     }
     t += b.seconds;
   });
-  tl.set({}, {}, t); window.__timelines.card = tl; window.__duration = t; window.__ready = true;
+  tl.set({}, {}, t); window.__timelines.card = tl; window.__duration = t;
+  if (PAGE !== null) tl.seek(t, false);
+  Promise.all([...document.images].map(im => im.complete ? 1 : new Promise(r => { im.onload = im.onerror = r; }))).then(() => { window.__ready = true; });
 }
 
 // ---- layouts (components) --------------------------------------------------------------
@@ -94,6 +143,66 @@ const LAYOUT = {
       const e = at + (ws.length - 1) * (b.step || 0.45) + 0.6; if (b.underline !== 0) tl.to(r, { width: b.underline || 360, duration: 0.6, ease: 'power2.inOut' }, e - 0.15); return e; } }; },
   takeaway(beat, b) { const ls = lines(beat, b.text, 'h1'); const r = el('div', 'rule'); beat.appendChild(r);
     return { in: (tl, at) => { const e = rise(tl, ls, at, 0.1); tl.to(r, { width: 420, duration: 0.7, ease: 'power2.inOut' }, e - 0.2); return e; } }; },
+  // ---- SB-P 照片故事: a full-bleed real photo with a slow push (≤5 %), text on the photo's quiet side over a soft scrim -----------
+  photo(beat, b) {
+    beat.classList.add('ph');
+    const im = el('img', 'bg'); im.src = b.image; beat.appendChild(im);
+    const sc = el('div', 'scrim ' + (b.scrim || 'top')); beat.appendChild(sc);
+    const box = el('div', 'phbox ' + (b.place || 'top')); beat.appendChild(box);
+    const tag = b.tag ? el('div', 'tag', b.tag) : null; if (tag) box.appendChild(tag);
+    const ls = lines(box, b.text || [], b.big ? 'h1 phbig' : 'h2 phline');
+    if (b.note) box.appendChild(el('div', 'phnote', b.note));
+    return { hold: (tl, at, dur) => tl.fromTo(im, { scale: 1 }, { scale: 1 + (b.push ?? 0.05), duration: dur, ease: 'none', transformOrigin: b.origin || '50% 50%' }, at),
+             in: (tl, at) => { if (tag) tl.from(tag, { autoAlpha: 0, x: -24, duration: 0.5, ease: 'power2.out' }, at); const e = rise(tl, ls, at + (tag ? 0.15 : 0), 0.1);
+               const n = box.querySelector('.phnote'); if (n) tl.from(n, { autoAlpha: 0, y: 20, duration: 0.5 }, e - 0.2); return e; } };
+  },
+  // ---- SB-K 口播訪談: speaker in a framed half-screen card over a dimmed full-bleed copy, topic bar on top, role-styled captions below ------
+  speaker(beat, b) {
+    beat.classList.add('sp');
+    const full = b.full === true;   // camera footage: the speaker fills the frame; Zoom or low-res footage: a framed half-screen card over a blurred copy
+    if (full) beat.classList.add('spfull');
+    const bg = el('img', 'bg ' + (full ? 'spimg' : 'spbg')); bg.src = b.image; beat.appendChild(bg);
+    if (full) beat.appendChild(el('div', 'scrim both'));
+    const topic = el('div', 'sptopic' + (b.hook ? ' hook' : ''), b.hook || b.topic || ''); beat.appendChild(topic);
+    const fr = el('div', 'spframe'); const im = full ? bg : el('img', 'spimg'); if (!full) { im.src = b.image; fr.appendChild(im); } beat.appendChild(fr);
+    if (b.name && !b.hook) fr.appendChild(el('div', 'spname', b.name));   // the hook frame keeps the top for the question
+    const cap = el('div', 'spcap'); beat.appendChild(cap);
+    const cs = (b.captions || []).map(c => { const d = el('div', 'cap ' + (c.role || 'plain'), c.text); cap.appendChild(d); return [c, d]; });
+    const z = b.zoom || [1.02, 1.06];   // consecutive speaker beats pass the running zoom so the push never jumps at a cut
+    return { hold: (tl, at, dur) => tl.fromTo(im, { scale: z[0] }, { scale: z[1], duration: dur, ease: 'none' }, at),
+             in: (tl, at) => { if (b.enter !== false) tl.from(topic, { autoAlpha: 0, y: -20, duration: 0.5 }, at - 0.2).from(fr, { autoAlpha: 0, scale: .96, duration: 0.6, ease: 'expo.out' }, at - 0.2);
+               cs.forEach(([c, d]) => { const s = at - 0.25 + c.start; tl.set(d, { autoAlpha: 0 }, at - 0.25).fromTo(d, { autoAlpha: 0, y: 26 }, { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power2.out' }, s).to(d, { autoAlpha: 0, duration: 0.2 }, at - 0.25 + c.end - 0.2); });
+               return at + 0.6; } };
+  },
+  // ---- SB-C 輪播圖卡 (1080×1350 pages; ?page=N renders a finished page) ------------------------------------------------
+  cover(beat, b, card) {
+    beat.classList.add('cv');
+    if (b.image) { const im = el('img', 'bg'); im.src = b.image; beat.appendChild(im); beat.appendChild(el('div', 'scrim ' + (b.scrim || 'top'))); }
+    const box = el('div', 'cvbox'); beat.appendChild(box);
+    if (b.kicker) box.appendChild(el('div', 'kicker', b.kicker));
+    const ls = lines(box, b.text, 'h1 cvh');
+    if (b.sub) box.appendChild(el('div', 'cvsub', b.sub));
+    const sw = el('div', 'swipe', (b.swipe || '往右滑') + ' <span>→</span>'); beat.appendChild(sw);
+    return { in: (tl, at) => { const e = rise(tl, ls, at, 0.1); tl.from(sw, { autoAlpha: 0, x: -20, duration: 0.5 }, e - 0.2); return e; } };
+  },
+  qa(beat, b, card) {
+    beat.classList.add('qa');
+    const fr = el('div', 'qaframe'); beat.appendChild(fr);
+    fr.appendChild(el('div', 'qanum', b.num));
+    const q = lines(fr, b.q, 'h2 qaq');
+    const ans = el('div', 'qaa', b.a); fr.appendChild(ans);
+    if (b.src) fr.appendChild(el('div', 'qasrc', b.src));
+    beat.appendChild(el('div', 'pageno', b.page || ''));
+    return { in: (tl, at) => { const e = rise(tl, q, at + 0.1); tl.from(ans, { autoAlpha: 0, y: 16, duration: 0.5 }, e - 0.2); return e + 0.4; } };
+  },
+  cta(beat, b, card) {
+    beat.classList.add('ct');
+    const box = el('div', 'ctbox'); beat.appendChild(box);
+    const ls = lines(box, b.text, 'h1 cth');
+    if (b.sub) box.appendChild(el('div', 'ctsub', b.sub));
+    if (b.handle) box.appendChild(el('div', 'cthandle', b.handle));
+    return { in: (tl, at) => rise(tl, ls, at, 0.1) + 0.3 };
+  },
   disclosure(beat, b) { beat.style.justifyContent = 'flex-end'; beat.style.paddingBottom = '760px'; beat.style.paddingRight = '300px'; beat.appendChild(el('div', 'kicker', b.title || 'Important information'));
     const p = el('div', 'small', b.text); beat.appendChild(p); if (b.cta) { const c = el('div', 'h2', b.cta); c.style.marginBottom = '60px'; beat.insertBefore(c, beat.querySelector('.kicker')); }
     return { in: (tl, at) => { tl.from(beat.querySelectorAll('.kicker,.small,.h2'), { autoAlpha: 0, y: 30, duration: 0.6, ease: 'power2.out', stagger: 0.15 }, at); return at + 1; } }; },

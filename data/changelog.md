@@ -69,3 +69,4 @@
 - 2026-11-14 分鏡智庫試點收進手冊並收錄 S65 ShortGenius：bin/video_qa.py 審片（安全區照 S0-06、可選 Shorts）、bin/ocr.swift、breakdown --boards --measure、kits/storyboard 文字動態元件；新增 S0-09、S2-15、S3-29、S4-33、S5-33～35、S7-12、S8-09、S8-10；工具 T-112～T-119（Z-Image Turbo 成為本機生圖預設）
 - 2026-11-14 分鏡智庫寫進手冊（S66 FlexClip 322 支深拆）：data/storyboards.json 四種形式 35 個模板（SB-）與系列格式 SF-01；新指令 storyboard、qa；3.1 先派發模板、G3.1 改成動態分鏡核准、新增 6.6 量化審片與 G6.4；2.3、4.1 接字數預算與素材槽
 - 2026-11-14 ig-10 桌上試做 SF-01＋SB-T3：kit 新增 quote 版型（金句逐詞堆疊）與鉤子 size；run-log 可記分鏡模板代號
+- 2026-11-14 2027 峇里島實測（桌上）：kit 新增照片、口播（滿版／半屏）、輪播頁版型；video_qa 靜態頁模式；pb.py qa 收多張圖；run-log SB-P1、SB-C1 有效，SB-K1 需調整
