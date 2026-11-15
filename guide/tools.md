@@ -48,6 +48,7 @@
 | [lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar)（T-21） | 已整合 | 免費 | MIT（寬鬆） | 需要現成的影片風格（59 種，含水彩、衛星簡報等）和它的風格提示詞 |
 | [Motion Prompt](https://github.com/showheyohtaki/motion-prompt)（T-36） | 已整合 | 免費 | MIT（寬鬆） | 指定和移植動效：168 個有編號的動作，附規格和 Canvas 程式；photo 包只當生圖用語 |
 | [video-script-builder（SURGE）](https://github.com/erduo1998-cell/video-script-builder)（T-38） | 已整合 | 免費 | MIT（寬鬆） | 新格式或新風格開工前，先產一份分鏡規格當設計審查（意圖卡、母題、時間閉合、開放問題） |
+| [huashu-art-motion（畫術動態）](https://github.com/alchaincyf/huashu-art-motion)（T-120） | 已安裝 | 免費 | MIT（角色圖只供示範）（寬鬆） | 要做解說片、財經圖表、動態文字、白板等「語法」明確的程式動畫，或想照一套分鏡表→算圖→QA→交付紅綠燈的流程做時 |
 | [onetake](https://github.com/feitangyuan/onetake)（T-42） | 未採用 | 不明 | 未標明（未標） | 一鏡到底的動態影片概念（授權不明，只參考） |
 
 ## 4 素材
@@ -64,12 +65,18 @@
 | [media-use（HyperFrames 技能）](https://github.com/heygen-com/hyperframes)（T-111） | 已安裝 | 免費 | Apache-2.0（寬鬆） | 影片需要配樂、音效或圖片時，先用它找可用的素材，再照 4.5 登記授權 |
 | [FLUX.1-schnell 4-bit＋mflux](https://github.com/filipstrand/mflux)（T-112） | 已安裝 | 免費 | Apache-2.0（FLUX.1-schnell）（寬鬆） | 要快速出草稿、或畫浮世繪、80 年代合成波時；其他情況預設用 T-113 Z-Image |
 | [Z-Image Turbo（通義，mflux 4-bit）](https://huggingface.co/Tongyi-MAI/Z-Image-Turbo)（T-113） | 已安裝 | 免費 | Apache-2.0（官方模型卡；衍生微調版另有授權）（寬鬆） | 本機生成圖的預設：插圖、風格試稿、背景、縮圖素材；要很快出草稿才改用 T-112 |
+| [anidoodle](https://github.com/alexgreensh/anidoodle)（T-121） | 已安裝 | 免費 | Apache-2.0（寬鬆） | 要用程式畫插畫、循環動畫或配樂短片，又不想用生圖模型時 |
+| [claude-drawing-skill](https://github.com/cloveric/claude-drawing-skill)（T-122） | 已安裝 | 免費 | MIT（寬鬆） | 要離線做水彩、浮世繪、彩繪玻璃、剪紙、Art Deco 等畫風的插圖，或 Z-Image 畫不準某種畫風時 |
+| [javascript-animation-skills（含 sync-check）](https://github.com/iart-ai/javascript-animation-skills)（T-123） | 已安裝 | 免費 | MIT（寬鬆） | 要做 Canvas 逐格動畫＋程式合成配樂；或要量畫面切點和音效有沒有對上時 |
+| [HandDraw-Skill](https://github.com/ToBeWin/HandDraw-Skill)（T-124） | 已安裝 | 免費 | MIT（底層 Remotion 另有授權）（特殊） | 要做白板手繪解說片（逐筆畫出 SVG＋字）時 |
+| [manim-skill（Manim CE）](https://github.com/awesome-skills/manim-skill)（T-125） | 已安裝 | 免費 | MIT（寬鬆） | 要做數學、演算法、幾何變換的動畫（物件從一種形狀變成另一種）時 |
 | [Kokoro TTS](https://github.com/hexgrad/kokoro)（T-55） | 已安裝 | 免費 | Apache-2.0（寬鬆） | 免費、本機、沒有額度限制的英文配音；每句分開生成，時間精準（數字要先拼成英文字）。預設英文配音（2026-11-12 比較定案：和 Pocket TTS 字錯率同為 0%，Kokoro 授權 Apache-2.0 免標註、聲音選擇多） |
 | [parakeet-mlx](https://github.com/senstella/parakeet-mlx)（T-104） | 待試 | 免費 | Apache-2.0（寬鬆） | 英文或歐洲語言的逐字稿要在 Apple Silicon 上跑得很快時 |
 | [whisper.cpp](https://github.com/ggml-org/whisper.cpp)（T-105） | 待試 | 免費 | MIT（寬鬆） | 不想裝 Python、要在命令列或其他程式裡直接跑 Whisper 時 |
 | [Wan2.2 TI2V-5B](https://github.com/Wan-Video/Wan2.2)（T-114） | 待試 | 免費 | Apache-2.0（寬鬆） | 需要本機免費生成短片（抽象背景、氛圍空鏡）時；ITA Reels 規定用真實照片，不適用 |
 | [Qwen-Image／Qwen-Image-Edit](https://github.com/QwenLM/Qwen-Image)（T-115） | 待試 | 免費 | Apache-2.0（寬鬆） | 生成圖裡要有準確的中文字、或要用文字指令修圖時 |
 | [ClearerVoice-Studio](https://github.com/modelscope/ClearerVoice-Studio)（T-12） | 待試 | 免費 | Apache-2.0（寬鬆） | 多人錄音要抽出單一講者的聲音時（降噪本身用 DeepFilterNet） |
+| [Affinity（Canva 版，Mac／Windows／iPad）](https://www.affinity.studio/)（T-127） | 待試 | 部分付費 | Affinity 條款（2026-03-12 版）：內容歸使用者，未見商用限制；內附素材依 Canva 免費內容授權（特殊） | 要做向量、版面、修圖，又不想付 Adobe 時 |
 | [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5)（T-60） | 待試 | 免費 | MIT（寬鬆） | 需要長度剛好的配樂、又不想付費或擔心 Content ID 時 |
 | [Stable Audio 3（Small／Medium）](https://stability.ai/)（T-61） | 待試 | 免費 | Stability 社群授權（年營收 100 萬美元以下可商用）（特殊） | 要快、長度要準的純音樂 |
 | [Openverse 音訊搜尋](https://api.openverse.org/v1/audio/)（T-65） | 待試 | 免費 | 各檔不同（篩 CC0、CC BY）（寬鬆） | 要找音效或配樂時先用它 |
@@ -83,6 +90,7 @@
 | [resemble-enhance](https://github.com/resemble-ai/resemble-enhance)（T-11） | 未採用 | 免費 | MIT（寬鬆） | 降噪後音質還是很差，需要增強時 |
 | [Stable Diffusion 3.5（Stability AI）](https://stability.ai/license)（T-116） | 未採用 | 部分付費 | Stability 社群授權（整個組織年營收 100 萬美元以下可商用）（特殊） | 要用 Stability 的模型時 |
 | [HiDream-I1](https://github.com/HiDream-ai/HiDream-I1)（T-117） | 未採用 | 免費 | MIT（權重）；管線另用 Llama 3.1（Llama 授權）與 T5（特殊） | — |
+| [motion-skill（復古剪貼報動畫）](https://github.com/LunaAI519/motion-skill)（T-128） | 未採用 | 付費 | MIT（寬鬆） | — |
 | [video2x](https://github.com/k4yt3x/video2x)（T-16） | 未採用 | 免費 | AGPL-3.0（本機限定） | 素材畫質太低、需要 AI 放大或補幀時（只支援 Linux、Windows） |
 | [FlashVSR](https://github.com/OpenImagingLab/FlashVSR)（T-17） | 未採用 | 免費 | Apache-2.0（寬鬆） | 有 NVIDIA GPU、需要即時超解析度時 |
 | [FILM](https://github.com/google-research/frame-interpolation)（T-18） | 未採用 | 免費 | Apache-2.0（寬鬆） | 實拍素材需要補幀做慢動作時 |
@@ -120,6 +128,7 @@
 | [GSAP AI Skills（官方）](https://github.com/greensock/gsap-skills)（T-82） | 已安裝 | 免費 | MIT（GSAP 本身含全部外掛免費）（寬鬆） | 在 HyperFrames（底層是 GSAP）裡寫時間軸、文字拆分、SVG 變形動效時 |
 | [emilkowalski/skills（animate、choreograph 等）](https://github.com/emilkowalski/skills)（T-90） | 已安裝 | 免費 | MIT（寬鬆） | 做 HTML 動效（HyperFrames）要選曲線、時長、編排時 |
 | [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)（T-95） | 已安裝 | 免費 | Apache-2.0（寬鬆） | 需要本機離線語音辨識和逐字時間戳時。講者分辨預設（P13：pyannote-segmentation-3.0＋3D-Speaker，46 MB，兩人對談正確率 92.7%、自動判斷講者數） |
+| [Instagram Edits（Mac 版）](https://apps.apple.com/app/edits-an-instagram-app/id6738967378)（T-126） | 待試 | 免費 | Meta 服務條款（特殊） | 要在 Mac 上剪 Reels、直接發佈或發試用 Reels 時 |
 | [Remotion](https://github.com/remotion-dev/remotion)（T-24） | 待試 | 免費 | Remotion License（特殊） | 想用 React 寫影片時；超過 3 人的公司要付費 |
 | [FunClip](https://github.com/modelscope/FunClip)（T-87） | 待試 | 免費 | MIT（寬鬆） | 要從長片轉字幕、讓 LLM 挑片段剪成短片時 |
 | [kinocut](https://github.com/KyaniteLabs/kinocut)（T-04） | 未採用 | 免費 | Apache-2.0（寬鬆） | 想讓 agent 透過 MCP 做有護欄的剪輯時 |
