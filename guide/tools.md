@@ -129,6 +129,7 @@
 | [emilkowalski/skills（animate、choreograph 等）](https://github.com/emilkowalski/skills)（T-90） | 已安裝 | 免費 | MIT（寬鬆） | 做 HTML 動效（HyperFrames）要選曲線、時長、編排時 |
 | [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)（T-95） | 已安裝 | 免費 | Apache-2.0（寬鬆） | 需要本機離線語音辨識和逐字時間戳時。講者分辨預設（P13：pyannote-segmentation-3.0＋3D-Speaker，46 MB，兩人對談正確率 92.7%、自動判斷講者數） |
 | [Instagram Edits（Mac 版）](https://apps.apple.com/app/edits-an-instagram-app/id6738967378)（T-126） | 待試 | 免費 | Meta 服務條款（特殊） | 要在 Mac 上剪 Reels、直接發佈或發試用 Reels 時 |
+| [Anatomy（wheresryan22）](https://github.com/wheresryan22/anatomy)（T-129） | 待試 | 免費 | MIT（寬鬆） | 要解釋「一個東西怎麼運作」（產品結構、流程裡的機關、系統元件）時，畫成可互動的立體剖面圖 |
 | [Remotion](https://github.com/remotion-dev/remotion)（T-24） | 待試 | 免費 | Remotion License（特殊） | 想用 React 寫影片時；超過 3 人的公司要付費 |
 | [FunClip](https://github.com/modelscope/FunClip)（T-87） | 待試 | 免費 | MIT（寬鬆） | 要從長片轉字幕、讓 LLM 挑片段剪成短片時 |
 | [kinocut](https://github.com/KyaniteLabs/kinocut)（T-04） | 未採用 | 免費 | Apache-2.0（寬鬆） | 想讓 agent 透過 MCP 做有護欄的剪輯時 |

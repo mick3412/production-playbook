@@ -70,3 +70,4 @@
 "S67","IG Reel〈別只跟 AI 說做高級一點〉（cs2pm_ghost，2026-11-10；整理 Scrolltide 143 個動態網站提示詞）","https://www.instagram.com/","2026-11-15","描述裡 premium、luxury 等 8 個空泛形容詞出現 0 次；做法：先挑標籤，第一句寫場景和動作。2026-11-15 用 Z-Image 做 A/B 驗證，見 bench/runs/intake/2026-11-15/scrolltide"
 "S68","IG 輪播：9 個 Claude 動畫技能（rakeshmahantiai1，DfpWmvJk8vy）與各 repo","https://www.instagram.com/p/DfpWmvJk8vy/","2026-11-15","以通用工具評估（不以單一專案規則排除）；huashu、anidoodle、claude-drawing、javascript-animation、HandDraw、manim 都在本機跑過，motion-skill 只讀；結果見 T-120～T-128 與 bench/runs/intake/2026-11-15/report.html"
 "S69","動畫服務指令截圖（/logo-animation、/micro-interactions、/website-hero、/explainer、/product-demo；來源未標）","（截圖，無網址）","2026-11-15","只收一個做法：動畫做成品牌的一套可重用元件"
+"S70","skillleaderboard.com 2026 年 10 月 GitHub 新增收藏前 10 名（截圖）","https://skillleaderboard.com","2026-11-16","本書收 Anatomy（T-129）；其餘 8 個已在各手冊，Security Audit 收在工程手冊 T-36"
