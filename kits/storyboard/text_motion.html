@@ -33,7 +33,7 @@ html,body{margin:0;width:var(--W,1080px);height:var(--H,1920px);overflow:hidden;
 .handle{font:500 58px var(--body);opacity:.9;margin-top:14px}
 .series{position:absolute;left:120px;top:290px;font:600 60px var(--body);letter-spacing:.12em;opacity:.9}
 .dark{background:var(--ink);color:var(--paper)} .light{background:var(--paper);color:var(--ink)}
-.wire .beat *{color:transparent!important;background:#cfcfcf!important;border-color:#bdbdbd!important;border-radius:10px}
+.wire .beat *{color:transparent!important;background:#b9d3f6!important;border-color:#8fb6ea!important;border-radius:10px}   /* wireframe: text-layer pieces light blue, visual layer grey */
 .wire .beat{background:#efefef!important} .wire .slotlabel{position:absolute;left:96px;top:96px;font:600 28px monospace;color:#666!important;background:none!important}
 
 /* photo story (SB-P) */
@@ -74,7 +74,7 @@ html,body{margin:0;width:var(--W,1080px);height:var(--H,1920px);overflow:hidden;
 .cth{font:600 132px/1.12 var(--head)} .ctsub{font:500 50px/1.45 var(--body);margin-top:32px} .cthandle{font:600 50px var(--body);margin-top:56px;color:color-mix(in srgb,var(--accent) 55%,#fff)}
 
 /* chart (R-05) */
-.chartwrap{position:relative;width:820px;height:600px;margin-top:70px} .beat .h2{line-height:1.12} .chart{width:820px;height:600px;overflow:visible}
+.chartwrap{position:relative;width:820px;height:520px;margin-top:50px} .beat .h2{line-height:1.12} .chart{width:820px;height:520px;overflow:visible}   /* 520 tall: a one-line conclusion + chart + a two-line source note all end above y 1248 */
 .chart .axis{stroke:currentColor;stroke-width:3;opacity:.35} .chart .curve{fill:none;stroke:var(--accent);stroke-width:12;stroke-linecap:round;stroke-linejoin:round}
 .chart .dot{fill:var(--paper);stroke:var(--accent);stroke-width:6} .dark .chart .dot{fill:var(--ink)}
 .clab{position:absolute;transform:translate(24px,-50%);font:600 60px/1.1 var(--body);white-space:nowrap} .clab.left{transform:translate(calc(-100% - 24px),-50%);text-align:right} .clab.above{transform:translate(-50%,calc(-100% - 28px));text-align:center}
@@ -167,6 +167,42 @@ body:not(.landscape) .dgt{font-size:92px} body:not(.landscape) .dgnode{font-size
 .landscape .lower,body.square .lower{display:none} .landscape .lower.lw-progress{display:block;height:24%;padding:60px 160px 0}
 .nochrome .series{display:none}
 .wire .bg,.wire .spimg{visibility:hidden}
+
+/* two layers (owner rule 2026-11-16): the TEXT layer keeps to the safe zone (the beat's padding box); the VISUAL layer fills the whole frame and ignores it.
+   .vis sits behind the text inside each beat (the beat isolates its stacking context). Platform UI may cover it: it carries no information of its own. */
+.vis{position:absolute;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.vis > *{position:absolute}
+.v-photo{inset:0;width:100%;height:100%;object-fit:cover}
+.v-scrim{inset:0;background:linear-gradient(180deg,rgba(0,0,0,.62) 0%,rgba(0,0,0,.5) 55%,rgba(0,0,0,.15) 78%,rgba(0,0,0,0) 100%)}
+.light .v-scrim{background:linear-gradient(180deg,rgba(255,255,255,.82) 0%,rgba(255,255,255,.7) 55%,rgba(255,255,255,.2) 78%,rgba(255,255,255,0) 100%)}
+.v-glow{width:1700px;height:1700px;border-radius:50%;background:radial-gradient(circle,var(--accent) 0%,transparent 64%);opacity:.55}
+.v-numeral{right:-40px;bottom:-120px;font:800 1100px/.8 var(--head);letter-spacing:-.06em;color:var(--accent);opacity:.9;white-space:nowrap}
+.v-numeral.outline{color:transparent;-webkit-text-stroke:6px var(--accent);opacity:.6}
+.v-bars{left:0;right:0;bottom:0;height:36%;display:flex;align-items:flex-end;gap:18px;padding:0 0 0 18px}
+.v-bar{flex:1;background:var(--accent);opacity:.85;border-radius:14px 14px 0 0;transform-origin:bottom}
+.v-grid{left:-25%;right:-25%;bottom:0;height:38%;background:repeating-linear-gradient(90deg,currentColor 0 3px,transparent 3px 96px),repeating-linear-gradient(0deg,currentColor 0 3px,transparent 3px 70px);opacity:.28;transform:perspective(520px) rotateX(60deg);transform-origin:bottom}
+.v-band{left:0;right:0;bottom:0;height:34%;background:var(--accent)}
+.v-word{left:-20px;bottom:-60px;font:800 420px/.85 var(--head);letter-spacing:-.04em;color:var(--accent);white-space:nowrap}
+.wire .vis > *{background:#dcdcdc!important;color:#dcdcdc!important;-webkit-text-stroke:0!important;opacity:1!important} .wire .vis{outline:6px dashed #c33;outline-offset:-6px}
+.chart .area{stroke:none}
+/* portrait stacked diagram: the text layer uses the whole height of the safe zone (y 15–65 %), boxes spread evenly, never piled at the top */
+body:not(.landscape) .dg .dghead{bottom:35%;display:flex;flex-direction:column} .dg .dghead > *{flex-shrink:0}   /* the title keeps its size; only the gaps between boxes give way */
+body:not(.landscape) .dg .dgstack{flex:1;justify-content:space-evenly;gap:32px;margin-top:24px} body:not(.landscape) .dg:has(.dgstack) .dgt{font-size:84px}   /* gap = the floor: a long title must never squeeze the boxes into each other */
+body:not(.landscape) .dg .dgstack .dgnode{font-size:54px;padding:22px 14px}
+/* split A/B (SB-T5, SB-P8, SB-C3): two photos fill the frame top and bottom; each half's label sits in the safe zone */
+.beat.spl{padding:0;color:#fff} .splimg{position:absolute;left:0;right:0;height:50%;width:100%;object-fit:cover} .splimg.a{top:0} .splimg.b{top:50%}
+.spl .scrim.a{top:0;bottom:50%;background:linear-gradient(180deg,rgba(0,0,0,.55),rgba(0,0,0,.15))} .spl .scrim.b{top:50%;bottom:0;background:linear-gradient(180deg,rgba(0,0,0,.6),rgba(0,0,0,.05) 60%)}
+.spldiv{position:absolute;left:0;right:0;top:50%;height:10px;margin-top:-5px;background:var(--accent);z-index:2}
+.spllab{position:absolute;left:148px;right:120px} .spllab.a{top:300px} .spllab.b{top:1056px;right:300px} .spllab.b .splv{font-size:120px}   /* clear of the vs badge on the seam (y 885–1035), still above y 1248 */
+.splk{font:600 50px var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)} .splv{font:700 150px/1 var(--head);margin-top:8px;font-variant-numeric:tabular-nums} .splt{font:500 56px/1.25 var(--body);margin-top:10px}
+.splvs{position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;background:var(--accent);color:var(--ink);font:800 64px/150px var(--head);text-align:center;z-index:3}
+/* photo grid (SB-P4, SB-T7): photos tile the whole frame; the title sits on a band inside the safe zone */
+.beat.grd{padding:0} .grdcell{position:absolute;overflow:hidden} .grdcell img{width:100%;height:100%;object-fit:cover}
+.grdband{position:absolute;left:96px;right:96px;top:300px;padding:34px 44px;background:var(--paper);color:var(--ink);z-index:2;box-shadow:0 20px 60px rgba(0,0,0,.35)} .dark .grdband{background:var(--ink);color:var(--paper)}
+/* checklist (SB-T9, SB-C5): items tick one by one */
+.ck{display:flex;align-items:center;gap:34px;margin-top:40px;max-width:700px} .ckbox{flex:0 0 96px;height:96px;border:6px solid currentColor;border-radius:22px;position:relative}
+.ckbox svg{position:absolute;inset:6px;width:72px;height:72px;overflow:visible} .ckbox path{fill:none;stroke:var(--accent);stroke-width:14;stroke-linecap:round;stroke-linejoin:round} .light .ckbox path{stroke:var(--accent-ink)}
+.cktxt{font:600 70px/1.15 var(--body)} .ck.done .cktxt{opacity:.92}
 </style></head>
 <body><div id="stage"></div>
 <script>
@@ -198,7 +234,9 @@ function build(card) {
     const L = LAYOUT[b.layout](beat, b, card);                 // returns {in: (tl, at) => end}
     // design outside the safe zone (owner rule): decorative type or a colour block that may be covered by platform UI without losing information
     const deco = b.deco ? el('div', 'deco ' + (b.deco_style || card.deco_style || 'ghost'), b.deco) : null; if (deco) { deco.setAttribute('aria-hidden', 'true'); beat.appendChild(deco); }
-    if (PAGE !== null) { if (+PAGE === i) { tl.set(beat, { visibility: 'visible' }, 0); L.in(tl, 0); } else beat.remove(); t = Math.max(t, +PAGE === i ? b.seconds || 3 : t); return; }
+    const V = b.visual !== undefined ? b.visual : card.visual;   // a card-wide default visual layer; a beat may set its own or null for none
+    if (V) visualLayer(beat, V, tl, PAGE !== null ? 0 : (card.transition === 'fade' && i > 0 ? t - 0.45 : t), b.seconds + (card.transition === 'fade' && i > 0 ? 0.45 : 0), i);
+    if (PAGE !== null) { if (+PAGE === i) { tl.set(beat, { visibility: 'visible' }, 0); if (b.lower) lowerBlock(beat, b.lower, tl, 0, b.seconds || 3); L.in(tl, 0); } else beat.remove(); t = Math.max(t, +PAGE === i ? b.seconds || 3 : t); return; }
     const fade = card.transition === 'fade' && i > 0;            // photo stories: soft cross-fade instead of the brand panel
     tl.set(beat, { visibility: 'visible' }, fade ? t - 0.45 : t);
     if (fade) tl.fromTo(beat, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.45, ease: 'sine.inOut' }, t - 0.45);
@@ -217,7 +255,9 @@ function build(card) {
   });
   tl.set({}, {}, t); window.__timelines.card = tl; window.__duration = t;
   if (PAGE !== null) tl.seek(t, false);
-  Promise.all([document.fonts.ready, ...[...document.images].map(im => im.complete ? 1 : new Promise(r => { im.onload = im.onerror = r; }))]).then(() => new Promise(r => setTimeout(r, 400))).then(() => { FIX.forEach(f => f()); tl.seek(PAGE !== null ? t : 0, false); window.__ready = true; });
+  const fontsIn = new Promise(r => { link.onload = link.onerror = r; setTimeout(r, 8000); })   /* fonts.ready alone resolved before the Google Fonts sheet had even loaded: titles re-wrapped after the geometry was measured */
+    .then(() => Promise.all([`600 80px '${B.fonts.heading}'`, `400 40px '${B.fonts.body}'`, `600 40px '${B.fonts.body}'`].map(f => document.fonts.load(f).catch(() => 0))));
+  Promise.all([fontsIn, document.fonts.ready, ...[...document.images].map(im => im.complete ? 1 : new Promise(r => { im.onload = im.onerror = r; }))]).then(() => new Promise(r => setTimeout(r, 400))).then(() => { FIX.forEach(f => f()); tl.seek(PAGE !== null ? t : 0, false); window.__ready = true; });
 }
 
 // ---- the lower block: what fills the frame under the safe zone, planned in the storyboard (owner rule 2026-11-14) ------------------------
@@ -238,10 +278,37 @@ function lowerBlock(beat, L, tl, at, dur) {
   if (L.type === 'chips') tl.from(box.children, { scale: 0.6, autoAlpha: 0, duration: 0.45, ease: 'back.out(2)', stagger: 0.12 }, at + 0.4);
 }
 
+// ---- the visual layer: full frame, behind the text, never limited by the safe zone (owner rule 2026-11-16) ----------------------
+// One object or a list of them; each piece carries design only.
+//   {type:'photo', image, push, scrim}  real photo over the whole frame, slow push (push 1.06 = 6 %); scrim:false when the photo is already dark or light enough
+//   {type:'glow'}                       two soft brand-colour glows drifting slowly
+//   {type:'numeral', text, outline}     a giant number or letter bleeding off the bottom right (chapter, step, year)
+//   {type:'bars', n, seed}              brand bars rising from the bottom edge, an abstract chart rhythm
+//   {type:'grid'}                       a perspective grid on the floor of the frame
+//   {type:'band'}                       a solid brand band across the bottom third
+//   {type:'word', text}                 one huge decorative word along the bottom edge
+function visualLayer(beat, V, tl, at, dur, idx) {
+  const box = el('div', 'vis'); box.setAttribute('aria-hidden', 'true'); beat.insertBefore(box, beat.firstChild);
+  for (const v of [].concat(V)) {
+    if (v.type === 'photo') { const im = el('img', 'v-photo'); im.src = v.image; if (v.focus) im.style.objectPosition = v.focus; box.appendChild(im);
+      tl.fromTo(im, { scale: 1 }, { scale: v.push || 1.06, duration: dur, ease: 'none' }, at); if (v.scrim !== false) box.appendChild(el('div', 'v-scrim')); }
+    if (v.type === 'glow') { const a = el('div', 'v-glow'), b2 = el('div', 'v-glow'); gsap.set(a, { left: -500, top: 900 }); gsap.set(b2, { left: 300, top: 1300 }); box.append(a, b2);
+      tl.to(a, { x: 140, y: -80, duration: dur, ease: 'sine.inOut' }, at).to(b2, { x: -160, y: -120, duration: dur, ease: 'sine.inOut' }, at); }
+    if (v.type === 'numeral') { const n = el('div', 'v-numeral' + (v.outline ? ' outline' : ''), v.text ?? String(idx + 1)); box.appendChild(n);
+      tl.fromTo(n, { yPercent: 18, autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.9, ease: 'expo.out' }, at + 0.1).to(n, { yPercent: -3, duration: Math.max(0.1, dur - 1), ease: 'none' }, at + 1); }
+    if (v.type === 'bars') { const w = el('div', 'v-bars'); let s = v.seed || idx + 1; const rnd = () => (s = (s * 9301 + 49297) % 233280) / 233280;
+      const bars = Array.from({ length: v.n || 9 }, (_, j) => { const b3 = el('div', 'v-bar'); b3.style.height = (30 + 70 * (v.rising ? (j + 1) / (v.n || 9) : rnd())) + '%'; w.appendChild(b3); return b3; }); box.appendChild(w);
+      tl.from(bars, { scaleY: 0, duration: 0.8, ease: 'expo.out', stagger: 0.06 }, at + 0.15); }
+    if (v.type === 'grid') { const g = el('div', 'v-grid'); box.appendChild(g); tl.fromTo(g, { backgroundPosition: '0 0' }, { backgroundPosition: '0 140px', duration: dur, ease: 'none' }, at); }
+    if (v.type === 'band') { const g = el('div', 'v-band'); box.appendChild(g); tl.from(g, { yPercent: 100, duration: 0.7, ease: 'expo.out' }, at + 0.1); }
+    if (v.type === 'word') { const g = el('div', 'v-word', v.text || ''); box.appendChild(g); tl.fromTo(g, { xPercent: 0 }, { xPercent: -6, duration: dur, ease: 'none' }, at); }
+  }
+}
+
 // ---- layouts (components) --------------------------------------------------------------
 const rise = (tl, items, at, stagger = 0.12) => { tl.from(items, { yPercent: 110, duration: 0.7, ease: 'expo.out', stagger }, at); return at + 0.7 + stagger * (items.length - 1); };
 const LAYOUT = {
-  hook(beat, b) { if (b.kicker) beat.appendChild(el('div', 'kicker', b.kicker)); const ls = lines(beat, b.text, 'h1'); if (b.size) ls.forEach(l => { l.style.fontSize = b.size + 'px'; }); /* short hooks can go bigger */ const r = el('div', 'rule'); beat.appendChild(r);
+  hook(beat, b) { if (b.kicker) beat.appendChild(el('div', 'kicker', b.kicker)); const ls = lines(beat, b.text, 'h1'); ls.forEach(l => { l.style.fontSize = (b.size || 160) + 'px'; }); /* 160 px is the smallest size that measures 8 % in the review (0.6 s hook rule); 134 read 6.4 % */ const r = el('div', 'rule'); beat.appendChild(r);
     return { in: (tl, at) => { const e = rise(tl, ls, at, 0.09); tl.to(r, { width: 260, duration: 0.6, ease: 'power2.inOut' }, e - 0.2); return e; } }; },
   bignumber(beat, b) { const n = el('div', 'num accent', '0'); if (b.size) n.style.fontSize = b.size + 'px'; beat.appendChild(n); const ls = lines(beat, b.text, 'h2');
     const fmt = v => (b.prefix || '') + v.toLocaleString('en-US', { minimumFractionDigits: b.decimals || 0, maximumFractionDigits: b.decimals || 0 }) + (b.suffix || '');
@@ -332,27 +399,62 @@ const LAYOUT = {
   chart(beat, b) {
     if (b.kicker) beat.appendChild(el('div', 'kicker', b.kicker));
     const ls = lines(beat, b.title || [], 'h2');
-    const [X0, X1, Y0, Y1] = b.box || [40, 780, 560, 40];     // inside an 820×600 svg placed under the title
-    const vs = b.points.map(p => p.v), lo = Math.min(...vs), hi = Math.max(...vs), xs = b.points.map(p => p.t), tlo = Math.min(...xs), thi = Math.max(...xs);
+    const [X0, X1, Y0, Y1] = b.box || [40, 780, 480, 40];     // inside an 820×520 svg placed under the title
+    const vs = b.points.map(p => p.v), lo = b.zero ? 0 : Math.min(...vs)   /* zero:true → the value axis starts at 0 */, hi = Math.max(...vs), xs = b.points.map(p => p.t), tlo = Math.min(...xs), thi = Math.max(...xs);
     const P = b.points.map(p => [X0 + (p.t - tlo) / (thi - tlo) * (X1 - X0), Y0 - (p.v - lo) / (hi - lo) * (Y0 - Y1)]);
     let d = `M${P[0][0]},${P[0][1]}`;                          // Catmull-Rom → cubic Bézier: a soft curve through every point, never a broken line
     for (let i = 0; i < P.length - 1; i++) { const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || p2;
       d += ` C${p1[0] + (p2[0] - p0[0]) / 6},${p1[1] + (p2[1] - p0[1]) / 6} ${p2[0] - (p3[0] - p1[0]) / 6},${p2[1] - (p3[1] - p1[1]) / 6} ${p2[0]},${p2[1]}`; }
-    const NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '0 0 820 600'); svg.setAttribute('class', 'chart');
+    const NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '0 0 820 520'); svg.setAttribute('class', 'chart');
     const base = document.createElementNS(NS, 'path'); base.setAttribute('d', `M${X0},${Y0} H${X1}`); base.setAttribute('class', 'axis'); svg.appendChild(base);
+    let area = null;   /* fill:true → the area under the curve bleeds to the frame edges and the bottom (visual layer: no text in it) */
+    if (b.fill) { area = document.createElementNS(NS, 'path'); const Pn = P[P.length - 1]; area.setAttribute('d', `M-600,${P[0][1]} L${P[0][0]},${P[0][1]} ` + d.replace(/^M[^ ]+/, '') + ` L1500,${Pn[1]} L1500,3000 L-600,3000 Z`); area.setAttribute('class', 'area'); area.setAttribute('fill', 'url(#cfade)');
+      const top = Math.min(...P.map(q => q[1]));
+      svg.insertAdjacentHTML('afterbegin', `<defs><linearGradient id="cfade" gradientUnits="userSpaceOnUse" x1="0" y1="${top}" x2="0" y2="${top + 1500}"><stop offset="0" stop-color="var(--accent)" stop-opacity=".55"/><stop offset="1" stop-color="var(--accent)" stop-opacity=".16"/></linearGradient></defs>`); svg.appendChild(area); }   /* fades downward: reads as the area under the curve, not a flat block */
     const path = document.createElementNS(NS, 'path'); path.setAttribute('d', d); path.setAttribute('class', 'curve'); svg.appendChild(path);
     const dots = P.map(([x, y]) => { const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 12); c.setAttribute('class', 'dot'); svg.appendChild(c); return c; });
     beat.appendChild(svg);
     const labs = b.points.map((p, i) => { const L = el('div', 'clab ' + (p.side || 'right'), `<div class="cin"><b>${p.label || p.t}</b><span>${(b.prefix || '')}0</span></div>`);   // the outer box keeps its CSS offset; only the inner box animates
-      L.style.left = (P[i][0] / 820 * 100) + '%'; L.style.top = (P[i][1] / 600 * 100) + '%'; svg.parentNode.appendChild(L); return [p, L]; });
+      L.style.left = (P[i][0] / 820 * 100) + '%'; L.style.top = (P[i][1] / 520 * 100) + '%'; svg.parentNode.appendChild(L); return [p, L]; });
     const wrap = el('div', 'chartwrap'); beat.insertBefore(wrap, svg); wrap.appendChild(svg); labs.forEach(([, L]) => wrap.appendChild(L));
     if (b.note) beat.appendChild(el('div', 'cnote', b.note));
     return { in: (tl, at) => { const e = rise(tl, ls, at); const len = 2000; gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
       tl.to(path, { strokeDashoffset: 0, duration: b.draw || 2.2, ease: 'power2.inOut' }, e - 0.2);
+      if (area) tl.from(area, { autoAlpha: 0, duration: (b.draw || 2.2) * 0.9, ease: 'power1.in' }, e);
       dots.forEach((c, i) => tl.from(c, { attr: { r: 0 }, duration: 0.35, ease: 'back.out(3)' }, e - 0.2 + (b.draw || 2.2) * i / Math.max(1, dots.length - 1)));
       labs.forEach(([p, L], i) => { const s = L.querySelector('span'), o = { v: 0 }, at2 = e - 0.1 + (b.draw || 2.2) * i / Math.max(1, labs.length - 1);
         tl.from(L.firstChild, { autoAlpha: 0, y: 14, duration: 0.4 }, at2).to(o, { v: p.v, duration: 0.9, ease: 'power4.out', onUpdate: () => { s.textContent = (b.prefix || '') + o.v.toLocaleString('en-US', { maximumFractionDigits: b.decimals || 0, minimumFractionDigits: b.decimals || 0 }); } }, at2); });
       const n = beat.querySelector('.cnote'); if (n) tl.from(n, { autoAlpha: 0, duration: 0.5 }, e + (b.draw || 2.2)); return e + (b.draw || 2.2); } };
+  },
+  // ---- split A/B: two photos fill the frame, top and bottom; a label and a number for each half, a "vs" badge on the seam ----------
+  split(beat, b) {
+    beat.classList.add('spl');
+    const half = (s, k) => { const im = el('img', 'splimg ' + k); im.src = s.image; beat.appendChild(im); beat.appendChild(el('div', 'scrim ' + k));
+      const lab = el('div', 'spllab ' + k); if (s.label) lab.appendChild(el('div', 'splk', s.label)); if (s.value) lab.appendChild(el('div', 'splv', s.value)); if (s.text) lab.appendChild(el('div', 'splt', s.text)); beat.appendChild(lab); return { im, lab }; };
+    const A = half(b.a, 'a'), Bh = half(b.b, 'b'); const dv = el('div', 'spldiv'); beat.appendChild(dv); const vs = b.vs === false ? null : el('div', 'splvs', b.vs || 'vs'); if (vs) beat.appendChild(vs);
+    return { hold: (tl, at, dur) => { tl.fromTo(A.im, { scale: 1.06 }, { scale: 1, duration: dur, ease: 'none' }, at).fromTo(Bh.im, { scale: 1 }, { scale: 1.06, duration: dur, ease: 'none' }, at); },
+      in: (tl, at) => { tl.from(dv, { scaleX: 0, duration: 0.6, ease: 'expo.out' }, at).from(A.lab, { autoAlpha: 0, y: 30, duration: 0.6, ease: 'expo.out' }, at + 0.2)
+        .from(Bh.lab, { autoAlpha: 0, y: 30, duration: 0.6, ease: 'expo.out' }, at + 0.9); if (vs) tl.from(vs, { scale: 0, duration: 0.5, ease: 'back.out(2.4)' }, at + 0.5); return at + 1.5; } };
+  },
+  // ---- photo grid: 4–6 real photos tile the whole frame, one title band in the safe zone ------------------------------------------
+  grid(beat, b) {
+    beat.classList.add('grd');
+    const ims = b.images || [], n = ims.length, cols = 2, rows = Math.ceil(n / cols), gap = 8;
+    const cells = ims.map((src, i) => { const c = el('div', 'grdcell'); const r = Math.floor(i / cols), q = i % cols, last = i === n - 1 && n % cols;
+      Object.assign(c.style, { left: (last ? 0 : q * 50) + '%', width: `calc(${last ? 100 : 50}% - ${gap / 2}px)`, top: (r * 100 / rows) + '%', height: `calc(${100 / rows}% - ${gap}px)` }); if (q && !last) c.style.left = `calc(50% + ${gap / 2}px)`;
+      const im = el('img'); im.src = src; c.appendChild(im); beat.appendChild(c); return c; });
+    const band = el('div', 'grdband'); beat.appendChild(band); if (b.kicker) band.appendChild(el('div', 'kicker', b.kicker)); const ls = lines(band, b.text || [], 'h2');
+    return { hold: (tl, at, dur) => cells.forEach((c, i) => tl.fromTo(c.firstChild, { scale: 1.08 }, { scale: 1, duration: dur, ease: 'none' }, at)),
+      in: (tl, at) => { tl.from(cells, { autoAlpha: 0, scale: 0.94, duration: 0.5, ease: 'expo.out', stagger: 0.08 }, at); tl.from(band, { autoAlpha: 0, y: -30, duration: 0.6, ease: 'expo.out' }, at + 0.4); return rise(tl, ls, at + 0.5); } };
+  },
+  // ---- checklist: items with boxes that tick one by one (on = how many get ticked; default all) ----------------------------------
+  checklist(beat, b) {
+    if (b.kicker) beat.appendChild(el('div', 'kicker', b.kicker)); const ls = lines(beat, b.title || [], 'h2');
+    const NS = 'http://www.w3.org/2000/svg', on = b.on ?? (b.items || []).length;
+    const rows = (b.items || []).map((x, i) => { const r = el('div', 'ck'); const bx = el('div', 'ckbox'); const sv = document.createElementNS(NS, 'svg'); sv.setAttribute('viewBox', '0 0 72 72');
+      const p = document.createElementNS(NS, 'path'); p.setAttribute('d', 'M10,38 L29,57 L64,14'); sv.appendChild(p); bx.appendChild(sv); r.append(bx, el('div', 'cktxt', x)); beat.appendChild(r); return { r, p, tick: i < on }; });
+    return { in: (tl, at) => { let e = rise(tl, ls, at); rows.forEach((o, i) => { const t = e + i * (b.step || 0.9); tl.from(o.r, { autoAlpha: 0, x: -30, duration: 0.45, ease: 'expo.out' }, t);
+        gsap.set(o.p, { strokeDasharray: 120, strokeDashoffset: 120 }); if (o.tick) tl.to(o.p, { strokeDashoffset: 0, duration: 0.35, ease: 'power2.out' }, t + 0.4); }); return e + rows.length * (b.step || 0.9); } };
   },
   // ---- SB-T8 流程三步: numbered conditions arrive one by one, each with a tick drawn after it ----------------------------------------
   steps(beat, b) {
@@ -413,20 +515,20 @@ const LAYOUT = {
     const edges = (b.edges || []).map(([a, c]) => { const line = document.createElementNS(NS, 'line'); line.setAttribute('class', 'dgedge'); svg.appendChild(line);
       const tip = document.createElementNS(NS, 'polygon'); tip.setAttribute('points', '-16,-11 6,0 -16,11'); tip.setAttribute('class', 'dgtip'); svg.appendChild(tip);
       const g = { a, c, line, tip, x1: 0, y1: 0, x2: 0, y2: 0 };
-      FIX.push(() => { const A = box(nodes[a]), C = box(nodes[c]); svg.setAttribute('viewBox', `0 0 ${beat.offsetWidth} ${beat.offsetHeight}`);
+      g.measure = () => { const A = box(nodes[a]), C = box(nodes[c]);   /* measured again when the arrow plays: fonts that load late re-wrap the title and move the boxes */ svg.setAttribute('viewBox', `0 0 ${beat.offsetWidth} ${beat.offsetHeight}`);
         const my = (Math.max(A.y, C.y) + Math.min(A.y + A.h, C.y + C.h)) / 2, level = Math.min(A.y + A.h, C.y + C.h) > Math.max(A.y, C.y);   // side by side: one level line through the height both boxes share
         if (C.x >= A.x + A.w) Object.assign(g, { x1: A.x + A.w + 8, y1: level ? my : A.y + A.h / 2, x2: C.x - 12, y2: level ? my : C.y + C.h / 2 });
         else if (C.x + C.w <= A.x) Object.assign(g, { x1: A.x - 8, y1: level ? my : A.y + A.h / 2, x2: C.x + C.w + 12, y2: level ? my : C.y + C.h / 2 });
         else if (C.y >= A.y + A.h) Object.assign(g, { x1: A.x + A.w / 2, y1: A.y + A.h + 8, x2: C.x + C.w / 2, y2: C.y - 12 });
         else Object.assign(g, { x1: A.x + A.w / 2, y1: A.y - 8, x2: C.x + C.w / 2, y2: C.y + C.h + 12 });
-        line.setAttribute('x1', g.x1); line.setAttribute('y1', g.y1); line.setAttribute('x2', g.x2); line.setAttribute('y2', g.y2); });
-      return g; });
+        line.setAttribute('x1', g.x1); line.setAttribute('y1', g.y1); line.setAttribute('x2', g.x2); line.setAttribute('y2', g.y2); };
+      FIX.push(g.measure); return g; });
     if (b.note) beat.appendChild(el('div', 'dgnote', b.note));
     return { in: (tl, at) => { const e = rise(tl, ls, at), step = 0.4, shown = i => e + i * step + 0.45;
       nodes.forEach((n, i) => tl.from(n, { autoAlpha: 0, scale: 0.85, duration: 0.45, ease: 'back.out(2)' }, e + i * step));     // boxes first
       edges.forEach(g => { const t0 = Math.max(shown(g.a), shown(g.c)), o = { p: 0 };                                     // a line only after both of its boxes
-        const place = () => { const x = g.x1 + (g.x2 - g.x1) * o.p, y = g.y1 + (g.y2 - g.y1) * o.p, r = Math.atan2(g.y2 - g.y1, g.x2 - g.x1) * 180 / Math.PI; g.tip.setAttribute('transform', `translate(${x},${y}) rotate(${r})`); };
-        tl.fromTo(g.line, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3 }, t0).fromTo(g.tip, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, t0)
+        const place = () => { g.measure(); const x = g.x1 + (g.x2 - g.x1) * o.p, y = g.y1 + (g.y2 - g.y1) * o.p, r = Math.atan2(g.y2 - g.y1, g.x2 - g.x1) * 180 / Math.PI; g.tip.setAttribute('transform', `translate(${x},${y}) rotate(${r})`); };
+        tl.fromTo(g.line, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, onStart: g.measure }, t0).fromTo(g.tip, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.2 }, t0)
           .fromTo(o, { p: 0 }, { p: 1, duration: 0.8, ease: 'power1.inOut', onUpdate: place, repeat: 1, repeatDelay: 0.5 }, t0); });
       const n = beat.querySelector('.dgnote'); if (n) tl.from(n, { autoAlpha: 0, duration: 0.4 }, e + nodes.length * step); return e + nodes.length * step + 1.2; } };
   },

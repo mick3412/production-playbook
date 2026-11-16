@@ -485,7 +485,7 @@ frame(d + "/late.png", [("LATE HOOK", 120, 600), ("tiny caption under the button
         out = self.pb("qa", str(bad), "--card", str(card), "--out", str(self.tmp / "card_qa.json"), ok=None)
         self.assertRegex(out, r"FAIL  第 1 段文字完整出現：.*沒讀到：hidden、headline")
         self.assertNotRegex(out, r"第 1 段安全區：.*tiny")
-        self.assertIn("下方區塊", self.pb("storyboard", "--use", "SB-T1"))
+        self.assertIn("畫面層（滿版", self.pb("storyboard", "--use", "SB-T1"))   # 2026-11-16: the lower block became the full-frame visual layer
 
     def test_video_qa_safe_zone_follows_handbook_s0_06(self):
         sys.path.insert(0, str(REPO / "bin"))

@@ -61,6 +61,27 @@ def box_contrast(img: str, b: dict, W: int, H: int) -> float:
     return round((hi + 0.05) / (lo + 0.05), 1)
 
 
+LAYOUTS = {}
+try:   # the layout catalogue: each layout's text zone (production-playbook kits)
+    LAYOUTS = {x["id"]: x for x in json.loads((Path(__file__).resolve().parents[1] / "kits" / "storyboard" / "layouts.json").read_text(encoding="utf-8"))["版型"]}
+except (OSError, ValueError, KeyError):
+    pass
+
+
+def lower_blank(late: str, early: str) -> bool:
+    """The frame under the text zone (y 65–100 %) is one flat colour and does not move between two moments of the beat."""
+    try:
+        from PIL import Image, ImageChops, ImageStat
+    except ImportError:   # Pillow missing: the fill check is skipped, the rest of the review still runs
+        return None
+    def crop(p):
+        im = Image.open(p).convert("L"); w, h = im.size
+        return im.crop((0, int(h * 0.65), w, h)).resize((90, 60))
+    a, b = crop(late), crop(early)
+    still = ImageStat.Stat(ImageChops.difference(a, b)).mean[0] < 1.5
+    return ImageStat.Stat(a).stddev[0] < 6 and still
+
+
 def words(t: str) -> tuple[int, int]:
     return len(re.findall(r"[A-Za-z0-9][A-Za-z0-9'’.&%$-]*", t)), len(re.findall(r"[㐀-鿿]", t))
 
@@ -98,14 +119,19 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
         if known is None: return True
         ws = re.findall(r"[a-z0-9]+|[\u3400-\u9fff]", x["text"].lower())
         flat = re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", x["text"].lower())
-        return not ws or sum(w in known for w in ws) / len(ws) >= 0.5 or (len(flat) >= 4 and (flat in blob or flat[1:] in blob))
+        import difflib   # a lone word with one letter misread ("yeaI" for "year") is still the card's word, not text in the footage
+        kn = lambda w: w in known or (len(w) >= 4 and any(len(k) == len(w) and difflib.SequenceMatcher(None, w, k).ratio() >= 0.75 for k in known))
+        return not ws or sum(kn(w) for w in ws) / len(ws) >= 0.5 or (len(flat) >= 4 and (flat in blob or flat[1:] in blob))
     # decorative type declared on the card (b["deco"]) may sit outside the safe zone and be covered by platform UI: it is not text to read
     def low(v):
         if isinstance(v, str): return [v]
         if isinstance(v, list): return [y for x in v for y in low(x)]
         if isinstance(v, dict): return [y for k, x in v.items() if k != "image" for y in low(x)]
         return [str(v)] if isinstance(v, (int, float)) else []
-    deco = [re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", re.sub(r"&[a-z]+;", "", t.lower())) for b in (card or {}).get("beats", []) for t in ([str(b["deco"])] if b.get("deco") else []) + low(b.get("lower"))]
+    def vis_text(b, card):   # the visual layer (owner rule 2026-11-16) is design: a giant numeral or word in it is not reading text
+        v = b["visual"] if "visual" in b else (card or {}).get("visual")
+        return [str(x.get("text", "")) for x in ([] if v is None else [v] if isinstance(v, dict) else v) if isinstance(x, dict) and x.get("type") in ("numeral", "word")]
+    deco = [re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", re.sub(r"&[a-z]+;", "", t.lower())) for b in (card or {}).get("beats", []) for t in ([str(b["deco"])] if b.get("deco") else []) + low(b.get("lower")) + vis_text(b, card)]
     deco = [d for d in deco if d]
     def is_deco(x, size):
         flat = re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", x["text"].lower())
@@ -123,7 +149,7 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
     else:
         add("鉤子：0.6 秒內有大字", hh >= NORM["hook_min_h"], f"最大字高 {hh}%", f"≥ {NORM['hook_min_h']}%")
     if not static: add("鉤子：第一段長度", beats[0]["b"] - beats[0]["a"] <= NORM["hook_max_s"], f"{beats[0]['b'] - beats[0]['a']:.1f} 秒", f"≤ {NORM['hook_max_s']} 秒")
-    seen_text = ""
+    seen_text = ""; blank = {}
     # labels that repeat on most beats (series name, handle) are page furniture: checked for size and safe zone, not counted as reading
     frames = {}
     for i, bt in enumerate(beats, 1):
@@ -181,9 +207,24 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
             add(f"第 {i} 段最小字", row["最小字高%"] >= NORM["floor_h"], f"最小 {row['最小字高%']}%", f"≥ {NORM['floor_h']}%", warn=row["最小字高%"] >= NORM["floor_h"] - 0.3)
             add(f"第 {i} 段安全區", not out, "、".join(out) or "都在內", f"{platform} 安全區（S0-06）")
             add(f"第 {i} 段對比", row["最低對比"] >= NORM["contrast"], f"{row['最低對比']} : 1", f"≥ {NORM['contrast']} : 1", warn=True)
+        # layout fit (owner rule 2026-11-16): with a card, every word of the overlay must sit inside its layout's text zone (kits/storyboard/layouts.json)
+        lay = LAYOUTS.get(bt["layout"]) if card else None
+        if lay and lay.get("字區") and platform == "reels-tiktok" and abs((H / W) - (1350 / 1080 if lay.get("版面") == "1080×1350" else 1920 / 1080)) < 0.05:
+            z = lay["字區"]; sl = lambda x: max(0.025, x["h"] * 0.6)   # OCR boxes on very large type spill wider than the glyphs (a 240 px figure read 6 % to the left)
+            off = [x["text"][:20] for x in bx if not is_chrome(x["text"]) and (x["x"] < z["x"][0] / 100 - sl(x) or x["x"] + x["w"] > z["x"][1] / 100 + sl(x) or x["y"] < z["y"][0] / 100 - sl(x) or x["y"] + x["h"] > z["y"][1] / 100 + sl(x))]
+            add(f"第 {i} 段版型符合度", not off, "、".join(off) or f"字都在 {bt['layout']} 的字區內", f"{bt['layout']} 字區 x {z['x'][0]}–{z['x'][1]}%、y {z['y'][0]}–{z['y'][1]}%")
+        # visual layer filled (owner rule 2026-11-16): under the text zone the frame must carry a picture, a chart, a colour block or motion — never a flat strip
+        if H > W * 1.5:
+            a2 = vp.grab(video, bt["a"] + span * 0.4, tmp / f"beat{i:02d}_early.jpg")
+            v = lower_blank(img, a2)
+            if v is not None: blank[i] = v
         lo, hi = NORM["beat"]
         if i < len(beats):
             add(f"第 {i} 段長度", lo <= span <= hi, f"{span:.1f} 秒", f"{lo}–{hi} 秒", warn=True)
+    if blank:   # one flat beat is a warning; two in a row fail (the strip the owner rejected on 2026-11-14)
+        flat = [i for i, v in blank.items() if v]; run = max((len(list(g)) for k, g in __import__("itertools").groupby(blank[i] for i in sorted(blank)) if k), default=0)
+        add("畫面層填滿（安全區下方不留空白）", not flat or run < 2, "、".join(f"第 {i} 段" for i in flat) + "下方是純色且不動" if flat else "每段下方都有畫面或動態",
+            "y 65% 以下要有照片、圖表延伸、色塊或動態（visual 欄位）", warn=bool(flat) and run < 2)
     add("結尾長度", beats[-1]["b"] - beats[-1]["a"] >= NORM["last_min"], f"{beats[-1]['b'] - beats[-1]['a']:.1f} 秒", f"≥ {NORM['last_min']} 秒")
     norm = lambda s: re.sub(r"[^a-z0-9]+", "", s.lower())
     for ph in require:
