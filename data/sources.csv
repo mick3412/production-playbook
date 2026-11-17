@@ -79,3 +79,4 @@
 "S76","IG 輪播：AI 剪片 Skill 八選（iamlily.genai，2026-11-17）","（截圖，無網址）","2026-11-18","OpenMontage、video-shotcraft、ffmpeg-skill 已有；新收 herk-edit-kit（實測）、drama-skills（實測檢查器）、OpenChatCut（查證）；chengfeng-videocut 只支援 Codex、anything2explainer 非商用授權"
 "S77","PDF〈Claude｜20 種剪片特效・指令懶人包〉（亨利溫，2026-11-14）","https://drive.google.com/file/d/1NHssb9unZIx85yXKCqcAgbqJViYDhNGL/view","2026-11-18","收共用設定、20 組關鍵數值與拍攝四點（S5 條目）；霓虹描邊用 Apple Vision＋ffmpeg 實測；5 個新詞彙"
 "S78","PDF〈Short-Form Storytelling (Writing Guide)〉（Kallaway）","https://drive.google.com/file/d/1Bs5bgxP-A4cmCUPMRPy5oFS4nbsXYgNn/view","2026-11-18","收腳本骨架、鉤子四要件、鎖定區六種寫法、再鉤位置；中文字數換算為桌上試寫結果。作者販售課程"
+"S79","Notion 筆記（AI 生成師果豪）：〈3 個剪輯技巧〉〈20 種動畫風格〉〈3 個重點｜提升 AI 的審美〉","https://ivory-tub-110.notion.site/3-Claude-3f5fe6bb97aa81389e96fefb36e96d41","2026-11-18","收音樂高潮定位（S4 條目＋bin/music_drop.py 實測）、依內容挑動畫風格（S3 條目）、字幕動畫先做三種 3 秒預覽（併入 S3-28）。安全區上 250／下 450／右 120 比本書 S0-06 寬鬆、字幕 16 字比 S5-29 的 11 字寬鬆，維持本書數字。20 種風格範本庫無授權檔，只參考不取用"
