@@ -235,6 +235,17 @@ class ChooseFindsTheSamples(unittest.TestCase): # issues 7 and 8
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertEqual(json.loads(out.read_text(encoding="utf-8"))["選的方向"], 3)
 
+    def test_a_rerun_clears_the_old_pick(self):
+        p = json.loads(self.picks.read_text(encoding="utf-8")); p["選"] = 2
+        self.picks.write_text(json.dumps(p, ensure_ascii=False), encoding="utf-8")
+        subprocess.run([sys.executable, str(REPO / "bin" / "direction.py"), "samples", str(self.picks), "--hook", "30 年，漲 12.8 倍", "--no-render", "--out", str(self.samples)], capture_output=True, text=True)
+        p = json.loads(self.picks.read_text(encoding="utf-8"))
+        self.assertIsNone(p["選"])
+        self.assertTrue(p["樣片時間"])
+        r = self.choose()
+        self.assertNotEqual(r.returncode, 0)
+        self.assertIn("在樣片頁選一個方向", r.stderr)
+
     def test_errors_name_the_command_that_works(self):
         r = self.choose()
         self.assertNotEqual(r.returncode, 0)

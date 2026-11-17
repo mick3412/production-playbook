@@ -82,3 +82,4 @@
 - 2026-11-17 圖表 fill 修正（第二輪審查抓到）：曲線下面積只畫資料範圍、停在基線，基線下方改淺色地面鋪滿；zero:true 標 0、基線加粗；圖鑑重出
 - 2026-11-17 生成提示詞改成骨架：data/prompt_skeleton.json（圖片、影片各 13 段）、data/prompt_examples/（負責人範例＋基準卡＋反例）、pb.py prompt-check；spec --from 抓比例與分區、圖片不再帶影片數值、一般用詞不套風格、調性和風格不同時列選項、spec 圖片 真正切到圖片；步驟 4.2、1.3、新關卡、S4-05 改寫、新條目 S4-36；本機盲評舊式 6.0 → 骨架 13.25（滿分 16）
 - 2026-11-17 方向對齊：pb.py direction（page／samples／choose）、bin/direction.py、data/direction_rules.json；6 題單軸二選一（參考片量測值）、參考牆、用自己內容算 3 個方向樣片 → 方向卡；storyboard --emit --direction 照方向卡設動態、色盤、明暗；storyboard --use 列出模板的真實例子；步驟 1.0、G1.0、S1-11
+- 2026-11-17 方向對齊實測修正：serve 本機開頁、鉤子句縮字拆行與 card-check 放不下 FAIL、都不要用中性值、參考牆勾點即要並借節奏配色、三方向定格可辨、選完提醒下載、choose 從 picks.json 讀方向和樣片資料夾

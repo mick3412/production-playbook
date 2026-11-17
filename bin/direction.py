@@ -159,12 +159,14 @@ JS = r"""
 const D = window.DATA, served = location.protocol.startsWith('http');
 const read = () => { try { return JSON.parse(localStorage.getItem(D.store) || 'null'); } catch (e) { return null; } };
 let S = read() || {二選一: {}, 參考牆: {}};
-if (D.picks) S = {...S, 二選一: D.picks.二選一 || {}, 參考牆: D.picks.參考牆 || {}, 選: (read() || {}).選 ?? D.picks.選 ?? null};   // the samples page starts from the picks its samples were made from
-const out = () => ({需求: D.need, 形式: D.form, 二選一: S.二選一, 參考牆: S.參考牆, 選: S.選 || null, ...(D.samplesDir ? {樣片資料夾: D.samplesDir} : {}), 時間: new Date().toISOString()});
+const RUN = D.store + ':選:' + (D.run || '');      // a pick belongs to one set of samples: a rerun never brings an old pick back
+const readPick = () => { try { return JSON.parse(localStorage.getItem(RUN) || 'null'); } catch (e) { return null; } };
+if (D.picks) S = {...S, 二選一: D.picks.二選一 || {}, 參考牆: D.picks.參考牆 || {}, 選: readPick() ?? D.picks.選 ?? null};   // the samples page starts from the picks its samples were made from
+const out = () => ({需求: D.need, 形式: D.form, 二選一: S.二選一, 參考牆: S.參考牆, 選: D.samples ? S.選 || null : null, ...(D.samplesDir ? {樣片資料夾: D.samplesDir, 樣片時間: D.run} : {}), 時間: new Date().toISOString()});
 let dirty = false;
 // served by `pb.py direction serve`: every change is written to picks.json in the served folder; opened as a file: download it
 function save(user = true) {
-  try { localStorage.setItem(D.store, JSON.stringify(S)); } catch (e) {}
+  try { localStorage.setItem(D.store, JSON.stringify({...S, 選: null})); if (D.samples) localStorage.setItem(RUN, JSON.stringify(S.選 || null)); } catch (e) {}
   window.PICKS = out(); if (!user) return status();
   dirty = true; status();
   if (served) fetch('/save', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(out(), null, 1)})
@@ -242,6 +244,7 @@ def page(I: dict | None, need: str, pairs: list[dict], out: Path, samples: list[
     vids = [{k: v[k] for k in ("key", "片長", "每鏡秒", "影片", "總覽", "形式類", "亮度", "飽和", "變化", "字面積", "照片")} | {"形式": v.get("形式", ""), "鏡": v["鏡"][:1]} for v in (I or {}).get("片", [])] if not samples else []
     data = {"need": need, "form": form, "store": "dir:" + re.sub(r"\W+", "", need)[:40], "pairs": pairs, "vids": vids, "samples": samples, "ref": str(ref_dir()),
             "picks": {k: picks.get(k) for k in ("二選一", "參考牆", "選")} if samples and picks else None, "samplesDir": str(out.resolve()) if samples else None,
+            "run": (picks or {}).get("樣片時間") if samples else None,
             "wallRule": f"勾了要借的點就算「要」；按「不要」會清掉勾選。量得到的點（{'、'.join(WALL['借用'])}）會借進方向 2；{'、'.join(WALL['只記錄'])} 只記錄在方向卡，不影響樣片。",
             "axes": [{k: a[k] for k in ("id", "特徵", "低", "高")} for a in AXES], "aspects": ["節奏", "版面", "配色", "字的進場", "照片處理", "轉場"]}
     units_js = {"節奏": "v=>`每鏡 ${v.每鏡秒} 秒`", "動態": "v=>`畫面變化 ${v.變化}`", "字量": "v=>`字占畫面 ${v.字面積}%`", "畫面": "v=>`照片感 ${Math.round(v.照片*100)}%`",
@@ -611,6 +614,10 @@ def cmd_samples(a) -> int:
     if len(samples) < 3 and ok:
         print("只找得到 %d 個在定格上看得出差別的方向（其他軸都選了「都不要」）" % len(samples))
     picks["樣片資料夾"] = str(out.resolve())      # choose finds the samples from here, wherever --out put them
+    picks["樣片時間"] = dt.datetime.now().isoformat(timespec="seconds")
+    if picks.get("選"):
+        print(f"（picks.json 原本的「選」{picks['選']} 是上一組樣片的，已清掉：在新的樣片頁重選）")
+    picks["選"] = None                            # a pick made on older samples never carries over to new ones
     pp.write_text(json.dumps(picks, ensure_ascii=False, indent=1), encoding="utf-8")
     if samples and not a.no_render:
         p = page(None, picks.get("需求", ""), [], out, samples, picks)
@@ -640,7 +647,7 @@ def cmd_choose(a) -> int:
         a.samples, a.out = a.out, None
     n = a.n or picks.get("選")
     if not n:
-        sys.exit(f"{pp} 裡沒有「選」：在樣片頁選一個方向（serve 開的會自動存），或直接給編號：`pb.py direction choose {pp} 1`")
+        sys.exit(f"{pp} 裡沒有「選」：在樣片頁選一個方向（`pb.py direction serve <樣片資料夾> --picks {pp}` 開的會自動存；直接開檔的要下載蓋掉 picks.json），或直接給編號：`pb.py direction choose {pp} 1`")
     folder, tried = samples_dir(a, picks)
     if not folder:
         sys.exit(f"找不到 direction{n}.json（找過：{'、'.join(str(t) for t in tried)}）。\n"
