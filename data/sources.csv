@@ -72,3 +72,4 @@
 "S69","動畫服務指令截圖（/logo-animation、/micro-interactions、/website-hero、/explainer、/product-demo；來源未標）","（截圖，無網址）","2026-11-15","只收一個做法：動畫做成品牌的一套可重用元件"
 "S70","skillleaderboard.com 2026 年 10 月 GitHub 新增收藏前 10 名（截圖）","https://skillleaderboard.com","2026-11-16","本書收 Anatomy（T-129）；其餘 8 個已在各手冊，Security Audit 收在工程手冊 T-36"
 "S71","notionlabs IG 輪播：7 種動態效果（截圖；原貼文需登入）與 vamshi.work 書籤（Unsplash、Lummi）","https://www.instagram.com/p/DfzxiwxiDBp/","2026-11-17","Paper Cut、Doodle Boil、Headline Wall、Cutout Grid 已有；新收排行倒數與逐級累加版型（S3-33）、UI 立體傾斜展示（語彙）；Explainer Panel 視為 notes／diagram"
+"S72","負責人決定：動態設計不寫死，分鏡套件的動態改成卡片設定（motion 預設）","kits/storyboard/text_motion.html；bench/runs/motion-2026-11-17","2026-11-17","不設 motion 與改版前 SSIM 0.9997；calm／soft／punchy 三個預設 qa 全 PASS"

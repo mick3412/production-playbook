@@ -1657,5 +1657,72 @@
    "照片→文字／數字／結構": "色塊換場",
    "任何→收尾": "色塊換場"
   }
+ },
+ "動態設定": {
+  "說明": "動態是設定，不是版型的一部分：每個版型的「動態」欄寫的是 crisp 預設的數值；card.motion（整支片）或 beat.motion（單段）可以換預設或調參數。只動畫面上已有的東西，不新增文字。寫法：\"motion\": {\"preset\": \"calm\"}，或 {\"preset\": \"crisp\", \"speed\": 0.9}。",
+  "預設": {
+   "crisp": {
+    "speed": 1,
+    "stagger": 1,
+    "enter": "mask",
+    "ease": null,
+    "transition": "panel",
+    "適合": "預設；資訊型、乾淨俐落（套件原本的樣子）"
+   },
+   "calm": {
+    "speed": 0.75,
+    "stagger": 1.4,
+    "enter": "fade",
+    "ease": "power2.out",
+    "transition": "fade",
+    "適合": "沉穩、高價、慢節奏的品牌；長句"
+   },
+   "soft": {
+    "speed": 0.85,
+    "stagger": 1.2,
+    "enter": "blur",
+    "ease": "sine.out",
+    "transition": "fade",
+    "適合": "生活感、照片故事、柔和調性"
+   },
+   "punchy": {
+    "speed": 1.3,
+    "stagger": 0.7,
+    "enter": "mask",
+    "ease": "expo.out",
+    "transition": "panel",
+    "適合": "鉤子密集、快節奏、年輕調性"
+   }
+  },
+  "欄位": {
+   "preset": "crisp｜calm｜soft｜punchy",
+   "speed": "0.5–1.6；>1 較快。進場時長與段內間隔 ×(1/speed)",
+   "stagger": "0.5–2；多行、多項之間的間隔倍率",
+   "enter": "mask（從遮罩升起）｜fade（淡入上移）｜blur（由模糊變清楚）｜scale（放大浮現）",
+   "ease": "GSAP 緩動名，例如 power2.out；只換進場類緩動，back（彈出）、inOut、none 保留",
+   "transition": "panel（色塊換場）｜fade（疊化）｜cut（硬切）；只在整支片層級。card.transition 有寫就以它為準"
+  },
+  "不受影響": "持續動態（ease none 的推近、漂移）、repeat／yoyo、跟配音對齊的時間（段落有 step 或 captions 時不移位置）",
+  "範圍": {
+   "speed": [
+    0.5,
+    1.6
+   ],
+   "stagger": [
+    0.5,
+    2
+   ]
+  },
+  "進場": [
+   "mask",
+   "fade",
+   "blur",
+   "scale"
+  ],
+  "換場": [
+   "panel",
+   "fade",
+   "cut"
+  ]
  }
 }

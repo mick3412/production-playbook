@@ -18,6 +18,7 @@ html,body{margin:0;width:var(--W,1080px);height:var(--H,1920px);overflow:hidden;
 .beat > *{flex-shrink:0}   /* a tall block (chart, list) must push the page, never squash the title masks above it */
 .kicker{font:600 60px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:40px}
 .mask{overflow:hidden;padding-bottom:.08em}
+.beat:not(.en-mask) .mask{overflow:visible}   /* fade/blur/scale entrances (card.motion.enter) must not be clipped by the line mask */
 .line{display:block;will-change:transform}
 .h1{font:600 134px/1.0 var(--head);letter-spacing:-.02em}
 .h2{font:600 84px/1.08 var(--head);letter-spacing:-.015em}
@@ -225,9 +226,10 @@ function build(card) {
   const link = el('link'); link.rel = 'stylesheet'; link.href = `https://fonts.googleapis.com/css2?family=${B.fonts.heading.replace(/ /g, '+')}:wght@400;600&family=${B.fonts.body.replace(/ /g, '+')}:wght@400;500;600&display=swap` + (B.fonts.extra || []).map(f => `&family=${f.replace(/ /g, '+')}`).join(''); document.head.appendChild(link);
   const stage = document.getElementById('stage'); if (WIRE) stage.classList.add('wire');
   const tl = gsap.timeline({ paused: true }); let t = 0;
+  const TR = card.transition || motionOf(card, null).transition;   // an explicit card.transition wins over the motion preset's
   card.beats.forEach((b, i) => {
     const tone = b.tone || (i % 2 ? 'dark' : 'light');
-    const beat = el('section', 'beat ' + tone); stage.appendChild(beat);
+    const M = motionOf(card, b), beat = el('section', 'beat ' + tone + ' en-' + M.enter); stage.appendChild(beat);
     if (WIRE) beat.appendChild(el('div', 'slotlabel', `${i + 1}｜${b.layout}｜${b.seconds}s`));
     if (b.layout !== 'disclosure') beat.appendChild(el('div', 'series', card.series || ''));   // the closing frame needs the room
     b._handle = B.handle || '';
@@ -235,17 +237,18 @@ function build(card) {
     // design outside the safe zone (owner rule): decorative type or a colour block that may be covered by platform UI without losing information
     const deco = b.deco ? el('div', 'deco ' + (b.deco_style || card.deco_style || 'ghost'), b.deco) : null; if (deco) { deco.setAttribute('aria-hidden', 'true'); beat.appendChild(deco); }
     const V = b.visual !== undefined ? b.visual : card.visual;   // a card-wide default visual layer; a beat may set its own or null for none
-    if (V) visualLayer(beat, V, tl, PAGE !== null ? 0 : (card.transition === 'fade' && i > 0 ? t - 0.45 : t), b.seconds + (card.transition === 'fade' && i > 0 ? 0.45 : 0), i);
+    if (V) visualLayer(beat, V, tl, PAGE !== null ? 0 : (TR === 'fade' && i > 0 ? t - 0.45 : t), b.seconds + (TR === 'fade' && i > 0 ? 0.45 : 0), i);
     if (PAGE !== null) { if (+PAGE === i) { tl.set(beat, { visibility: 'visible' }, 0); if (b.lower) lowerBlock(beat, b.lower, tl, 0, b.seconds || 3); L.in(tl, 0); } else beat.remove(); t = Math.max(t, +PAGE === i ? b.seconds || 3 : t); return; }
-    const fade = card.transition === 'fade' && i > 0;            // photo stories: soft cross-fade instead of the brand panel
+    const fade = TR === 'fade' && i > 0;            // photo stories: soft cross-fade instead of the brand panel
     tl.set(beat, { visibility: 'visible' }, fade ? t - 0.45 : t);
     if (fade) tl.fromTo(beat, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.45, ease: 'sine.inOut' }, t - 0.45);
     if (L.hold) L.hold(tl, fade ? t - 0.45 : t, b.seconds + (fade ? 0.45 : 0));
     if (b.lower) lowerBlock(beat, b.lower, tl, fade ? t - 0.45 : t, b.seconds);
     if (deco) tl.fromTo(deco, { xPercent: 0 }, { xPercent: deco.classList.contains('vertical') ? 0 : -3, yPercent: deco.classList.contains('vertical') ? -3 : 0, duration: b.seconds, ease: 'none' }, t);
-    L.in(tl, t + (i ? 0.25 : 0.05));
-    if (card.transition === 'fade' || card.transition === 'cut') {
-      if (i < card.beats.length - 1) tl.set(beat, { visibility: 'hidden' }, t + b.seconds + (card.transition === 'fade' ? 0.01 : 0));
+    const at0 = t + (i ? 0.25 : 0.05);
+    L.in(paced(tl, at0, M, b.step !== undefined || Array.isArray(b.captions), t + b.seconds), at0);
+    if (TR === 'fade' || TR === 'cut') {
+      if (i < card.beats.length - 1) tl.set(beat, { visibility: 'hidden' }, t + b.seconds + (TR === 'fade' ? 0.01 : 0));
     } else if (i < card.beats.length - 1) {                      // brand panel push into the next beat (色塊換場)
       const p = el('div', 'panel ' + (tone === 'dark' ? 'light' : 'dark')); stage.appendChild(p); gsap.set(p, { xPercent: 100 });
       const T = t + b.seconds; tl.fromTo(p, { xPercent: 100 }, { xPercent: 0, duration: 0.32, ease: 'power3.in' }, T - 0.32)
@@ -306,6 +309,46 @@ function visualLayer(beat, V, tl, at, dur, idx) {
 }
 
 // ---- layouts (components) --------------------------------------------------------------
+// ---- motion settings: card.motion / beat.motion = {preset, speed, stagger, enter, ease, transition} ------------------------
+// The layouts below are written in the 'crisp' numbers (the kit's look before 2026-11-17); a preset re-times them, it does not
+// rewrite them. Kept in step with MOTION in build_layouts.py (layouts.json「動態設定」, checked by pb.py card-check and the tests).
+const MOTION_PRESETS = {
+  crisp:  { speed: 1,    stagger: 1,   enter: 'mask',  ease: null,         transition: 'panel' },
+  calm:   { speed: 0.75, stagger: 1.4, enter: 'fade',  ease: 'power2.out', transition: 'fade' },
+  soft:   { speed: 0.85, stagger: 1.2, enter: 'blur',  ease: 'sine.out',   transition: 'fade' },
+  punchy: { speed: 1.3,  stagger: 0.7, enter: 'mask',  ease: 'expo.out',   transition: 'panel' },
+};
+const ENTER = { fade: { autoAlpha: 0, y: 40 }, blur: { autoAlpha: 0, filter: 'blur(16px)' }, scale: { autoAlpha: 0, scale: 0.86, transformOrigin: '0% 100%' } };
+const ENTRY_EASE = /^(expo|power\d|sine|circ|cubic|quad|quart|quint)\.out$/;   // only the entrance family is re-eased: back.out (pop), inOut and none keep their role
+function motionOf(card, b) {
+  const c = card.motion || {}, m = (b && b.motion) || {}, P = MOTION_PRESETS;
+  return m.preset ? Object.assign({}, P[m.preset] || P.crisp, m) : Object.assign({}, P[c.preset] || P.crisp, c, m);
+}
+// A stand-in for the timeline, handed to a layout's in(): durations and in-beat offsets scale by 1/speed, item gaps also by stagger,
+// mask entrances (yPercent 110) become the chosen entrance. Untouched: ease 'none' (holds and drifts), repeat/yoyo, and offsets tied to
+// the voiceover (a beat with step or captions keeps its positions). Starts are clamped so an entrance is in before the beat changes.
+function paced(tl, base, M, keepPos, end) {
+  const k = 1 / M.speed, st = M.stagger;
+  if (k === 1 && st === 1 && !M.ease && M.enter === 'mask') return tl;
+  const pos = p => typeof p !== 'number' || keepPos ? p : Math.min(base + (p - base) * k, Math.max(p, end - 0.6));
+  const vars = (v, from) => {
+    if (!v || typeof v !== 'object' || v.ease === 'none' || v.repeat !== undefined || v.yoyo) return v;
+    const o = Object.assign({}, v);
+    if (from && o.yPercent === 110 && M.enter !== 'mask' && ENTER[M.enter]) { delete o.yPercent; Object.assign(o, ENTER[M.enter]); }
+    if (typeof o.duration === 'number') o.duration *= k;
+    if (typeof o.stagger === 'number') o.stagger *= k * st;
+    else if (o.stagger && typeof o.stagger.each === 'number') o.stagger = Object.assign({}, o.stagger, { each: o.stagger.each * k * st });
+    if (M.ease && ENTRY_EASE.test(o.ease || 'power1.out')) o.ease = M.ease;
+    return o;
+  };
+  const T = {
+    from(t, v, p) { tl.from(t, vars(v, true), pos(p)); return T; },
+    to(t, v, p) { tl.to(t, vars(v), pos(p)); return T; },
+    fromTo(t, a, v, p) { tl.fromTo(t, a, vars(v), pos(p)); return T; },
+    set(t, v, p) { tl.set(t, v, pos(p)); return T; },
+  };
+  return T;
+}
 const rise = (tl, items, at, stagger = 0.12) => { tl.from(items, { yPercent: 110, duration: 0.7, ease: 'expo.out', stagger }, at); return at + 0.7 + stagger * (items.length - 1); };
 const LAYOUT = {
   hook(beat, b) { if (b.kicker) beat.appendChild(el('div', 'kicker', b.kicker)); const ls = lines(beat, b.text, 'h1'); ls.forEach(l => { l.style.fontSize = (b.size || 160) + 'px'; }); /* 160 px is the smallest size that measures 8 % in the review (0.6 s hook rule); 134 read 6.4 % */ const r = el('div', 'rule'); beat.appendChild(r);

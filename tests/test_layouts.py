@@ -74,6 +74,39 @@ class CardCheck(unittest.TestCase):
         self.assertIn("對模板", r.stdout)
 
 
+class MotionSettings(unittest.TestCase):
+    def test_kit_presets_match_the_catalogue(self):
+        import re
+        js = KIT[KIT.index("const MOTION_PRESETS = {"):KIT.index("};", KIT.index("const MOTION_PRESETS = {"))]
+        kit = {}
+        for name, body in re.findall(r"(\w+):\s*\{([^}]*)\}", js):
+            kv = dict(re.findall(r"(\w+):\s*('[^']*'|null|[\d.]+)", body))
+            kit[name] = {k: None if v == "null" else v.strip("'") if v.startswith("'") else float(v) for k, v in kv.items()}
+        cat = {n: {k: v for k, v in p.items() if k != "適合"} for n, p in LAY["動態設定"]["預設"].items()}
+        self.assertEqual(set(kit), set(cat))
+        for n in cat:
+            for k, v in cat[n].items():
+                self.assertEqual(kit[n][k], float(v) if isinstance(v, (int, float)) else v, f"{n}.{k}")
+
+    def test_unknown_preset_and_out_of_range_fail(self):
+        tmp = Path(tempfile.mkdtemp())
+        card = {"motion": {"preset": "wobbly", "speed": 3}, "beats": [{"layout": "hook", "seconds": 2, "text": ["Up 12×"], "visual": {"type": "glow"},
+                                                                        "motion": {"enter": "spin", "transition": "fade"}}]}
+        f = tmp / "m.json"; f.write_text(json.dumps(card), encoding="utf-8")
+        r = pb("card-check", str(f))
+        self.assertEqual(r.returncode, 1)
+        for s in ("wobbly", "speed", "spin", "transition 只能寫在整支片"):
+            self.assertIn(s, r.stdout)
+
+    def test_valid_motion_passes(self):
+        tmp = Path(tempfile.mkdtemp())
+        card = {"motion": {"preset": "calm", "speed": 0.9}, "beats": [{"layout": "hook", "seconds": 2, "text": ["Up 12×"], "visual": {"type": "glow"}, "motion": {"preset": "punchy"}}]}
+        f = tmp / "m.json"; f.write_text(json.dumps(card), encoding="utf-8")
+        r = pb("card-check", str(f))
+        self.assertIn("PASS  動態", r.stdout)
+        self.assertNotIn("FAIL", r.stdout)
+
+
 try:
     import PIL  # noqa: F401  (video_qa needs Pillow; skip where it is not installed)
     HAS_PIL = True

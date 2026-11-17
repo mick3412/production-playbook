@@ -157,9 +157,34 @@ DENSITY = {"hook": "少字", "statement": "少字", "quote": "少字", "takeaway
            "cover": "少字", "split": "少字", "grid": "少字", "checklist": "多字", "qa": "多字", "verdict": "多字", "cta": "少字", "disclosure": "多字"}
 for r in LAYOUTS: r["字量"] = DENSITY[r["id"]]
 
+# Motion is a setting, not part of the layout (2026-11-17): each layout's 動態 above is written in the crisp numbers; card.motion (or a
+# beat's own motion) re-times it. Keep MOTION in step with MOTION_PRESETS in text_motion.html (tests/test_layouts.py compares them).
+MOTION = {
+ "說明": "動態是設定，不是版型的一部分：每個版型的「動態」欄寫的是 crisp 預設的數值；card.motion（整支片）或 beat.motion（單段）可以換預設或調參數。"
+         "只動畫面上已有的東西，不新增文字。寫法：\"motion\": {\"preset\": \"calm\"}，或 {\"preset\": \"crisp\", \"speed\": 0.9}。",
+ "預設": {
+  "crisp":  {"speed": 1,    "stagger": 1,   "enter": "mask",  "ease": None,         "transition": "panel", "適合": "預設；資訊型、乾淨俐落（套件原本的樣子）"},
+  "calm":   {"speed": 0.75, "stagger": 1.4, "enter": "fade",  "ease": "power2.out", "transition": "fade",  "適合": "沉穩、高價、慢節奏的品牌；長句"},
+  "soft":   {"speed": 0.85, "stagger": 1.2, "enter": "blur",  "ease": "sine.out",   "transition": "fade",  "適合": "生活感、照片故事、柔和調性"},
+  "punchy": {"speed": 1.3,  "stagger": 0.7, "enter": "mask",  "ease": "expo.out",   "transition": "panel", "適合": "鉤子密集、快節奏、年輕調性"},
+ },
+ "欄位": {
+  "preset": "crisp｜calm｜soft｜punchy",
+  "speed": "0.5–1.6；>1 較快。進場時長與段內間隔 ×(1/speed)",
+  "stagger": "0.5–2；多行、多項之間的間隔倍率",
+  "enter": "mask（從遮罩升起）｜fade（淡入上移）｜blur（由模糊變清楚）｜scale（放大浮現）",
+  "ease": "GSAP 緩動名，例如 power2.out；只換進場類緩動，back（彈出）、inOut、none 保留",
+  "transition": "panel（色塊換場）｜fade（疊化）｜cut（硬切）；只在整支片層級。card.transition 有寫就以它為準",
+ },
+ "不受影響": "持續動態（ease none 的推近、漂移）、repeat／yoyo、跟配音對齊的時間（段落有 step 或 captions 時不移位置）",
+ "範圍": {"speed": [0.5, 1.6], "stagger": [0.5, 2]},
+ "進場": ["mask", "fade", "blur", "scale"],
+ "換場": ["panel", "fade", "cut"],
+}
+
 D = {"說明": "版型圖鑑（2026-11-16 負責人規則）：兩層版面——字層只放要讀的字，守安全區 S0-06；畫面層（照片、背景、圖表延伸、特效）鋪滿全畫面，不受安全區限制，也不能留純色空白。"
            "代理只填欄位，不寫座標或 CSS；`pb.py card-check card.json` 驗證，`pb.py qa` 量字有沒有跑出字區。圖鑑頁：kits/storyboard/gallery/index.html。",
      "安全區": SAFE, "兩層": {"字層": "標題、內文、數字、標籤、CTA、合規小字；只能在字區內", "畫面層": "照片、影片、背景、圖表曲線與面積、圖解線框、色塊、裝飾大字；全畫面"},
-     "版型": LAYOUTS, "畫面層元件": VISUALS, "換版規則": SWITCH}
+     "版型": LAYOUTS, "畫面層元件": VISUALS, "換版規則": SWITCH, "動態設定": MOTION}
 OUT.write_text(json.dumps(D, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
 print(len(LAYOUTS), "layouts →", OUT)
