@@ -107,6 +107,40 @@ class MotionSettings(unittest.TestCase):
         self.assertNotIn("FAIL", r.stdout)
 
 
+class ReviewPack(unittest.TestCase):
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+
+    def test_fail_card_is_not_sent_for_review(self):
+        f = self.tmp / "bad.json"; f.write_text(json.dumps({"beats": [{"layout": "nosuch", "seconds": 2}]}), encoding="utf-8")
+        r = pb("review-pack", "--card", str(f), "--stills", str(f))
+        self.assertEqual(r.returncode, 1)
+        self.assertIn("先修好再送審", r.stdout)
+
+    def test_rounds_write_a_brief_and_round_two_needs_round_one(self):
+        im = self.tmp / "frame.png"
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i", "color=c=white:s=108x192", "-frames:v", "1", str(im)], check=True)
+        r = pb("review-pack", "--stage", "design", "--stills", str(im), "--brief", "test", "--out", str(self.tmp / "rv"))
+        self.assertEqual(r.returncode, 0, r.stderr)
+        brief = (self.tmp / "rv" / "round1_brief.md").read_text(encoding="utf-8")
+        R = json.loads((REPO / "data" / "review_checklists.json").read_text(encoding="utf-8"))
+        self.assertIn(R["design"]["1"]["看"][0], brief)
+        self.assertIn("round1_report.md", brief)
+        r = pb("review-pack", "--stage", "design", "--round", "2", "--stills", str(im), "--out", str(self.tmp / "rv"))
+        self.assertNotEqual(r.returncode, 0)
+        (self.tmp / "rv" / "round1_report.md").write_text("總評 改了再看\n| 必改 | 第 1 張 | 字太小 |", encoding="utf-8")
+        r = pb("review-pack", "--stage", "design", "--round", "2", "--stills", str(im), "--prev", str(self.tmp / "rv" / "round1_report.md"), "--out", str(self.tmp / "rv"))
+        self.assertEqual(r.returncode, 0, r.stderr)
+        b2 = (self.tmp / "rv" / "round2_brief.md").read_text(encoding="utf-8")
+        self.assertIn("字太小", b2)
+        self.assertIn(R["design"]["2"]["看"][0], b2)
+
+    def test_reviewer_agent_is_shipped(self):
+        a = (REPO / "agents" / "video-reviewer.md").read_text(encoding="utf-8")
+        self.assertIn("name: video-reviewer", a)
+        self.assertNotIn("Edit", a.split("---")[1])
+
+
 try:
     import PIL  # noqa: F401  (video_qa needs Pillow; skip where it is not installed)
     HAS_PIL = True

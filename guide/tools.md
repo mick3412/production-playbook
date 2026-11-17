@@ -18,6 +18,7 @@
 | [yt-dlp](https://github.com/yt-dlp/yt-dlp)（T-34） | 已安裝 | 免費 | Unlicense（寬鬆） | 下載自己發佈過的影片做重剪，或下載參考影片做分析（別人的影片不放進成品） |
 | [faster-whisper／mlx-whisper](https://github.com/SYSTRAN/faster-whisper)（T-56） | 已安裝 | 免費 | MIT（寬鬆） | 語音轉文字和逐字時間；Mac 用 mlx-whisper 較快。要直接輸出繁體加標點時用（P12：字錯率 3.8%／13.4%，比 Paraformer 慢 4–6 倍） |
 | [Scriberr](https://github.com/rishikanthc/Scriberr)（T-110） | 待試 | 免費 | MIT（寬鬆） | 要一個自架的網頁介面，批次上傳音檔轉錄時 |
+| [Gemini 影片理解（Gemini API）](https://ai.google.dev/gemini-api/docs/video-understanding)（T-132） | 待試 | 部分付費 | 服務條款（未標） | 要拆解參考片（鏡頭、景別、節奏、字幕位置）時，直接丟 YouTube 網址或影片檔 |
 | [awesome-opus5-5-videos](https://github.com/yihui-dev/awesome-opus5-5-videos)（T-22） | 待試 | 免費 | MIT（寬鬆） | 開新系列前找靈感、學提示詞寫法 |
 | [claude-real-video（crv）](https://github.com/HUANGCHIHHUNGLeo/claude-real-video)（T-37） | 待試 | 免費 | MIT（寬鬆） | 拆解參考片或回頭檢查自己的成品：依場景挑關鍵畫面、縮圖表、逐字稿 |
 | [動態參考圖庫（Prompt Motion、Eyecandy、24fps、Raivcoo、Motionographer、Motion Index）](https://learnaiwithmariah.com/guides/websites-to-give-ai-taste/)（T-72） | 待試 | 部分付費 | 各網站內容各自所有（未標） | 找動態、剪輯、運鏡參考時 |
@@ -93,6 +94,7 @@
 | [Stable Diffusion 3.5（Stability AI）](https://stability.ai/license)（T-116） | 未採用 | 部分付費 | Stability 社群授權（整個組織年營收 100 萬美元以下可商用）（特殊） | 要用 Stability 的模型時 |
 | [HiDream-I1](https://github.com/HiDream-ai/HiDream-I1)（T-117） | 未採用 | 免費 | MIT（權重）；管線另用 Llama 3.1（Llama 授權）與 T5（特殊） | — |
 | [motion-skill（復古剪貼報動畫）](https://github.com/LunaAI519/motion-skill)（T-128） | 未採用 | 付費 | MIT（寬鬆） | — |
+| [Nano Banana（Gemini 圖片模型）](https://ai.google.dev/gemini-api/docs/image-generation)（T-133） | 未採用 | 付費 | 服務條款（未標） | — |
 | [video2x](https://github.com/k4yt3x/video2x)（T-16） | 未採用 | 免費 | AGPL-3.0（本機限定） | 素材畫質太低、需要 AI 放大或補幀時（只支援 Linux、Windows） |
 | [FlashVSR](https://github.com/OpenImagingLab/FlashVSR)（T-17） | 未採用 | 免費 | Apache-2.0（寬鬆） | 有 NVIDIA GPU、需要即時超解析度時 |
 | [FILM](https://github.com/google-research/frame-interpolation)（T-18） | 未採用 | 免費 | Apache-2.0（寬鬆） | 實拍素材需要補幀做慢動作時 |
@@ -132,7 +134,6 @@
 | [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)（T-95） | 已安裝 | 免費 | Apache-2.0（寬鬆） | 需要本機離線語音辨識和逐字時間戳時。講者分辨預設（P13：pyannote-segmentation-3.0＋3D-Speaker，46 MB，兩人對談正確率 92.7%、自動判斷講者數） |
 | [Instagram Edits（Mac 版）](https://apps.apple.com/app/edits-an-instagram-app/id6738967378)（T-126） | 待試 | 免費 | Meta 服務條款（特殊） | 要在 Mac 上剪 Reels、直接發佈或發試用 Reels 時 |
 | [Anatomy（wheresryan22）](https://github.com/wheresryan22/anatomy)（T-129） | 待試 | 免費 | MIT（寬鬆） | 要解釋「一個東西怎麼運作」（產品結構、流程裡的機關、系統元件）時，畫成可互動的立體剖面圖 |
-| [Remotion](https://github.com/remotion-dev/remotion)（T-24） | 待試 | 免費 | Remotion License（特殊） | 想用 React 寫影片時；超過 3 人的公司要付費 |
 | [FunClip](https://github.com/modelscope/FunClip)（T-87） | 待試 | 免費 | MIT（寬鬆） | 要從長片轉字幕、讓 LLM 挑片段剪成短片時 |
 | [kinocut](https://github.com/KyaniteLabs/kinocut)（T-04） | 未採用 | 免費 | Apache-2.0（寬鬆） | 想讓 agent 透過 MCP 做有護欄的剪輯時 |
 | [WhisperX](https://github.com/m-bain/whisperX)（T-06） | 未採用 | 免費 | BSD-2-Clause（寬鬆） | 需要分辨多位講者或音素級對齊時。2026-11-12 重評：講者分辨要用 pyannote，同樣卡在 Hugging Face 帳號；改用 T-106 或 T-103 |
@@ -140,6 +141,7 @@
 | [auto-subtitle／subsai／Buzz](https://github.com/chidiwilliams/buzz)（T-08） | 未採用 | 免費 | MIT／GPL-3.0／MIT（寬鬆） | 只要現成的「產生並燒錄字幕」時 |
 | [RobustVideoMatting](https://github.com/PeterL1n/RobustVideoMatting)（T-14） | 未採用 | 免費 | GPL-3.0（本機限定） | 影片去背、需要前後格穩定時；GPL 只在本機用 |
 | [backgroundremover](https://github.com/nadermx/backgroundremover)（T-15） | 未採用 | 免費 | MIT（寬鬆） | 一行指令的簡單去背 |
+| [Remotion](https://github.com/remotion-dev/remotion)（T-24） | 未採用 | 免費 | Remotion License（特殊） | 想用 React 寫影片時；超過 3 人的公司要付費 |
 | [short-video-maker](https://github.com/gyoridavid/short-video-maker)（T-28） | 未採用 | 免費 | MIT（寬鬆） | 用 MCP 自動產生模板化短影音 |
 | [landing-page-design（elayadesign）](https://github.com/elayadesign/ai-design-skills)（T-50） | 未採用 | 免費 | MIT（寬鬆） | 做落地頁時參考它的規則：間距階梯、巢狀圓角公式、動效曲線、元件狀態、上線清單（字體規則很主觀，不照單全收） |
 | [design-to-motion（elayadesign）](https://github.com/elayadesign/ai-design-skills/tree/5e57840/skills/design-to-motion)（T-51） | 未採用 | 免費 | MIT（寬鬆） | 把靜態設計稿或截圖做成循環展示動畫（新 repo 尚未公開） |

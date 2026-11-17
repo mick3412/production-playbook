@@ -152,7 +152,7 @@
     {
      "id": "3.1",
      "name": "分鏡表",
-     "do": "先跑 `pb.py storyboard \"需求\"`：屬於既有系列就用系列格式（SF-），否則從推薦的 3 個分鏡模板（SB-）選一個；每一段用模板指定的版型代號（kits/storyboard/layouts.json，圖鑑 gallery/index.html），只能換成「可替換」清單裡的版型；`pb.py storyboard --use SB-xx --emit card.json` 出卡片草稿，只改欄位值、不寫座標；每一拍一列：時間、旁白原文、畫面、字幕、轉場；每個鏡頭只做一件事；兩層版面：字層（要讀的字）守安全區，畫面層（照片、背景、圖表延伸、特效）鋪滿全畫面，每一段寫明 visual 是什麼，不留純色空白；換版照換版規則（種類 ≤4／5、同版型連用 ≤3、字量固定、只在內容角色改變時換）；動態照品牌調性選 `card.motion` 預設（crisp 俐落／calm 沉穩／soft 柔和／punchy 快節奏，可再調 speed、enter），單段可另設 beat.motion；不改版型程式；`pb.py card-check card.json` 通過才做動態分鏡給負責人看"
+     "do": "先跑 `pb.py storyboard \"需求\"`：屬於既有系列就用系列格式（SF-），否則從推薦的 3 個分鏡模板（SB-）選一個；每一段用模板指定的版型代號（kits/storyboard/layouts.json，圖鑑 gallery/index.html），只能換成「可替換」清單裡的版型；`pb.py storyboard --use SB-xx --emit card.json` 出卡片草稿，只改欄位值、不寫座標；每一拍一列：時間、旁白原文、畫面、字幕、轉場；每個鏡頭只做一件事；兩層版面：字層（要讀的字）守安全區，畫面層（照片、背景、圖表延伸、特效）鋪滿全畫面，每一段寫明 visual 是什麼，不留純色空白；換版照換版規則（種類 ≤4／5、同版型連用 ≤3、字量固定、只在內容角色改變時換）；動態照品牌調性選 `card.motion` 預設（crisp 俐落／calm 沉穩／soft 柔和／punchy 快節奏，可再調 speed、enter），單段可另設 beat.motion；不改版型程式；`pb.py card-check card.json` 通過才做動態分鏡給負責人看；送審方式二選一：開發者自審，或 agent 兩輪（`pb.py review-pack --card card.json --video 動態分鏡.mp4 --brief \"需求\"` 產生審查包 → 派一個新的 video-reviewer 子代理審 → 修改 → `--round 2 --prev round1_report.md` 換另一個新代理審）；agent 兩輪取代自審，不取代負責人核准，兩份報告附給負責人"
     },
     {
      "id": "3.2",
@@ -172,13 +172,13 @@
     {
      "id": "3.5",
      "name": "風格定格",
-     "do": "新風格或新素材處理，先用正式流程出 3–5 張代表鏡頭的定格，核准後再算整支"
+     "do": "新風格或新素材處理，先用正式流程出 3–5 張代表鏡頭的定格，核准後再算整支；送審同樣可選 agent 兩輪（`pb.py review-pack --stage design --stills 定格*.png --brief \"需求\"`）"
     }
    ],
    "gates": [
     {
      "id": "G3.1",
-     "text": "動態分鏡（灰框、真實秒數、過場）核准前不算圖"
+     "text": "動態分鏡（灰框、真實秒數、過場）核准前不算圖；送審前做過開發者自審或 agent 兩輪審查（必改項都處理或交負責人決定）"
     },
     {
      "id": "G3.2",
