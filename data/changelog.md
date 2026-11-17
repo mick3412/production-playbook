@@ -79,3 +79,4 @@
 - 2026-11-16 版面兩層與版型圖鑑：只有要讀的字守安全區，畫面層（照片、背景、圖表面積、特效）滿版；kit 加 visual 欄位（photo／glow／numeral／bars／grid／band／word）、chart fill／zero、新版型 split／grid／checklist、圖解箭頭字型載入後重量、渲染器自動挑空埠；kits/storyboard/layouts.json 24 個版型（字區、欄位、上限、畫面層、範例）與 gallery/index.html；36 個模板每段改引用版型代號與可替換清單（缺 3 個版型已列出）；換版規則依 230 支範本量測（種類 3、主版型約一半、連用中位 2、字量固定）；pb.py storyboard --emit 出卡片草稿、pb.py card-check 算圖前驗證；video_qa 加版型符合度與畫面層填滿；3.1、G3.7、S0-06 改寫，新增 S3-32
 - 2026-11-17 動態改成設定：分鏡套件加 card.motion／beat.motion（預設 crisp、calm、soft、punchy，可調 speed、stagger、enter、ease、transition）；layouts.json 加「動態設定」；card-check 檢查動態；步驟 3.1、G3.7、新條目 S3-34；不設 motion 與改版前一致（SSIM 0.9997）
 - 2026-11-17 送審可選 agent 兩輪：pb.py review-pack 產生審查包（先 card-check、抽關鍵格拼圖、審查表），外掛附 video-reviewer 代理；審查表 data/review_checklists.json（第一輪觀眾、第二輪製作；分鏡與定格各一套）；步驟 3.1、3.5、G3.1，新條目 S3-35
+- 2026-11-17 圖表 fill 修正（第二輪審查抓到）：曲線下面積只畫資料範圍、停在基線，基線下方改淺色地面鋪滿；zero:true 標 0、基線加粗；圖鑑重出

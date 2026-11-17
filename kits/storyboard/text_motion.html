@@ -185,7 +185,8 @@ body:not(.landscape) .dgt{font-size:92px} body:not(.landscape) .dgnode{font-size
 .v-band{left:0;right:0;bottom:0;height:34%;background:var(--accent)}
 .v-word{left:-20px;bottom:-60px;font:800 420px/.85 var(--head);letter-spacing:-.04em;color:var(--accent);white-space:nowrap}
 .wire .vis > *{background:#dcdcdc!important;color:#dcdcdc!important;-webkit-text-stroke:0!important;opacity:1!important} .wire .vis{outline:6px dashed #c33;outline-offset:-6px}
-.chart .area{stroke:none}
+.chart .area{stroke:none} .chart .ground{fill:var(--accent);opacity:.1} .chart .zlab{font:600 34px var(--body);fill:currentColor;opacity:.6}
+.chart:has(.ground) .axis{opacity:.8;stroke-width:4}   /* with a fill the baseline (0 when zero:true) must stay readable over the colour */
 /* portrait stacked diagram: the text layer uses the whole height of the safe zone (y 15–65 %), boxes spread evenly, never piled at the top */
 body:not(.landscape) .dg .dghead{bottom:35%;display:flex;flex-direction:column} .dg .dghead > *{flex-shrink:0}   /* the title keeps its size; only the gaps between boxes give way */
 body:not(.landscape) .dg .dgstack{flex:1;justify-content:space-evenly;gap:32px;margin-top:24px} body:not(.landscape) .dg:has(.dgstack) .dgt{font-size:84px}   /* gap = the floor: a long title must never squeeze the boxes into each other */
@@ -449,11 +450,16 @@ const LAYOUT = {
     for (let i = 0; i < P.length - 1; i++) { const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || p2;
       d += ` C${p1[0] + (p2[0] - p0[0]) / 6},${p1[1] + (p2[1] - p0[1]) / 6} ${p2[0] - (p3[0] - p1[0]) / 6},${p2[1] - (p3[1] - p1[1]) / 6} ${p2[0]},${p2[1]}`; }
     const NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '0 0 820 520'); svg.setAttribute('class', 'chart');
-    const base = document.createElementNS(NS, 'path'); base.setAttribute('d', `M${X0},${Y0} H${X1}`); base.setAttribute('class', 'axis'); svg.appendChild(base);
-    let area = null;   /* fill:true → the area under the curve bleeds to the frame edges and the bottom (visual layer: no text in it) */
-    if (b.fill) { area = document.createElementNS(NS, 'path'); const Pn = P[P.length - 1]; area.setAttribute('d', `M-600,${P[0][1]} L${P[0][0]},${P[0][1]} ` + d.replace(/^M[^ ]+/, '') + ` L1500,${Pn[1]} L1500,3000 L-600,3000 Z`); area.setAttribute('class', 'area'); area.setAttribute('fill', 'url(#cfade)');
-      const top = Math.min(...P.map(q => q[1]));
-      svg.insertAdjacentHTML('afterbegin', `<defs><linearGradient id="cfade" gradientUnits="userSpaceOnUse" x1="0" y1="${top}" x2="0" y2="${top + 1500}"><stop offset="0" stop-color="var(--accent)" stop-opacity=".55"/><stop offset="1" stop-color="var(--accent)" stop-opacity=".16"/></linearGradient></defs>`); svg.appendChild(area); }   /* fades downward: reads as the area under the curve, not a flat block */
+    let area = null, ground = null;
+    /* fill:true → the area under the curve covers only the data range (first to last point) and stops at the baseline, so it never
+       reads as values before or after the data or below zero; under the baseline a flat, lighter ground fills the frame to the
+       edges and the bottom (visual layer: no data, no text). Review 2026-11-17: the old area ran flat past the last point and through 0. */
+    if (b.fill) { const Pn = P[P.length - 1], top = Math.min(...P.map(q => q[1]));
+      ground = document.createElementNS(NS, 'rect'); ground.setAttribute('x', -600); ground.setAttribute('y', Y0); ground.setAttribute('width', 2100); ground.setAttribute('height', 3000); ground.setAttribute('class', 'ground'); svg.appendChild(ground);
+      area = document.createElementNS(NS, 'path'); area.setAttribute('d', `M${P[0][0]},${Y0} L${P[0][0]},${P[0][1]} ` + d.replace(/^M[^ ]+/, '') + ` L${Pn[0]},${Y0} Z`); area.setAttribute('class', 'area'); area.setAttribute('fill', 'url(#cfade)');
+      svg.insertAdjacentHTML('afterbegin', `<defs><linearGradient id="cfade" gradientUnits="userSpaceOnUse" x1="0" y1="${top}" x2="0" y2="${Y0}"><stop offset="0" stop-color="var(--accent)" stop-opacity=".6"/><stop offset="1" stop-color="var(--accent)" stop-opacity=".22"/></linearGradient></defs>`); svg.appendChild(area); }   /* fades toward the baseline: reads as the area under the curve */
+    const base = document.createElementNS(NS, 'path'); base.setAttribute('d', `M${b.fill ? -600 : X0},${Y0} H${b.fill ? 1500 : X1}`); base.setAttribute('class', 'axis'); svg.appendChild(base);   // drawn over the fill
+    if (b.zero) svg.insertAdjacentHTML('beforeend', `<text class="zlab" x="${X0 - 14}" y="${Y0 + 12}" text-anchor="end">0</text>`);
     const path = document.createElementNS(NS, 'path'); path.setAttribute('d', d); path.setAttribute('class', 'curve'); svg.appendChild(path);
     const dots = P.map(([x, y]) => { const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 12); c.setAttribute('class', 'dot'); svg.appendChild(c); return c; });
     beat.appendChild(svg);
@@ -464,6 +470,7 @@ const LAYOUT = {
     return { in: (tl, at) => { const e = rise(tl, ls, at); const len = 2000; gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
       tl.to(path, { strokeDashoffset: 0, duration: b.draw || 2.2, ease: 'power2.inOut' }, e - 0.2);
       if (area) tl.from(area, { autoAlpha: 0, duration: (b.draw || 2.2) * 0.9, ease: 'power1.in' }, e);
+      if (ground) tl.from(ground, { autoAlpha: 0, duration: 0.5 }, at);
       dots.forEach((c, i) => tl.from(c, { attr: { r: 0 }, duration: 0.35, ease: 'back.out(3)' }, e - 0.2 + (b.draw || 2.2) * i / Math.max(1, dots.length - 1)));
       labs.forEach(([p, L], i) => { const s = L.querySelector('span'), o = { v: 0 }, at2 = e - 0.1 + (b.draw || 2.2) * i / Math.max(1, labs.length - 1);
         tl.from(L.firstChild, { autoAlpha: 0, y: 14, duration: 0.4 }, at2).to(o, { v: p.v, duration: 0.9, ease: 'power4.out', onUpdate: () => { s.textContent = (b.prefix || '') + o.v.toLocaleString('en-US', { maximumFractionDigits: b.decimals || 0, minimumFractionDigits: b.decimals || 0 }); } }, at2); });
