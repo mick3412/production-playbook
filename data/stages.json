@@ -64,7 +64,7 @@
     {
      "id": "1.0",
      "name": "方向對齊",
-     "do": "開案後先用看得到的樣本對方向，不只靠文字：`pb.py direction page \"需求\"` 出本機頁面（不發佈）→ 負責人做 6 題二選一（節奏、動態、字量、照片或圖形、色彩、亮暗，每題只差一個量測軸）、在參考牆標要和不要、勾要的是哪一點 → 下載 picks.json → `pb.py direction samples picks.json --hook \"鉤子句\" --point \"第二句\" [--photo 照片]` 用這支片自己的字算 3 個方向的短樣片 → 負責人選一個 → `pb.py direction choose picks.json N` 寫出方向卡 direction.json；之後 `pb.py storyboard --use SB-xx --emit card.json --direction direction.json` 照方向卡設動態、色盤、明暗"
+     "do": "開案後先用看得到的樣本對方向，不只靠文字：`pb.py direction page \"需求\" --out 資料夾` 出本機頁面（不發佈）→ `pb.py direction serve 資料夾` 開本機網址（app 內建瀏覽器讀不到 file:// 的參考片，一定用 serve 開；選擇自動存到資料夾裡的 picks.json；用系統瀏覽器直接開檔也可以，做完按下載）→ 負責人做 6 題二選一（節奏、動態、字量、照片或圖形、色彩、亮暗，每題只差一個量測軸；兩邊都不像選「都不要」，會用中性值，三個方向都不翻到兩端）、在參考牆標要和不要、勾要借的點（勾了點就算「要」；量得到的節奏、配色借進方向 2，版面、字的進場、照片處理、轉場只記錄在方向卡）→ `pb.py direction samples picks.json --hook \"鉤子句\" --point \"第二句\" [--photo 照片] [--out 樣片資料夾]` 用這支片自己的字算 3 個方向的短樣片（長句自動拆行、縮字，最小縮到版型下限，還放不下 card-check 給 FAIL 不算圖；方向 2、3 各自在定格上和其他方向不同：明暗、色盤、版型或畫面層；樣片資料夾記進 picks.json）→ `pb.py direction serve 樣片資料夾 --picks picks.json` 開樣片頁，負責人選一個（serve 開的自動存；直接開檔的要再按一次下載，按鈕會變色提醒）→ `pb.py direction choose picks.json` 寫出方向卡 direction.json（方向編號和樣片資料夾都從 picks.json 讀；要指定就 `choose picks.json N --samples 樣片資料夾 --out 方向卡`）；之後 `pb.py storyboard --use SB-xx --emit card.json --direction direction.json` 照方向卡設動態、色盤、明暗"
     },
     {
      "id": "1.1",
@@ -88,7 +88,7 @@
    "gates": [
     {
      "id": "G1.0",
-     "text": "方向卡（direction.json）負責人選過：看過 3 個用自己內容做的方向樣片，選定一個"
+     "text": "方向卡（direction.json）負責人選過：看過 3 個用自己內容做的方向樣片（字沒有溢出畫面、三個方向在定格上看得出差別），選定一個；二選一的「都不要」和參考牆的「要」在方向卡和樣片說明裡照實寫出"
     },
     {
      "id": "G1.1",
