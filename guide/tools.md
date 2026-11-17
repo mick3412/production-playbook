@@ -45,6 +45,7 @@
 
 | 工具 | 狀態 | 費用 | 授權 | 何時用 |
 |---|---|---|---|---|
+| [drama-skills（zenstory-ai）](https://github.com/zenstory-ai/drama-skills)（T-135） | 已整合 | 部分付費 | MIT（寬鬆） | 做 AI 短劇、漫劇或多集角色故事時：寫劇本、角色與場景設定、分鏡、提示詞；要角色外觀跨鏡頭不跑掉時 |
 | [video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft)（T-20） | 已整合 | 部分付費 | Apache-2.0（寬鬆） | 找鏡頭和動效的說法：124 張鏡頭配方卡和動態樣片 |
 | [lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar)（T-21） | 已整合 | 免費 | MIT（寬鬆） | 需要現成的影片風格（59 種，含水彩、衛星簡報等）和它的風格提示詞 |
 | [Motion Prompt](https://github.com/showheyohtaki/motion-prompt)（T-36） | 已整合 | 免費 | MIT（寬鬆） | 指定和移植動效：168 個有編號的動作，附規格和 Canvas 程式；photo 包只當生圖用語 |
@@ -59,6 +60,7 @@
 | [auto-editor](https://github.com/WyattBlue/auto-editor)（T-01） | 已整合 | 免費 | Unlicense（寬鬆） | 口播粗剪第一步：依音量剪掉停頓和空白；故意留的停頓要先排除 |
 | [DeepFilterNet](https://github.com/Rikorose/DeepFilterNet)（T-09） | 已整合 | 免費 | MIT／Apache-2.0（寬鬆） | 視訊或手機錄音的底噪 |
 | [Demucs](https://github.com/adefossez/demucs)（T-10） | 已整合 | 免費 | MIT（寬鬆） | 素材混著背景音樂時，抽出乾淨的人聲 |
+| [herk-edit-kit（Nate Herk）](https://github.com/nateherkai/herk-edit-kit)（T-134） | 已整合 | 免費 | MIT（寬鬆） | 口播粗剪要去停頓時（4.6）；要找現成短片動態圖卡風格時（5.x，style-library 有 406 張 HTML 卡）。逐字稿用本機 Whisper，不用它預設的 ElevenLabs |
 | [Pixabay（影片與照片）](https://pixabay.com/videos/)（T-57） | 已整合 | 免費 | Pixabay Content License（特殊） | 免費、可商用的實拍 B-roll；挑之前先看畫面，記下影片 ID |
 | [Poly Haven](https://polyhaven.com)（T-58） | 已整合 | 免費 | CC0（寬鬆） | 3D 場景用的材質、HDRI 和模型 |
 | [Kevin MacLeod（incompetech）](https://incompetech.com/music/)（T-59） | 已整合 | 免費 | CC BY 4.0（寬鬆） | 免費配樂；CC BY 4.0，說明欄一定要附標註 |
@@ -80,6 +82,7 @@
 | [Affinity（Canva 版，Mac／Windows／iPad）](https://www.affinity.studio/)（T-127） | 待試 | 部分付費 | Affinity 條款（2026-03-12 版）：內容歸使用者，未見商用限制；內附素材依 Canva 免費內容授權（特殊） | 要做向量、版面、修圖，又不想付 Adobe 時 |
 | [Unsplash](https://unsplash.com)（T-130） | 待試 | 免費 | Unsplash License（寬鬆） | 需要免費實拍照片當畫面層時 |
 | [Lummi](https://www.lummi.ai)（T-131） | 待試 | 部分付費 | 服務條款（未標） | 需要 AI 生成風格的免費圖庫圖時 |
+| [OpenChatCut](https://github.com/0xsline/OpenChatCut)（T-136） | 待試 | 部分付費 | AGPL-3.0（特殊） | 想要有多軌時間軸可以看、又想用說的請 agent 改剪輯時（例如「第二軌音樂降一半、開頭 3 秒淡入」） |
 | [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5)（T-60） | 待試 | 免費 | MIT（寬鬆） | 需要長度剛好的配樂、又不想付費或擔心 Content ID 時 |
 | [Stable Audio 3（Small／Medium）](https://stability.ai/)（T-61） | 待試 | 免費 | Stability 社群授權（年營收 100 萬美元以下可商用）（特殊） | 要快、長度要準的純音樂 |
 | [Openverse 音訊搜尋](https://api.openverse.org/v1/audio/)（T-65） | 待試 | 免費 | 各檔不同（篩 CC0、CC BY）（寬鬆） | 要找音效或配樂時先用它 |
@@ -95,6 +98,7 @@
 | [HiDream-I1](https://github.com/HiDream-ai/HiDream-I1)（T-117） | 未採用 | 免費 | MIT（權重）；管線另用 Llama 3.1（Llama 授權）與 T5（特殊） | — |
 | [motion-skill（復古剪貼報動畫）](https://github.com/LunaAI519/motion-skill)（T-128） | 未採用 | 付費 | MIT（寬鬆） | — |
 | [Nano Banana（Gemini 圖片模型）](https://ai.google.dev/gemini-api/docs/image-generation)（T-133） | 未採用 | 付費 | 服務條款（未標） | — |
+| [成峰剪口播（chengfeng-videocut-skills）](https://github.com/Agentchengfeng/chengfeng-videocut-skills)（T-137） | 未採用 | 不明 | Apache-2.0（寬鬆） | — |
 | [video2x](https://github.com/k4yt3x/video2x)（T-16） | 未採用 | 免費 | AGPL-3.0（本機限定） | 素材畫質太低、需要 AI 放大或補幀時（只支援 Linux、Windows） |
 | [FlashVSR](https://github.com/OpenImagingLab/FlashVSR)（T-17） | 未採用 | 免費 | Apache-2.0（寬鬆） | 有 NVIDIA GPU、需要即時超解析度時 |
 | [FILM](https://github.com/google-research/frame-interpolation)（T-18） | 未採用 | 免費 | Apache-2.0（寬鬆） | 實拍素材需要補幀做慢動作時 |
@@ -152,6 +156,7 @@
 | [Concat](https://github.com/jub0t/Concat)（T-79） | 未採用 | 免費 | AGPL-3.0（只當桌面剪輯軟體使用，不修改、不散布，無額外義務）（特殊） | 需要免費的 CapCut 類剪輯軟體時 |
 | [video-autopilot-kit（Hao0321）](https://github.com/Hao0321/video-autopilot-kit)（T-89） | 未採用 | 免費 | MIT（寬鬆） | 想參考短影音自動化流程（CapCut JSON、ffmpeg）時 |
 | [Ultra Skills Edit Engine](https://www.ultra-skills.com)（T-92） | 未採用 | 付費 | 商業服務（特殊） | 想要現成的 AI 剪片流程與動畫效果時 |
+| [anything2explainer](https://github.com/Vincentwei1021/anything2explainer)（T-138） | 避開 | 免費 | PolyForm Noncommercial 1.0.0：只限非商業，商用要作者事先授權（特殊） | — |
 | [OpenMontage](https://github.com/calesthio/OpenMontage)（T-29） | 避開 | 免費 | AGPL-3.0（本機限定） | 完整的 agent 影片製作框架；AGPL，只借點子 |
 | [vox-director](https://github.com/Alisa0808/vox-director)（T-41） | 避開 | 付費 | MIT（寬鬆） | Vox 風格紙張拼貼解說片（核心步驟要付費 API） |
 

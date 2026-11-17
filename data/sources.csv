@@ -76,3 +76,6 @@
 "S73","負責人決定：分鏡與設計送審可選 agent 兩輪審查（新代理、分角度）","data/review_checklists.json；agents/video-reviewer.md；bench/runs/review-2026-11-17","2026-11-17","agent 兩輪取代開發者自審，不取代負責人核准"
 "S74","負責人提供的圖生圖海報提示詞範例（上半攝影、下半抽象符號），作為提示詞骨架的基準","data/prompt_examples/poster_photo_to_symbol.zh.txt","2026-11-17","照片轉抽象符號海報；各段寫法拆進 data/prompt_skeleton.json"
 "S75","負責人決定：開案方向用看得到的樣本對齊（二選一、參考牆、方向樣片）","bin/direction.py；data/direction_rules.json；FlexClip 350 支拆解（playbook-bench）","2026-11-17","參考片只供內部參考，頁面不發佈"
+"S76","IG 輪播：AI 剪片 Skill 八選（iamlily.genai，2026-11-17）","（截圖，無網址）","2026-11-18","OpenMontage、video-shotcraft、ffmpeg-skill 已有；新收 herk-edit-kit（實測）、drama-skills（實測檢查器）、OpenChatCut（查證）；chengfeng-videocut 只支援 Codex、anything2explainer 非商用授權"
+"S77","PDF〈Claude｜20 種剪片特效・指令懶人包〉（亨利溫，2026-11-14）","https://drive.google.com/file/d/1NHssb9unZIx85yXKCqcAgbqJViYDhNGL/view","2026-11-18","收共用設定、20 組關鍵數值與拍攝四點（S5 條目）；霓虹描邊用 Apple Vision＋ffmpeg 實測；5 個新詞彙"
+"S78","PDF〈Short-Form Storytelling (Writing Guide)〉（Kallaway）","https://drive.google.com/file/d/1Bs5bgxP-A4cmCUPMRPy5oFS4nbsXYgNn/view","2026-11-18","收腳本骨架、鉤子四要件、鎖定區六種寫法、再鉤位置；中文字數換算為桌上試寫結果。作者販售課程"
