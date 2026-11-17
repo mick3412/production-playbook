@@ -75,3 +75,4 @@
 "S72","負責人決定：動態設計不寫死，分鏡套件的動態改成卡片設定（motion 預設）","kits/storyboard/text_motion.html；bench/runs/motion-2026-11-17","2026-11-17","不設 motion 與改版前 SSIM 0.9997；calm／soft／punchy 三個預設 qa 全 PASS"
 "S73","負責人決定：分鏡與設計送審可選 agent 兩輪審查（新代理、分角度）","data/review_checklists.json；agents/video-reviewer.md；bench/runs/review-2026-11-17","2026-11-17","agent 兩輪取代開發者自審，不取代負責人核准"
 "S74","負責人提供的圖生圖海報提示詞範例（上半攝影、下半抽象符號），作為提示詞骨架的基準","data/prompt_examples/poster_photo_to_symbol.zh.txt","2026-11-17","照片轉抽象符號海報；各段寫法拆進 data/prompt_skeleton.json"
+"S75","負責人決定：開案方向用看得到的樣本對齊（二選一、參考牆、方向樣片）","bin/direction.py；data/direction_rules.json；FlexClip 350 支拆解（playbook-bench）","2026-11-17","參考片只供內部參考，頁面不發佈"

@@ -6,3 +6,4 @@ inbox/*/raw/
 bench/samples
 bench/runs
 bench/vendor
+.cache/
