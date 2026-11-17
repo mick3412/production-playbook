@@ -1,0 +1,24 @@
+{
+ "片名": "人物照片＋抽象符號海報（文生圖版，基準卡）",
+ "說明": "poster_photo_to_symbol.zh.txt（負責人提供的圖生圖範例）照骨架拆段、改成文生圖可以實測的版本。每一段只寫這張圖特有的內容。",
+ "素材類型": "圖片",
+ "畫幅": "3:4",
+ "版面": ["上下 1:1：上半真實攝影、下半抽象符號"],
+ "調性": "",
+ "全片": {},
+ "提示詞": {
+  "任務": "A standalone vertical design poster.",
+  "畫幅": "3:4 vertical canvas split exactly in half by a straight horizontal line: the top 50% is a real photograph, the bottom 50% is a flat graphic symbol on a warm off-white paper ground.",
+  "主體": "Top half: a young woman in a rust-orange wool coat seen from the waist up, three-quarter view, looking out of frame to the left, one hand lifting her collar, standing against a pale concrete wall.",
+  "轉化": "Bottom half: her silhouette is reduced to one abstract mark built from a tilted rectangle for the coat, a single arc tracing the turn of her head and a short diagonal for the raised hand; the mark keeps the pose recognizable without drawing a person.",
+  "風格": "Top: art photography for an independent magazine, light natural grade. Bottom: deconstructed Swiss graphic design and post-digital symbol system: thin 1 px lines, geometric modules, arc trajectories, a faint grid, tiny index numbers next to the nodes.",
+  "張力": "Order against error: a precise grid with one slightly misregistered line; digital precision against hand-printed imperfection.",
+  "構圖": "The symbol is the only focal point in the bottom half, slightly left of center, about 30% of the half's width; at least 60% of the bottom half is empty paper.",
+  "光線": "Soft overcast daylight from the right, gentle shadow on the wall, no flash.",
+  "色彩": "Take the coat's rust orange as the one signal color in the symbol; one small teal mark as a function color; everything else charcoal lines on warm white #F3EFE6; the photo keeps its own muted natural colors.",
+  "材質": "Bottom half printed look: risograph grain, slight print registration offset of about 1 mm, faint scanner noise and paper fiber texture; top photo has fine natural film grain.",
+  "文字": "No headline. Only three tiny index labels in a thin monospace font next to the symbol: \"01\", \"02\", \"A\"; nothing else written anywhere.",
+  "避免": "infographic, many icons, clip art, neon colors, glossy gradients, 3D render, extra text, watermark, distorted hands, stretched proportions",
+  "目標": "It should read like the identity poster of an architecture studio or experimental label: restrained, systematic, and clearly derived from the photo above it."
+ }
+}

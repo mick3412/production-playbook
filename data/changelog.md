@@ -80,3 +80,4 @@
 - 2026-11-17 動態改成設定：分鏡套件加 card.motion／beat.motion（預設 crisp、calm、soft、punchy，可調 speed、stagger、enter、ease、transition）；layouts.json 加「動態設定」；card-check 檢查動態；步驟 3.1、G3.7、新條目 S3-34；不設 motion 與改版前一致（SSIM 0.9997）
 - 2026-11-17 送審可選 agent 兩輪：pb.py review-pack 產生審查包（先 card-check、抽關鍵格拼圖、審查表），外掛附 video-reviewer 代理；審查表 data/review_checklists.json（第一輪觀眾、第二輪製作；分鏡與定格各一套）；步驟 3.1、3.5、G3.1，新條目 S3-35
 - 2026-11-17 圖表 fill 修正（第二輪審查抓到）：曲線下面積只畫資料範圍、停在基線，基線下方改淺色地面鋪滿；zero:true 標 0、基線加粗；圖鑑重出
+- 2026-11-17 生成提示詞改成骨架：data/prompt_skeleton.json（圖片、影片各 13 段）、data/prompt_examples/（負責人範例＋基準卡＋反例）、pb.py prompt-check；spec --from 抓比例與分區、圖片不再帶影片數值、一般用詞不套風格、調性和風格不同時列選項、spec 圖片 真正切到圖片；步驟 4.2、1.3、新關卡、S4-05 改寫、新條目 S4-36；本機盲評舊式 6.0 → 骨架 13.25（滿分 16）
