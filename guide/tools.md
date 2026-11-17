@@ -77,6 +77,8 @@
 | [Qwen-Image／Qwen-Image-Edit](https://github.com/QwenLM/Qwen-Image)（T-115） | 待試 | 免費 | Apache-2.0（寬鬆） | 生成圖裡要有準確的中文字、或要用文字指令修圖時 |
 | [ClearerVoice-Studio](https://github.com/modelscope/ClearerVoice-Studio)（T-12） | 待試 | 免費 | Apache-2.0（寬鬆） | 多人錄音要抽出單一講者的聲音時（降噪本身用 DeepFilterNet） |
 | [Affinity（Canva 版，Mac／Windows／iPad）](https://www.affinity.studio/)（T-127） | 待試 | 部分付費 | Affinity 條款（2026-03-12 版）：內容歸使用者，未見商用限制；內附素材依 Canva 免費內容授權（特殊） | 要做向量、版面、修圖，又不想付 Adobe 時 |
+| [Unsplash](https://unsplash.com)（T-130） | 待試 | 免費 | Unsplash License（寬鬆） | 需要免費實拍照片當畫面層時 |
+| [Lummi](https://www.lummi.ai)（T-131） | 待試 | 部分付費 | 服務條款（未標） | 需要 AI 生成風格的免費圖庫圖時 |
 | [ACE-Step 1.5](https://github.com/ace-step/ACE-Step-1.5)（T-60） | 待試 | 免費 | MIT（寬鬆） | 需要長度剛好的配樂、又不想付費或擔心 Content ID 時 |
 | [Stable Audio 3（Small／Medium）](https://stability.ai/)（T-61） | 待試 | 免費 | Stability 社群授權（年營收 100 萬美元以下可商用）（特殊） | 要快、長度要準的純音樂 |
 | [Openverse 音訊搜尋](https://api.openverse.org/v1/audio/)（T-65） | 待試 | 免費 | 各檔不同（篩 CC0、CC BY）（寬鬆） | 要找音效或配樂時先用它 |
