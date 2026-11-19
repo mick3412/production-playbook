@@ -89,6 +89,8 @@ Visual details follow a reference ladder (S1-10). At stage 1, before proposing a
 
 ## Intake: new links, screenshots, PDFs, videos
 
+**Order: check → try → record → place.** (1) 待查: verify licence, cost and compatibility from the source itself, and whether the handbook already has it. (2) 待試: run every free item on a sample or the bench before writing it, and log the result with `run-log --bench`; paid, account-bound or unrunnable items stay 待查 with the reason. (3) 收錄: write only what passed. What failed goes in as 未採用 or 避開 with the reason, so it is not assessed again. (4) Place it: every row names the scene (what kind of work), the stage step (e.g. 4.6) and the exact usage: the command or prompt, inputs, values, and when not to use it; 測試方法 records what the try showed. When proposing intake to the user, give this check-and-try result per item, not just the source's claims.
+
 Ask before adding anything. When the user agrees:
 
 1. **Park it** if there is no time now: `inbox add <url|file> --note "<why it looked useful>"`.
