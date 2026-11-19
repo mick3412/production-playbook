@@ -86,3 +86,4 @@
 - 2026-11-19 外找同類範本（負責人文件 S81＋查核實測 S82）：新增 `pb.py scout`（bin/scout.py、data/scout_rules.json）：0.5 零下載海選（本地先比對、YouTube／Shorts hashtag 公開資料、離群倍數、同類理由、範本牆勾選與核准）→ 1.2 study（下載、拆解、逐字稿、節拍、dHash、報告、方向提案、參考表草稿、自動刪檔）→ 6.7 similar（結構、原句、畫面）→ learn 回寫索引。stages 0.5／G0.4、6.7／G6.5；條目 S0-11～13、S1-12、S6-13，改 S1-07、S1-09；工具 T-140～152；R-10、R-00 更新；tests/test_scout.py
 - 2026-11-19 pb.py：review-pack --stage web 的下一步提示改成通用審查代理（不是 video-reviewer）
 - 2026-11-20 Shorts／Reels 強範本庫（S83）：`pb.py scout strength`（四訊號：頻道穩定、單支離群、時間校正速度、互動深度；兩門檻：可學性（排除搬運、名人片段、超過 180 秒）、證據量 → S／A／B／做法參考／未達／排除）；`pb.py scout library [list|check|page]` 與 data/shorts_library.json（5 張範本卡 SL-01～05、4 則做法參考、排除紀錄）；試做 SL-05 採用、SL-02 待試；條目 S1-13～17、配方 R-13、stages 1.1 補一句；scout purge 改白名單（只留 json、md、txt、html）；相似度 dHash 門檻改 4；tests/test_strength.py
+- 2026-11-20 video_qa（86e3bd4，整合Playbook 修）：有時間軸的逐詞字幕，每句在自己的中點抽格、只核對那一句的字；SL-02 試做片因此通過，範本卡升為採用
