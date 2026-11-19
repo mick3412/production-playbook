@@ -83,3 +83,4 @@
 - 2026-11-17 生成提示詞改成骨架：data/prompt_skeleton.json（圖片、影片各 13 段）、data/prompt_examples/（負責人範例＋基準卡＋反例）、pb.py prompt-check；spec --from 抓比例與分區、圖片不再帶影片數值、一般用詞不套風格、調性和風格不同時列選項、spec 圖片 真正切到圖片；步驟 4.2、1.3、新關卡、S4-05 改寫、新條目 S4-36；本機盲評舊式 6.0 → 骨架 13.25（滿分 16）
 - 2026-11-17 方向對齊：pb.py direction（page／samples／choose）、bin/direction.py、data/direction_rules.json；6 題單軸二選一（參考片量測值）、參考牆、用自己內容算 3 個方向樣片 → 方向卡；storyboard --emit --direction 照方向卡設動態、色盤、明暗；storyboard --use 列出模板的真實例子；步驟 1.0、G1.0、S1-11
 - 2026-11-17 方向對齊實測修正：serve 本機開頁、鉤子句縮字拆行與 card-check 放不下 FAIL、都不要用中性值、參考牆勾點即要並借節奏配色、三方向定格可辨、選完提醒下載、choose 從 picks.json 讀方向和樣片資料夾
+- 2026-11-19 外找同類範本（負責人文件 S81＋查核實測 S82）：新增 `pb.py scout`（bin/scout.py、data/scout_rules.json）：0.5 零下載海選（本地先比對、YouTube／Shorts hashtag 公開資料、離群倍數、同類理由、範本牆勾選與核准）→ 1.2 study（下載、拆解、逐字稿、節拍、dHash、報告、方向提案、參考表草稿、自動刪檔）→ 6.7 similar（結構、原句、畫面）→ learn 回寫索引。stages 0.5／G0.4、6.7／G6.5；條目 S0-11～13、S1-12、S6-13，改 S1-07、S1-09；工具 T-140～152；R-10、R-00 更新；tests/test_scout.py

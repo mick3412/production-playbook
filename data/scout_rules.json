@@ -1,0 +1,272 @@
+{
+ "說明": "外找同類範本（步驟 0.5 海選 → 1.2 拆解 → 6 相似度）。規則都在這裡，bin/scout.py 不寫死數字。負責人 2026-11-19 決定：可下載研究、研究完刪檔；不用 Apify。",
+ "平台": {
+  "shorts": {
+   "名稱": "YouTube Shorts",
+   "直式": true,
+   "長度上限": 60,
+   "搜尋加詞": "shorts"
+  },
+  "reels": {
+   "名稱": "IG Reels",
+   "直式": true,
+   "長度上限": 90,
+   "搜尋加詞": "shorts"
+  },
+  "tiktok": {
+   "名稱": "TikTok",
+   "直式": true,
+   "長度上限": 60,
+   "搜尋加詞": "shorts"
+  },
+  "long": {
+   "名稱": "YouTube 長片",
+   "直式": false,
+   "長度上限": 600,
+   "搜尋加詞": ""
+  }
+ },
+ "搜尋": {
+  "每組筆數": 15,
+  "最多組數": 5,
+  "輸出上限": 10,
+  "本地先比對上限": 3,
+  "請求間隔秒": 1.5,
+  "快取天數": 7,
+  "頻道取樣支數": 15,
+  "平行": 3,
+  "每個標籤細查": 8,
+  "說明": "每個 hashtag 只細查觀看最高的 8 支、逐支查（2026-11-19 平行細查觸發 YouTube 429）；被擋就停，已查到的照用，空結果不快取，稍後重跑會接續。有 YOUTUBE_API_KEY 時改用官方 API。"
+ },
+ "硬過濾": {
+  "長度倍數": [
+   0.4,
+   1.6
+  ],
+  "最舊月數": 18,
+  "放寬": {
+   "說明": "符合的不足最少支數時依序放寬，結果標「已放寬」",
+   "最少支數": 5,
+   "順序": [
+    "最低觀看",
+    "最舊月數",
+    "長度倍數",
+    "直式"
+   ],
+   "最舊月數": 36,
+   "長度倍數": [
+    0.2,
+    3.0
+   ],
+   "最低觀看": 1000
+  }
+ },
+ "有效性": {
+  "說明": "有機內容看離群倍數（該片觀看 ÷ 頻道近 15 支中位數）與觀看÷訂閱；廣告看投放天數。門檻參考 phillipmex/yt-outlier-mcp 的做法。",
+  "離群倍數": {
+   "好": 2.0,
+   "很好": 5.0
+  },
+  "觀看訂閱比": {
+   "好": 3.0,
+   "很好": 10.0
+  },
+  "最低觀看": {
+   "直式": 10000,
+   "橫式": 5000
+  },
+  "廣告投放天數": {
+   "好": 14,
+   "很好": 30
+  },
+  "觀看訂閱比最少訂閱": 1000
+ },
+ "可行性": {
+  "說明": "標題、描述、標籤出現這些字就降級；代理再看縮圖確認。可行＝現有工具鏈做得出來。",
+  "做不到": [
+   "official music video",
+   "movie trailer",
+   "film trailer",
+   "cgi",
+   "vfx breakdown",
+   "blender",
+   "unreal engine",
+   "drone show",
+   "celebrity",
+   "red carpet"
+  ],
+  "勉強": [
+   "3d",
+   "studio",
+   "commercial",
+   "tvc",
+   "drone",
+   "cinematic",
+   "behind the scenes",
+   "interview with"
+  ]
+ },
+ "同類": {
+  "說明": "三條件至少 2 條，而且一定要有「主題相近」：形式相同（標題、描述、標籤真的出現形式詞）、主題相近（需求與搜尋詞的關鍵字重疊）、平台與長度相近。代理可在 candidates.json 改寫理由或剔除。",
+  "最少條件": 2,
+  "形式詞": {
+   "文字動態": [
+    "explained",
+    "explainer",
+    "in 60 seconds",
+    "facts",
+    "tips",
+    "kinetic",
+    "text",
+    "animation",
+    "animated",
+    "chart",
+    "data",
+    "numbers",
+    "解說",
+    "懶人包"
+   ],
+   "照片故事": [
+    "day in",
+    "a day in",
+    "tour",
+    "lifestyle",
+    "vlog",
+    "villa",
+    "travel",
+    "photo",
+    "slideshow",
+    "生活",
+    "旅居",
+    "開箱"
+   ],
+   "口播訪談": [
+    "interview",
+    "podcast",
+    "talk",
+    "story time",
+    "q&a",
+    "advice",
+    "my story",
+    "訪談",
+    "口播"
+   ],
+   "輪播圖卡": [
+    "carousel",
+    "slides",
+    "infographic",
+    "list",
+    "圖卡",
+    "輪播"
+   ]
+  },
+  "必要": "主題相近"
+ },
+ "打分": {
+  "同類": 0.4,
+  "有效性": 0.3,
+  "新近": 0.15,
+  "可行": 0.15
+ },
+ "去重": {
+  "同頻道最多": 2
+ },
+ "半自動來源": [
+  {
+   "名稱": "TikTok Creative Center Top Ads",
+   "網址": "https://ads.tiktok.com/business/creativecenter/inspiration/topads/pc/en?period=30&region={region}&sort_by=like",
+   "誰看": "代理（內建瀏覽器，只讀頁面文字，不下載頁面影片）",
+   "記什麼": "連結、產業、CTR 或讚數、投放天數",
+   "條款": "免費；登入才看得到完整清單"
+  },
+  {
+   "名稱": "Google Ads Transparency Center",
+   "網址": "https://adstransparency.google.com/?region={region}&format=VIDEO",
+   "誰看": "代理（內建瀏覽器）",
+   "記什麼": "廣告主、投放期間、連結",
+   "條款": "免費"
+  },
+  {
+   "名稱": "LinkedIn Ad Library",
+   "網址": "https://www.linkedin.com/ad-library/search?keyword={q}",
+   "誰看": "代理（內建瀏覽器）",
+   "記什麼": "廣告主、連結",
+   "條款": "免費"
+  },
+  {
+   "名稱": "Meta Ad Library",
+   "網址": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country={region}&media_type=video&q={q}",
+   "誰看": "負責人（Meta 規則：不自動操作）",
+   "記什麼": "連結、開始投放日期",
+   "條款": "免費；看完把連結用 scout add 貼回"
+  }
+ ],
+ "下載": {
+  "格式": "bv*[height<=720][ext=mp4]+ba[ext=m4a]/b[height<=720][ext=mp4]/b[height<=720]/b",
+  "Instagram": "--cookies-from-browser safari",
+  "無法自動下載": [
+   "tiktok.com",
+   "facebook.com/ads",
+   "adstransparency.google.com",
+   "linkedin.com/ad-library"
+  ],
+  "說明": "只下載負責人在範本牆核准的 2–3 支；研究完 purge 刪檔；外部影片絕不放進成品（S4-09、S4-35）。YouTube、TikTok 條款禁止自動下載，負責人 2026-11-19 決定研究用並刪檔。"
+ },
+ "刪檔": {
+  "副檔名": [
+   ".mp4",
+   ".m4a",
+   ".webm",
+   ".mkv",
+   ".mov",
+   ".mp3",
+   ".wav",
+   ".opus",
+   ".part",
+   ".ytdl"
+  ],
+  "全尺寸格": [
+   "shot*.jpg",
+   "cut*.jpg",
+   "row*.jpg",
+   "contact_sheet.jpg"
+  ],
+  "保留": [
+   "*.json",
+   "*.md",
+   "*.txt",
+   "*.html"
+  ]
+ },
+ "相似度": {
+  "說明": "成品 vs 範本：結構太像 WARN、原句相同 FAIL、畫面太像 WARN（S4-35）。範本媒體已刪，比對用 study 留下的秒數、文字與 dHash。",
+  "結構相關係數": 0.9,
+  "原句英文字數": 6,
+  "原句中文字數": 10,
+  "dHash 距離": 6
+ },
+ "選用工具": {
+  "逐字稿": {
+   "python": "python3",
+   "模組": "mlx_whisper",
+   "模型": "mlx-community/whisper-small-mlx"
+  },
+  "節拍": {
+   "python": "~/Dev Projects/playbook-bench/production/vendor/venv-cv/bin/python",
+   "模組": "librosa"
+  },
+  "Gemini": {
+   "環境變數": "GEMINI_API_KEY",
+   "預設": false,
+   "說明": "--gemini 才用；免費層內容可能被用於改進模型（T-132）"
+  },
+  "YouTube API": {
+   "環境變數": "YOUTUBE_API_KEY",
+   "說明": "有才用；沒有就用 yt-dlp 公開資料"
+  }
+ },
+ "存放": {
+  "環境變數": "PB_SCOUT_DIR",
+  "預設": "~/Dev Projects/playbook-bench/production/scout"
+ }
+}

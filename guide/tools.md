@@ -8,17 +8,30 @@
 |---|---|---|---|---|
 | [Meetily](https://github.com/Zackriya-Solutions/meetily)（T-108） | 待試 | 免費 | MIT（寬鬆） | 客戶訪談、諮詢通話要留下逐字稿和重點，拿來做受眾研究時 |
 | [anarlog（前身 Hyprnote）](https://github.com/fastrepl/anarlog)（T-109） | 待試 | 免費 | MIT（寬鬆） | 想要像 Granola 那樣邊開會邊記筆記、會後自動整理時 |
+| [YouTube Data API v3（scout 選配）](https://developers.google.com/youtube/v3/docs/search/list)（T-140） | 待試 | 免費 | YouTube API 服務條款（特殊） | 外找範本要依觀看排序、或 yt-dlp 被 YouTube 擋下時 |
+| [TikTok Creative Center Top Ads](https://ads.tiktok.com/business/creativecenter/inspiration/topads/pc/en)（T-141） | 待試 | 免費 | TikTok 商業條款（特殊） | 轉換型短影音要看同產業正在投的高表現廣告時 |
+| [Google Ads Transparency Center](https://adstransparency.google.com/)（T-142） | 待試 | 免費 | Google 條款（特殊） | 要看同業在 YouTube 投的影片廣告時 |
+| [LinkedIn Ad Library](https://www.linkedin.com/ad-library/)（T-143） | 待試 | 免費 | LinkedIn 條款（特殊） | B2B 影片要看同業廣告時 |
+| [Meta Ad Library（網頁版）](https://www.facebook.com/ads/library/)（T-144） | 待試 | 免費 | Meta 條款（特殊） | 要看 FB／IG 同業正在投的影片廣告、判斷長青素材時 |
+| [yt-outlier-mcp](https://github.com/phillipmex/yt-outlier-mcp)（T-148） | 未採用 | 免費 | MIT（寬鬆） | — |
+| [youtube-niche-finder](https://github.com/pandich93/youtube-niche-finder)（T-149） | 未採用 | 免費 | MIT（寬鬆） | — |
+| [Meta Ad Library MCP（pipeboard、proxy-intell、byadsco）](https://github.com/proxy-intell/facebook-ads-library-mcp)（T-150） | 未採用 | 部分付費 | MIT／未標（特殊） | — |
+| [Apify（TikTok／Meta 搜尋 Actor）](https://apify.com/pricing)（T-151） | 未採用 | 部分付費 | Apify 條款（特殊） | — |
+| [付費廣告收藏與間諜工具（Foreplay、Swipekit、Motion、Atria、Minea、AdSpy、BigSpy、ShotDeck、MagicBrief）](https://www.foreplay.co/pricing)（T-152） | 未採用 | 付費 | 各自條款（特殊） | — |
 
 ## 1 研究與參考
 
 | 工具 | 狀態 | 費用 | 授權 | 何時用 |
 |---|---|---|---|---|
+| [librosa（節拍）](https://github.com/librosa/librosa)（T-145） | 已整合 | 免費 | ISC（寬鬆） | 拆解範本時要知道切點有沒有踩拍 |
 | [SenseVoice（SenseVoiceSmall）](https://github.com/QwenAudio/SenseVoice)（T-102） | 已安裝 | 免費 | MIT（寬鬆） | 中文為主的逐字稿：中、粵、英、日、韓；要快、要標出笑聲掌聲等聲音事件時。保留給多語自動辨識、情緒與聲音事件標籤；一定要配 fsmn-vad，否則遇停頓就截斷（P12） |
 | [FunASR（modelscope）](https://github.com/modelscope/FunASR)（T-103） | 已安裝 | 免費 | MIT（寬鬆） | 中文逐字稿要一次做完語音偵測、加標點、講者分辨時。中文逐字稿預設（P12：字錯率 0.8%／12.6%，最快）；輸出簡體無標點，用 OpenCC 轉繁、標點另外處理；講者分辨用 T-95，不用 CAM++（要 1.1 GB 標點模型） |
 | [yt-dlp](https://github.com/yt-dlp/yt-dlp)（T-34） | 已安裝 | 免費 | Unlicense（寬鬆） | 下載自己發佈過的影片做重剪，或下載參考影片做分析（別人的影片不放進成品） |
 | [faster-whisper／mlx-whisper](https://github.com/SYSTRAN/faster-whisper)（T-56） | 已安裝 | 免費 | MIT（寬鬆） | 語音轉文字和逐字時間；Mac 用 mlx-whisper 較快。要直接輸出繁體加標點時用（P12：字錯率 3.8%／13.4%，比 Paraformer 慢 4–6 倍） |
 | [Scriberr](https://github.com/rishikanthc/Scriberr)（T-110） | 待試 | 免費 | MIT（寬鬆） | 要一個自架的網頁介面，批次上傳音檔轉錄時 |
 | [Gemini 影片理解（Gemini API）](https://ai.google.dev/gemini-api/docs/video-understanding)（T-132） | 待試 | 部分付費 | 服務條款（未標） | 要拆解參考片（鏡頭、景別、節奏、字幕位置）時，直接丟 YouTube 網址或影片檔 |
+| [Flim（AI 畫面搜尋）](https://flim.ai/pricing)（T-146） | 待試 | 部分付費 | Flim 條款（特殊） | 找 L3、L4（構圖、光線、色調）的電影與廣告畫面參考時 |
+| [PySceneDetect](https://github.com/Breakthrough/PySceneDetect)（T-147） | 待試 | 免費 | BSD-3-Clause（寬鬆） | 範本用柔和轉場、probe 的切點偵測漏鏡時 |
 | [awesome-opus5-5-videos](https://github.com/yihui-dev/awesome-opus5-5-videos)（T-22） | 待試 | 免費 | MIT（寬鬆） | 開新系列前找靈感、學提示詞寫法 |
 | [claude-real-video（crv）](https://github.com/HUANGCHIHHUNGLeo/claude-real-video)（T-37） | 待試 | 免費 | MIT（寬鬆） | 拆解參考片或回頭檢查自己的成品：依場景挑關鍵畫面、縮圖表、逐字稿 |
 | [動態參考圖庫（Prompt Motion、Eyecandy、24fps、Raivcoo、Motionographer、Motion Index）](https://learnaiwithmariah.com/guides/websites-to-give-ai-taste/)（T-72） | 待試 | 部分付費 | 各網站內容各自所有（未標） | 找動態、剪輯、運鏡參考時 |
