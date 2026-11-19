@@ -12,6 +12,11 @@
   purge DIR                      delete videos, audio and full-size frames; keep json, text and hashes (owner rule 2026-11-19)
   similar <成品.mp4> --refs DIR   finished video vs the studied references: structure, verbatim lines, frame hashes (S4-35)
   learn DIR                      add the studied references' numbers (no media) to the reference index, section 外部
+  strength <影片或頻道網址> … [--out DIR]
+                                 is it a strong template? four signals (A channel stable, B outlier, C views per day vs channel,
+                                 D engagement) and two gates (learnable: no reposts or celebrity clips, ≤180 s; enough evidence) → S/A/B/做法參考/未達/排除
+  library [list|check|page] [--family 家族] [--grade S] [--doable] [--out DIR]
+                                 the strong-template library (data/shorts_library.json): list cards, validate them, build the local page
 
 Rules (thresholds, sources, weights) live in data/scout_rules.json. Nothing here downloads during find.
 """
@@ -564,10 +569,10 @@ def download(c: dict, d: Path) -> Path | None:
         return None
     d.mkdir(parents=True, exist_ok=True)
     args = ["yt-dlp", "--no-warnings", "-q", "-f", RULES["下載"]["格式"], "--merge-output-format", "mp4", "-o", str(d / "ref.%(ext)s")]
-    if "instagram.com" in u:
-        args += RULES["下載"]["Instagram"].split()
-    subprocess.run(args + [u], timeout=900)
+    subprocess.run(args + [u], timeout=900)   # Instagram public reels download without login (tested 2026-11-20)
     got = [f for f in d.iterdir() if f.suffix.lower() == ".mp4"]
+    if not got and "instagram.com" in u:
+        print(f"  Instagram 不登入下載失敗；要用瀏覽器登入狀態請負責人同意後手動跑：yt-dlp {RULES['下載']['Instagram']} -o '{d}/ref.%(ext)s' {u}")
     return got[0] if got else None
 
 
@@ -733,7 +738,8 @@ def study(out: Path, keep: bool) -> int:
 def purge(out: Path) -> int:
     G = RULES["刪檔"]; gone = []
     for f in [*((out / "study").rglob("*") if (out / "study").is_dir() else []), *((out / "wall" / "thumbs").glob("*") if (out / "wall" / "thumbs").is_dir() else [])]:
-        if f.is_file() and (f.suffix.lower() in G["副檔名"] or any(f.match(p) for p in G["全尺寸格"]) or f.parent.name == "thumbs"):
+        keep = f.suffix.lower() in (".json", ".md", ".txt", ".html", ".log")   # whitelist: anything else left in study/ (resized sheets, stray frames) goes too
+        if f.is_file() and (not keep or f.parent.name == "thumbs"):
             gone.append(str(f.relative_to(out))); f.unlink()
     with (out / "purge.log").open("a", encoding="utf-8") as fh:
         fh.write(f"{dt.datetime.now().isoformat(timespec='seconds')} 刪除 {len(gone)} 個檔案：{', '.join(gone[:50])}{' …' if len(gone) > 50 else ''}\n")
@@ -802,6 +808,254 @@ def learn(out: Path) -> int:
     return 0
 
 
+# ---------------------------------------------------------------- strength: is this a "strong" template? (owner 2026-11-20)
+def days_since(d: str | None) -> float | None:
+    m = age_months(d)
+    return None if m is None else max(1.0, m * 30.4)
+
+
+def pct(xs: list[float], q: float) -> float | None:
+    xs = sorted(x for x in xs if isinstance(x, (int, float)))
+    if not xs:
+        return None
+    k = (len(xs) - 1) * q; f = int(k); c = min(f + 1, len(xs) - 1)
+    return xs[f] + (xs[c] - xs[f]) * (k - f)
+
+
+def channel_profile(url: str) -> dict:
+    """Recent Shorts of a channel: flat list (views of up to 30) + full metadata of the newest 8 (dates, likes, comments)."""
+    K = RULES["強度"]["頻道取樣"]
+    base = re.sub(r"/(shorts|videos|featured)/?$", "", url.rstrip("/"))
+    flat = cached(f"chflat:{K['平面支數']}:{base}", lambda: [{"url": r.get("url"), "view_count": r.get("view_count")}
+                  for r in ytdlp(["--flat-playlist", "--playlist-end", str(K["平面支數"]), base + "/shorts"], timeout=120)])
+    views = [r["view_count"] for r in flat if isinstance(r.get("view_count"), (int, float))]
+    detail = []
+    for r in flat[: K["細查支數"]]:
+        if not r.get("url"):
+            continue
+        rows = cached(f"meta:{r['url']}", lambda: [slim_full(x) for x in ytdlp([r["url"]], timeout=60)])
+        if rows:
+            detail.append(rows[0])
+        time.sleep(1.5)
+    per_day = [x["view_count"] / days_since(x.get("upload_date")) for x in detail if x.get("view_count") and days_since(x.get("upload_date"))]
+    likes = [x["like_count"] / x["view_count"] for x in detail if x.get("like_count") and x.get("view_count")]
+    return {"頻道": base, "支數": len(views), "中位數": pct(views, 0.5), "P25": pct(views, 0.25), "最高": max(views) if views else None,
+            "每日中位數": pct(per_day, 0.5), "讚率中位數": pct(likes, 0.5), "細查": len(detail),
+            "代表作": sorted([r for r in flat if r.get("view_count")], key=lambda r: -r["view_count"])[:5]}
+
+
+def slim_full(r: dict) -> dict:
+    d = slim(r)
+    d.update({k: r.get(k) for k in ("comment_count", "categories", "channel_id", "uploader", "uploader_id")})
+    return d
+
+
+def repost_check(v: dict) -> tuple[str, str]:
+    """('排除', why) / ('待確認', why) / ('', '')"""
+    R = RULES["強度"]["搬運"]
+    text = " ".join([v.get("title") or "", v.get("description") or "", " ".join(v.get("tags") or []), v.get("channel") or ""]).lower()
+    hit = next((w for w in R["確定"] if w in text), None)
+    if hit:
+        return "排除", f"搬運：描述有「{hit}」"
+    hit = next((w for w in R["娛樂名人詞"] if w in text), None)
+    if hit:
+        return "排除", f"名人或娛樂片段：出現「{hit}」"
+    if re.match(R["名人引言標題"], v.get("title") or ""):
+        return "待確認", "標題是「人名：引言」，可能是名人片段，研究時看畫面再定"
+    return "", ""
+
+
+def signals(v: dict, prof: dict | None) -> dict:
+    """The four signals for one video against its channel profile. Pure: tests feed fixed numbers."""
+    S = RULES["強度"]
+    views = v.get("view_count") or 0
+    days = days_since(v.get("upload_date"))
+    out = {"觀看": views, "發佈天數": round(days) if days else None, "讚率": round(v["like_count"] / views, 4) if v.get("like_count") and views else None,
+           "留言率": round(v["comment_count"] / views, 4) if v.get("comment_count") and views else None}
+    if prof:
+        med, p25 = prof.get("中位數"), prof.get("P25")
+        out["A 頻道穩定"] = bool(med and p25 and med >= S["A 頻道穩定"]["中位數"] and p25 / med >= S["A 頻道穩定"]["P25比中位數"])
+        out["頻道中位數"] = med; out["P25比中位數"] = round(p25 / med, 2) if med and p25 else None
+        out["離群倍數"] = round(views / med, 2) if med else None
+        out["B 單支離群"] = bool(out["離群倍數"] and out["離群倍數"] >= S["B 單支離群"]["倍數"] and views >= S["B 單支離群"]["最低觀看"])
+        pd = prof.get("每日中位數")
+        out["每日觀看"] = round(views / days) if days else None
+        out["速度倍數"] = round(views / days / pd, 2) if (days and pd) else None
+        out["C 時間校正速度"] = bool(out["速度倍數"] and out["速度倍數"] >= S["C 時間校正速度"]["倍數"])
+        lr = prof.get("讚率中位數")
+        out["D 互動深度"] = bool(out["讚率"] and (out["讚率"] >= S["D 互動深度"]["讚率"] or (lr and out["讚率"] >= lr * S["D 互動深度"]["比頻道倍數"])))
+    else:
+        out.update({"A 頻道穩定": False, "B 單支離群": False, "C 時間校正速度": False, "D 互動深度": bool(out["讚率"] and out["讚率"] >= S["D 互動深度"]["讚率"])})
+    out["舊片"] = bool(days and days / 30.4 > S["C 時間校正速度"]["舊片月數"])
+    return out
+
+
+def grade(v: dict, prof: dict | None, sig: dict) -> tuple[str, list[str]]:
+    S = RULES["強度"]; why = []
+    rp, rwhy = repost_check(v)
+    if rp == "排除":
+        return "排除", [rwhy]
+    dur = v.get("duration") or 0
+    if dur > S["長度"]["長版上限"]:
+        return "排除", [f"長片切段（{dur} 秒 > {S['長度']['長版上限']} 秒）"]
+    if dur > S["長度"]["短片上限"]:
+        why.append(f"長版（{dur} 秒）")
+    ig = "instagram.com" in (v.get("webpage_url") or "")
+    days = sig.get("發佈天數")
+    if ig or not sig.get("觀看") or not prof or (prof.get("支數") or 0) < S["證據量"]["頻道最少支數"] or (days is not None and days < S["證據量"]["最少發佈天數"]):
+        why.append("證據不足：" + ("IG 不公開觀看數" if ig else "頻道 Shorts 不到 15 支或片子不滿 7 天" if sig.get("觀看") else "沒有觀看數"))
+        g = "B" if (ig and sig.get("D 互動深度")) else "做法參考"
+    elif sig["A 頻道穩定"]:
+        g = "S"; why.append(f"頻道中位數 {int(sig['頻道中位數']):,}、P25/中位數 {sig['P25比中位數']}")
+    elif sig["B 單支離群"] and (sig["C 時間校正速度"] or sig["舊片"]):
+        g = "A"; why.append(f"離群 {sig['離群倍數']}×" + (f"、速度 {sig['速度倍數']}×" if sig.get("速度倍數") else "") + ("（舊片）" if sig["舊片"] and not sig["C 時間校正速度"] else ""))
+    elif sig["D 互動深度"]:
+        g = "B"; why.append(f"讚率 {sig['讚率']:.1%}")
+    else:
+        g = "未達"; why.append("四個訊號都沒達標")
+    if rp == "待確認":
+        why.append(rwhy); g = g + "（待確認）" if g not in ("做法參考", "未達") else g
+    return g, why
+
+
+def strength_cmd(targets: list[str], out: Path | None) -> int:
+    rows = []
+    for t in targets:
+        t = re.sub(r"\?si=.*$", "", t.strip())
+        if re.search(r"youtube\.com/(@|channel/|c/)", t) and "/shorts/" not in t and "watch?v=" not in t:
+            prof = channel_profile(t)
+            top = prof["代表作"][:3]
+            print(f"\n頻道 {t}：Shorts {prof['支數']} 支｜中位數 {int(prof['中位數'] or 0):,}｜P25/中位數 {round((prof['P25'] or 0) / (prof['中位數'] or 1), 2)}｜每日中位數 {int(prof['每日中位數'] or 0):,}｜讚率中位數 {prof['讚率中位數'] or 0:.1%}")
+            rows.append({"類型": "頻道", "網址": t, "頻道": prof})
+            targets_v = [r["url"] for r in top]
+        else:
+            targets_v = [t]
+        for u in targets_v:
+            vs = cached(f"meta:{u}", lambda: [slim_full(x) for x in ytdlp([u], timeout=90)])
+            if not vs:
+                print(f"讀不到：{u}" + (f"（{BLOCKED['why']}）" if BLOCKED["yes"] else "")); continue
+            v = vs[0]
+            prof = None
+            if "youtube.com" in (v.get("webpage_url") or "") and v.get("channel_url"):
+                prof = channel_profile(v["channel_url"])
+            sig = signals(v, prof)
+            g, why = grade(v, prof, sig)
+            rows.append({"類型": "影片", "網址": v.get("webpage_url"), "標題": v.get("title"), "頻道名": v.get("channel") or v.get("uploader"), "分級": g, "理由": why, "訊號": sig,
+                         "頻道": {k: prof[k] for k in ("支數", "中位數", "P25", "每日中位數", "讚率中位數")} if prof else None})
+            flags = "".join(k[0] for k in ("A 頻道穩定", "B 單支離群", "C 時間校正速度", "D 互動深度") if sig.get(k))
+            print(f"  {g:10}｜{(v.get('title') or '')[:46]}｜{v.get('channel') or v.get('uploader')}｜觀看 {sig['觀看']:,}｜離群 {sig.get('離群倍數','—')}×｜速度 {sig.get('速度倍數','—')}×｜讚率 {sig['讚率'] or 0:.1%}｜達標 {flags or '—'}｜{'；'.join(why)}")
+    if out:
+        out.mkdir(parents=True, exist_ok=True)
+        (out / "strength.json").write_text(json.dumps({"量測日": dt.date.today().isoformat(), "結果": rows}, ensure_ascii=False, indent=1), encoding="utf-8")
+        print(f"\n寫入 {out / 'strength.json'}")
+    if BLOCKED["yes"]:
+        print(f"注意：{BLOCKED['why']}；稍後重跑會從快取接續")
+    return 0
+
+
+# ---------------------------------------------------------------- the strong-template library (data/shorts_library.json)
+LIB = REPO / "data" / "shorts_library.json"
+CARD_KEYS = ("id", "名稱", "家族", "分級", "狀態", "來源", "鉤子", "骨架", "字幕", "動態", "聲音", "製作配方", "借", "不借", "驗證")
+
+
+def library_check(L: dict) -> list[str]:
+    """Every card complete; layouts exist in kits/storyboard/layouts.json; segments add up; nothing of the source is copied."""
+    errs = []
+    lay = {x["id"] for x in json.loads((REPO / "kits" / "storyboard" / "layouts.json").read_text(encoding="utf-8"))["版型"]}
+    grades = {"S", "A", "B", "A（待確認）", "S（待確認）", "B（待確認）"}
+    ids = set()
+    for c in L.get("範本", []):
+        cid = c.get("id", "?")
+        if cid in ids:
+            errs.append(f"{cid}：id 重複")
+        ids.add(cid)
+        for k in CARD_KEYS:
+            if k not in c:
+                errs.append(f"{cid}：缺「{k}」")
+        if c.get("分級") not in grades:
+            errs.append(f"{cid}：分級「{c.get('分級')}」不是 S／A／B（做法參考放「做法參考」區）")
+        if c.get("狀態") not in ("待試", "採用"):
+            errs.append(f"{cid}：狀態只能是待試或採用")
+        if not c.get("來源") or not all(x.get("網址") and x.get("分級") for x in c["來源"]):
+            errs.append(f"{cid}：來源要有網址與分級")
+        segs = c.get("骨架") or []
+        for g in segs:
+            if g.get("版型") not in lay:
+                errs.append(f"{cid}：版型「{g.get('版型')}」不在 layouts.json")
+        tot = round(sum(float(g.get("秒數", 0)) for g in segs), 1)
+        if segs and c.get("總秒數") and abs(tot - float(c["總秒數"])) > 1.5:
+            errs.append(f"{cid}：段落秒數加總 {tot} 和總秒數 {c['總秒數']} 差太多")
+        if not {"原片畫面", "原句"} <= set(c.get("不借", [])):
+            errs.append(f"{cid}：不借清單要有「原片畫面」「原句」")
+        if c.get("狀態") == "採用" and not (c.get("驗證") or {}).get("試做片"):
+            errs.append(f"{cid}：採用前要有試做片（qa 與 similar 都過）")
+    for r in L.get("做法參考", []):
+        if not r.get("網址") or not r.get("學什麼"):
+            errs.append(f"做法參考 {r.get('網址','?')}：要有網址與學什麼")
+    return errs
+
+
+def library_list(L: dict, family: str | None, grade: str | None, doable: bool) -> None:
+    for c in L.get("範本", []):
+        if family and family not in c["家族"]:
+            continue
+        if grade and not c["分級"].startswith(grade):
+            continue
+        miss = c["製作配方"].get("缺", [])
+        if doable and miss:
+            continue
+        segs = "→".join(f"{g['作用']}({g['版型']},{g['秒數']}s)" for g in c["骨架"])
+        print(f"{c['id']}｜{c['分級']}｜{c['狀態']}｜{c['家族']}｜{c['名稱']}｜{c.get('總秒數')} 秒｜{segs}" + (f"｜缺：{'、'.join(miss)}" if miss else ""))
+
+
+def library_page(L: dict, out: Path) -> Path:
+    def bar(c):
+        tot = sum(float(g["秒數"]) for g in c["骨架"]) or 1
+        return "".join(f"<span class='seg' style='flex:{float(g['秒數']) / tot:.3f}' title='{html.escape(g.get('說明',''))}'><b>{html.escape(g['作用'])}</b><i>{html.escape(g['版型'])}・{g['秒數']}s</i></span>" for g in c["骨架"])
+    def src(x):
+        sig = x.get("訊號", {})
+        bits = [f"觀看 {sig['觀看']:,}" if sig.get("觀看") else "", f"離群 {sig['離群倍數']}×" if sig.get("離群倍數") else "", f"速度 {sig['速度倍數']}×" if sig.get("速度倍數") else "", f"讚率 {sig['讚率']:.1%}" if sig.get("讚率") else ""]
+        return f"<li><a href='{html.escape(x['網址'])}' target='_blank' rel='noopener'>{html.escape(x.get('頻道') or x['網址'])}</a>｜{html.escape(x['分級'])}｜{html.escape(' · '.join(b for b in bits if b))}</li>"
+    cards = []
+    for c in L.get("範本", []):
+        r = c["製作配方"]
+        cards.append(f"""<article class="card"><header><span class="badge g{html.escape(c['分級'][0])}">{html.escape(c['分級'])}</span><span class="st">{html.escape(c['狀態'])}</span>
+<h2>{html.escape(c['id'])}　{html.escape(c['名稱'])}</h2><p class="m">{html.escape(c['家族'])}｜{c.get('總秒數','?')} 秒｜鉤子：{html.escape(c['鉤子'].get('類型',''))}</p></header>
+<div class="tl">{bar(c)}</div>
+<dl><dt>前 3 秒</dt><dd>{html.escape(c['鉤子'].get('結構',''))}</dd><dt>字幕</dt><dd>{html.escape('；'.join(f'{k}：{v}' for k, v in c['字幕'].items()))}</dd>
+<dt>動態</dt><dd>{html.escape('、'.join(c['動態']))}</dd><dt>聲音</dt><dd>{html.escape('；'.join(f'{k}：{v}' for k, v in c['聲音'].items()))}</dd>
+<dt>製作</dt><dd>{html.escape('、'.join(r.get('工具', [])))}{('<br><span class=miss>缺：' + html.escape('、'.join(r['缺'])) + '</span>') if r.get('缺') else ''}</dd>
+<dt>借</dt><dd>{html.escape('、'.join(c['借']))}</dd><dt>不借</dt><dd>{html.escape('、'.join(c['不借']))}</dd></dl>
+<details><summary>來源與證據</summary><ul>{''.join(src(x) for x in c['來源'])}</ul></details></article>""")
+    refs = "".join(f"<li><a href='{html.escape(r['網址'])}' target='_blank' rel='noopener'>{html.escape(r.get('名稱') or r['網址'])}</a>：{html.escape(r['學什麼'])}<span class=m>（{html.escape(r.get('為什麼只是參考',''))}）</span></li>" for r in L.get("做法參考", []))
+    css = WALL_CSS + """
+.card{padding:16px 18px;margin:0 0 18px}.card h2{font-size:19px;margin:6px 0 2px}.badge{display:inline-block;font-weight:700;border-radius:6px;padding:1px 10px;color:#fff;background:#666}
+.gS{background:#8a5a00}.gA{background:#2f6f9f}.gB{background:#3f7d4f}.st{margin-left:8px;font-size:13px;color:var(--mute)}
+.tl{display:flex;gap:3px;margin:12px 0;min-height:52px}.seg{background:color-mix(in srgb,var(--ink) 9%,transparent);border-radius:6px;padding:6px 6px;overflow:hidden;font-size:12px;line-height:1.3;min-width:0}
+.seg b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.seg i{font-style:normal;color:var(--mute);white-space:nowrap}
+dl{display:grid;grid-template-columns:72px 1fr;gap:4px 10px;margin:8px 0;font-size:14px}dt{color:var(--mute)}dd{margin:0}.miss{color:#b23b3b}
+details{font-size:14px}"""
+    page = f"""<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Shorts 範本庫</title><style>{css}</style></head><body><main>
+<h1>Shorts／Reels 強範本庫</h1><p class="sub">{html.escape(L.get('說明',''))}<br>本機檢視，不發佈；範本只記結構，畫面與原句一律不借。</p>
+{''.join(cards)}<h2 style="font-size:19px">做法參考（沒有成效證據，只學部位）</h2><ul>{refs}</ul></main></body></html>"""
+    out.mkdir(parents=True, exist_ok=True)
+    f = out / "index.html"; f.write_text(page, encoding="utf-8")
+    return f
+
+
+def library_cmd(a) -> int:
+    L = json.loads(LIB.read_text(encoding="utf-8"))
+    if a.action == "check":
+        errs = library_check(L)
+        print("範本庫檢查：" + ("OK，" + f"{len(L.get('範本', []))} 張範本卡、{len(L.get('做法參考', []))} 則做法參考" if not errs else f"{len(errs)} 個問題"))
+        [print("  " + e) for e in errs]
+        return 1 if errs else 0
+    if a.action == "page":
+        f = library_page(L, Path(a.out).expanduser() if a.out else store() / "library-page")
+        print(f"範本庫頁面：{f}（本機開，不發佈）"); return 0
+    library_list(L, a.family, a.grade, a.doable); return 0
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(prog="pb.py scout", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd")
@@ -813,8 +1067,10 @@ def main(argv=None) -> int:
     p = sub.add_parser("purge"); p.add_argument("dir")
     p = sub.add_parser("similar"); p.add_argument("video"); p.add_argument("--refs", required=True); p.add_argument("--words")
     p = sub.add_parser("learn"); p.add_argument("dir")
+    p = sub.add_parser("strength"); p.add_argument("targets", nargs="+"); p.add_argument("--out")
+    p = sub.add_parser("library"); p.add_argument("action", nargs="?", default="list", choices=["list", "check", "page"]); p.add_argument("--family"); p.add_argument("--grade"); p.add_argument("--doable", action="store_true"); p.add_argument("--out")
     argv = list(sys.argv[1:] if argv is None else argv)
-    if argv and argv[0] not in {"find", "serve", "add", "study", "purge", "similar", "learn", "-h", "--help"}:
+    if argv and argv[0] not in {"find", "serve", "add", "study", "purge", "similar", "learn", "strength", "library", "-h", "--help"}:
         argv = ["find", *argv]   # pb.py scout "需求" is the one-command entry point
     a = ap.parse_args(argv)
     if a.cmd == "find":
@@ -831,6 +1087,10 @@ def main(argv=None) -> int:
         return similar(a.video, Path(a.refs).expanduser(), a.words)
     if a.cmd == "learn":
         return learn(Path(a.dir).expanduser())
+    if a.cmd == "library":
+        return library_cmd(a)
+    if a.cmd == "strength":
+        return strength_cmd(a.targets, Path(a.out).expanduser() if a.out else None)
     ap.print_help(); return 0
 
 
