@@ -46,12 +46,12 @@
 | 工具 | 狀態 | 費用 | 授權 | 何時用 |
 |---|---|---|---|---|
 | [drama-skills（zenstory-ai）](https://github.com/zenstory-ai/drama-skills)（T-135） | 已整合 | 部分付費 | MIT（寬鬆） | 做 AI 短劇、漫劇或多集角色故事時：寫劇本、角色與場景設定、分鏡、提示詞；要角色外觀跨鏡頭不跑掉時 |
+| [animasyon-stil-katalogu（20 種動畫風格範本）](https://github.com/yasinozmeen/animasyon-stil-katalogu)（T-139） | 已整合 | 免費 | 無授權檔（GitHub 未偵測到授權）（未標） | 要某種動畫風格的精準數值時：用 pb.py style <風格名> 看已拆好的提示詞與程式動畫數值；要看原片感覺時再看 repo 的示範片 |
 | [video-shotcraft](https://github.com/Vincentwei1021/video-shotcraft)（T-20） | 已整合 | 部分付費 | Apache-2.0（寬鬆） | 找鏡頭和動效的說法：124 張鏡頭配方卡和動態樣片 |
 | [lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar)（T-21） | 已整合 | 免費 | MIT（寬鬆） | 需要現成的影片風格（59 種，含水彩、衛星簡報等）和它的風格提示詞 |
 | [Motion Prompt](https://github.com/showheyohtaki/motion-prompt)（T-36） | 已整合 | 免費 | MIT（寬鬆） | 指定和移植動效：168 個有編號的動作，附規格和 Canvas 程式；photo 包只當生圖用語 |
 | [video-script-builder（SURGE）](https://github.com/erduo1998-cell/video-script-builder)（T-38） | 已整合 | 免費 | MIT（寬鬆） | 新格式或新風格開工前，先產一份分鏡規格當設計審查（意圖卡、母題、時間閉合、開放問題） |
 | [huashu-art-motion（畫術動態）](https://github.com/alchaincyf/huashu-art-motion)（T-120） | 已安裝 | 免費 | MIT（角色圖只供示範）（寬鬆） | 要做解說片、財經圖表、動態文字、白板等「語法」明確的程式動畫，或想照一套分鏡表→算圖→QA→交付紅綠燈的流程做時 |
-| [animasyon-stil-katalogu（20 種動畫風格範本）](https://github.com/yasinozmeen/animasyon-stil-katalogu)（T-139） | 未採用 | 免費 | 無授權檔（GitHub 未偵測到授權）（未標） | — |
 | [onetake](https://github.com/feitangyuan/onetake)（T-42） | 未採用 | 不明 | 未標明（未標） | 一鏡到底的動態影片概念（授權不明，只參考） |
 
 ## 4 素材
