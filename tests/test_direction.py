@@ -16,6 +16,12 @@ REPO = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO / "bin"))
 import direction as D  # noqa: E402
 
+try:
+    import PIL  # noqa: F401  (fake reference frames and photos need Pillow; skip where it is not installed, e.g. the ITA venv)
+    HAS_PIL = True
+except ImportError:
+    HAS_PIL = False
+
 REF = D.ref_dir()
 HAS_INDEX = (REF / "direction_index.json").is_file()
 PICKS = {"需求": "30 秒數字圖表 Reels", "形式": "文字動態", "二選一": {"節奏": "慢", "動態": "強", "字量": "多", "畫面": "都可以"}, "參考牆": {}}
@@ -170,6 +176,7 @@ class WallTicks(unittest.TestCase):             # issue 4
         self.assertNotIn("c-clip", liked)
 
 
+@unittest.skipUnless(HAS_PIL, "Pillow not installed")
 class WallLends(unittest.TestCase):             # issue 5
     def test_measured_points_go_into_direction_2_the_rest_is_recorded(self):
         I = fake_index(Path(tempfile.mkdtemp()))
@@ -188,6 +195,7 @@ class WallLends(unittest.TestCase):             # issue 5
         self.assertEqual(D.wall_borrow(LIVE, None)["借"], {})
 
 
+@unittest.skipUnless(HAS_PIL, "Pillow not installed")
 class StillsDiffer(unittest.TestCase):          # issue 6
     def test_every_direction_differs_on_the_still_frame(self):
         I = fake_index(Path(tempfile.mkdtemp()))
@@ -311,6 +319,7 @@ except Exception:
 
 
 @unittest.skipUnless(HAS_PW, "playwright not installed")
+@unittest.skipUnless(HAS_PIL, "Pillow not installed")
 class PageBehaviour(unittest.TestCase):         # issues 4 and 7, in the page itself (opened as a file)
     def run_page(self, path: Path, script: str):
         from playwright.sync_api import sync_playwright
