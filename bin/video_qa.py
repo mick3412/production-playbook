@@ -182,12 +182,25 @@ def qa(video: str, card: dict | None, require: list[str], tmp: Path, boards: lis
         span = bt["b"] - bt["a"]; img, bx = frames[i]
         text = " ".join(x["text"] for x in sorted(bx, key=lambda x: (x["y"], x["x"]))); seen_text += " " + text
         if card and i <= len(card["beats"]):   # the words on the card must really be readable on screen: a box drawn over a title, a clipped line or a dropped element shows up here
-            want = expected(card["beats"][i - 1]); flat = re.sub(r"[^a-z\u3400-\u9fff]+", "", text.lower()); toks = re.findall(r"[a-z]{3,}", text.lower())
-            near = lambda w: any(difflib.SequenceMatcher(None, w, flat[j:j + len(w)]).ratio() >= 0.84 for j in range(0, max(1, len(flat) - len(w) + 1)))   # OCR swaps a letter now and then
-            flat = re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", text.lower())
-            miss = [w for w in dict.fromkeys(want) if w not in flat and not any(difflib.SequenceMatcher(None, w, t).ratio() >= 0.75 for t in toks) and not (len(w) >= 6 and near(w))]
+            cb = card["beats"][i - 1]
+            def missing(want, text):
+                flat = re.sub(r"[^a-z\u3400-\u9fff]+", "", text.lower()); toks = re.findall(r"[a-z]{3,}", text.lower())
+                near = lambda w: any(difflib.SequenceMatcher(None, w, flat[j:j + len(w)]).ratio() >= 0.84 for j in range(0, max(1, len(flat) - len(w) + 1)))   # OCR swaps a letter now and then
+                flat = re.sub(r"[^a-z0-9\u3400-\u9fff]+", "", text.lower())
+                return [w for w in dict.fromkeys(want) if w not in flat and not any(difflib.SequenceMatcher(None, w, t).ratio() >= 0.75 for t in toks) and not (len(w) >= 6 and near(w))]
+            # timed captions (word-by-word, 2–3 words at a time) are never all on screen at once: read each one at its own midpoint
+            caps = [c for c in (cb.get("captions") or []) if isinstance(c, dict) and c.get("text") and "start" in c and "end" in c]
+            want = expected({k: v for k, v in cb.items() if k != "captions"} if caps else cb)
+            miss = missing(want, text)
+            for j, c in enumerate(caps):
+                t = min(bt["b"] - 0.05, bt["a"] + (float(c["start"]) + float(c["end"])) / 2)
+                cimg = vp.grab(video, t, tmp / f"beat{i:02d}_cap{j:02d}.jpg")
+                ctext = " ".join(x["text"] for x in vp.ocr([cimg]).get(cimg, []) if x["conf"] >= 0.3)
+                cw = expected({"text": c["text"]})
+                want += cw
+                miss += [w for w in missing(cw, ctext) if w not in miss]
             if want:
-                cov = 1 - len(miss) / len(set(want))
+                cov = 1 - len(set(miss)) / len(set(want))
                 add(f"第 {i} 段文字完整出現", not miss, f"{round(cov * 100)}%" + (f"，沒讀到：{'、'.join(miss[:6])}" if miss else ""), "卡片上的字都讀得到（少 5% 以內算警告）", warn=cov >= 0.95)
         text = " ".join(x["text"] for x in sorted(bx, key=lambda x: (x["y"], x["x"])) if not is_chrome(x["text"]))
         en, zh = words(text); hs = [x["h"] * 100 for x in bx]
