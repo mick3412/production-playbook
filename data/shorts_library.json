@@ -524,10 +524,11 @@
    ],
    "驗證": {
     "試做片": "bench/runs/library-trials/out/SL05.mp4（一天 5 元咖啡，24.6 秒，Kokoro 旁白）",
-    "qa": "WARN（第 3 段 8 秒略長）",
+    "qa": "兩種安全區（--platform reels-tiktok、shorts）都沒有 FAIL；WARN：第 3 段 8 秒（旁白 6.9 秒加讀圖）、OCR 把標籤「1 yr」讀成「1yr」",
     "similar": "PASS",
     "日期": "2026-11-20",
-    "學到": "品牌色的 background 是淺色、primary 是字色，兩個都設深色時淺色段的字會看不見；圖表段字多，要 8 秒或減字"
+    "學到": "品牌色的 background 是淺色、primary 是字色，兩個都設深色時淺色段的字會看不見；圖表段字多，要 8 秒或減字；swiss 主題的深底段會把重點字寫死成紅色 #FF5A5A，用 tone:light 才會用品牌色；cta 版型的字框從 x 96 起算，出了 reels 安全區，結尾改用 statement 版型；直線圖中間點的標籤一定壓到線，只標頭尾兩點",
+    "成片複審": "2026-11-20 新代理兩輪（review_final/round1_report.md、round2_report.md）：第一輪 5 條必改；第二輪必改 0 條、判定通過；未改的建議交負責人決定（開場沒有落差、圖表段下方留白且基線看不出 10 倍、CTA 沒有具體下一步）"
    },
    "變體": {
     "名稱": "旁白版（不用真人出鏡）",
