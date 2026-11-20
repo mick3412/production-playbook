@@ -477,18 +477,21 @@ def wall(out: Path) -> Path:
 <div class="why">{'<br>'.join(html.escape(w) for w in c.get('同類理由', []))}</div>
 <div class="pick"><button class="y">要</button><button class="n">不要</button></div>
 <div class="row">{''.join(f'<label><input type="checkbox" value="{t}"> {t}</label>' for t in tags)}</div></div></div>""")
+    bf = out / "brief.md"   # decision window A: the owner approves the brief together with the picks
+    brief = (f"""<section class="brief"><h2>brief（決策窗 A：和範本一起核准）</h2><pre>{html.escape(bf.read_text(encoding="utf-8")[:3000])}</pre>
+<label><input type="checkbox" id="bok"> brief 核准（給誰看、看完做什麼、平台、長度、花錢項目都對）</label></section>""" if bf.is_file() else "")
     page = f"""<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>同類範本牆</title><style>{WALL_CSS}</style></head><body><main>
+<title>同類範本牆</title><style>{WALL_CSS}.brief{{margin:0 0 18px;padding:12px 16px;border:1px solid color-mix(in srgb,var(--ink) 20%,transparent);border-radius:10px}}.brief h2{{font-size:16px;margin:0 0 6px}}.brief pre{{white-space:pre-wrap;font:14px/1.5 inherit;margin:0 0 8px;max-height:260px;overflow:auto}}</style></head><body><main>
 <h1>同類範本牆</h1><p class="sub">{html.escape(m['需求'])}｜形式 {html.escape(m['形式'])}｜平台 {html.escape(m['平台'])}｜搜尋詞：{html.escape('、'.join(m['搜尋詞']))}{'｜已放寬：' + html.escape('、'.join(m['已放寬'])) if m.get('已放寬') else ''}<br>
 勾 2–3 支「要」，標出要借的點，再按「核准下載」。只在本機開，不發佈。</p>
-<div class="grid">{''.join(cards)}</div></main>
+{brief}<div class="grid">{''.join(cards)}</div></main>
 <div class="bar"><span id="n">已選 0 支</span><button id="save">存檔</button><button id="ok">核准下載所選</button><span id="msg" class="m"></span></div>
 <script>
 const st={{}};document.querySelectorAll('.card').forEach(c=>{{const id=c.dataset.id;st[id]={{選:null,借:[]}};
 c.querySelectorAll('.pick button').forEach(b=>b.onclick=()=>{{st[id].選=b.classList.contains('y')?'要':'不要';c.querySelectorAll('.pick button').forEach(x=>x.classList.toggle('on',x===b));count()}});
 c.querySelectorAll('input').forEach(i=>i.onchange=()=>{{st[id].借=[...c.querySelectorAll('input:checked')].map(x=>x.value)}})}});
 function count(){{document.getElementById('n').textContent='已選 '+Object.values(st).filter(x=>x.選==='要').length+' 支'}}
-async function save(ok){{const body={{選擇:st,核准下載:ok,時間:new Date().toISOString()}};const r=await fetch('/save',{{method:'POST',headers:{{'Content-Type':'application/json'}},body:JSON.stringify(body)}});
+async function save(ok){{const bk=document.getElementById('bok');const body={{選擇:st,核准下載:ok,時間:new Date().toISOString()}};if(bk)body.brief核准=bk.checked;const r=await fetch('/save',{{method:'POST',headers:{{'Content-Type':'application/json'}},body:JSON.stringify(body)}});
 document.getElementById('msg').textContent=r.ok?(ok?'已核准，回到對話說一聲':'已存檔'):'存檔失敗'}}
 document.getElementById('save').onclick=()=>save(false);document.getElementById('ok').onclick=()=>save(true);
 </script></body></html>"""
@@ -1061,7 +1064,7 @@ def main(argv=None) -> int:
     sub = ap.add_subparsers(dest="cmd")
     p = sub.add_parser("find"); p.add_argument("need"); p.add_argument("--platform", choices=list(RULES["平台"])); p.add_argument("--q", action="append")
     p.add_argument("--region", default="US"); p.add_argument("--max", type=int, default=RULES["搜尋"]["輸出上限"]); p.add_argument("--out"); p.add_argument("--no-local", action="store_true"); p.add_argument("--tag", action="append", help="extra hashtag for the Shorts tab, without #")
-    p = sub.add_parser("serve"); p.add_argument("dir"); p.add_argument("--port", type=int, default=8766)
+    p = sub.add_parser("serve"); p.add_argument("dir"); p.add_argument("--port", type=int, default=8766); p.add_argument("--brief", help="brief.md shown at the top of the wall for approval (decision window A)")
     p = sub.add_parser("add"); p.add_argument("dir"); p.add_argument("urls", nargs="+")
     p = sub.add_parser("study"); p.add_argument("dir"); p.add_argument("--keep", action="store_true")
     p = sub.add_parser("purge"); p.add_argument("dir")
@@ -1076,7 +1079,10 @@ def main(argv=None) -> int:
     if a.cmd == "find":
         find(a.need, a.platform, a.q, a.region, a.max, Path(a.out).expanduser() if a.out else None, not a.no_local, a.tag); return 0
     if a.cmd == "serve":
-        return serve(Path(a.dir).expanduser(), a.port)
+        d = Path(a.dir).expanduser()
+        if a.brief:
+            shutil.copy(Path(a.brief).expanduser(), d / "brief.md"); wall(d)
+        return serve(d, a.port)
     if a.cmd == "add":
         return add(Path(a.dir).expanduser(), a.urls)
     if a.cmd == "study":

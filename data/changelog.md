@@ -87,3 +87,4 @@
 - 2026-11-19 pb.py：review-pack --stage web 的下一步提示改成通用審查代理（不是 video-reviewer）
 - 2026-11-20 Shorts／Reels 強範本庫（S83）：`pb.py scout strength`（四訊號：頻道穩定、單支離群、時間校正速度、互動深度；兩門檻：可學性（排除搬運、名人片段、超過 180 秒）、證據量 → S／A／B／做法參考／未達／排除）；`pb.py scout library [list|check|page]` 與 data/shorts_library.json（5 張範本卡 SL-01～05、4 則做法參考、排除紀錄）；試做 SL-05 採用、SL-02 待試；條目 S1-13～17、配方 R-13、stages 1.1 補一句；scout purge 改白名單（只留 json、md、txt、html）；相似度 dHash 門檻改 4；tests/test_strength.py
 - 2026-11-20 video_qa（86e3bd4，整合Playbook 修）：有時間軸的逐詞字幕，每句在自己的中點抽格、只核對那一句的字；SL-02 試做片因此通過，範本卡升為採用
+- 2026-11-20 0.30.0 影片流程加複審點與決策窗：負責人的決定集中成 A 開案、B 方向、C 稿件、D 分鏡、E 成片五窗（S0-14；新增 brief 核准、內容角度 2–3 選 1、配音配樂與主視覺、成片核准與縮圖選擇；G0.5、G2.4、G3.8、G6.7）；新代理複審擴到腳本（2.4，兩輪必做）、成片（6.8 新步驟，兩輪必做，S6-14）、選圖（4.2，一輪）、發佈文字（8.4，一輪），分鏡送審改為預設兩輪（S3-35）；`pb.py review-pack --stage script|final|assets|publish --files`；範本牆 `scout serve --brief` 頁首可核准 brief

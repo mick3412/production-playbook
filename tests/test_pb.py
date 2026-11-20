@@ -83,7 +83,7 @@ class PlaybookTest(unittest.TestCase):
         self.assertIn("目前：0 開案", self.pb("status"))
         out = self.pb("advance", ok=False)
         self.assertIn("G0.1", out)
-        self.pb("check-off", "G0.1", "G0.2", "G0.3", "G0.4")
+        self.pb("check-off", "G0.1", "G0.2", "G0.3", "G0.4", "G0.5")
         self.assertIn("1 研究與參考", self.pb("advance"))
         self.assertIn("目前：0 開案", self.pb("back", "0"))
         self.pb("done")
