@@ -71,7 +71,7 @@ html,body{margin:0;width:var(--W,1080px);height:var(--H,1920px);overflow:hidden;
 .qanum{font:600 200px/1 var(--head);color:var(--accent-ink);margin-bottom:30px} .qaq{font:600 78px/1.2 var(--head)}
 .qaa{font:400 56px/1.6 var(--body);text-wrap:pretty;margin-top:auto;padding-top:40px;border-top:3px solid var(--accent)} .qasrc{position:absolute;left:64px;bottom:56px;font:400 34px var(--body);opacity:.7}
 .pageno{position:absolute;right:120px;bottom:120px;font:600 44px var(--body);opacity:.85}
-.ct{background:var(--ink);color:#fff;display:flex;align-items:center} .ctbox{position:absolute;left:96px;right:96px;top:50%;transform:translateY(-50%)}
+.ct{background:var(--ink);color:#fff;display:flex;align-items:center} .ctbox{position:absolute;left:148px;right:120px;top:420px}   /* inside the safe zone: x ≥ 120 and, from y 420, ends above y 840 where the right edge would have to stop at 780 (SL-05 review) */
 .cth{font:600 132px/1.12 var(--head)} .ctsub{font:500 50px/1.45 var(--body);margin-top:32px} .cthandle{font:600 50px var(--body);margin-top:56px;color:color-mix(in srgb,var(--accent) 55%,#fff)}
 
 /* chart (R-05) */
@@ -140,7 +140,7 @@ body:not(.landscape) .dghead{top:15%;left:12%;right:12%} body:not(.landscape) .d
 .nt{padding:90px 84px} .ntlist{margin-top:6px} .ntp{font:400 37px/1.36 var(--body);padding:12px 0 12px 32px;border-top:2px solid rgba(127,127,127,.35);position:relative}
 .ntp::before{content:'';position:absolute;left:0;top:34px;width:12px;height:12px;border-radius:50%;background:var(--accent)} .ntfoot{margin-top:20px;font:600 37px/1.36 var(--body)}
 body.square .phbox{top:150px} body.square .phbig{font-size:120px} body.square .beat:not(.ph){padding:150px 120px 120px}
-.plat-shorts .beat:not(.ph):not(.sp){padding-top:440px;padding-right:140px} .theme-swiss .dark .accent,.theme-swiss .dark .num{color:#FF5A5A} .theme-organic .small{font-size:56px;line-height:1.24}
+.plat-shorts .beat:not(.ph):not(.sp){padding-top:440px;padding-right:140px} .theme-swiss .dark .accent,.theme-swiss .dark .num{color:var(--accent)}   /* the card's brand accent, not a fixed red (SL-05 review) */ .theme-organic .small{font-size:56px;line-height:1.24}
 body:not(.landscape) .dgt{font-size:92px} body:not(.landscape) .dgnode{font-size:52px;padding:14px 10px} body:not(.landscape) .dgnum{font-size:68px} .landscape .dgt{font-size:92px} .landscape .dgnode{font-size:44px}
 .theme-cinema .phbig{font-size:150px;font-weight:500}
 .beat.sp:not(.spfull) .spname{top:22px;bottom:auto} .plat-story .handle{display:none}

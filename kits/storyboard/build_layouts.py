@@ -117,7 +117,7 @@ LAYOUTS = [
       字級="題目 96px", 動態="蓋章砸下＋輕震", 畫面層="靜態頁：報頭與蓋章排滿",
       範例={"layout": "verdict", "seconds": 5, "masthead": "MYTH CHECK", "myth": "Bigger text is always easier to read.", "verdict": "FALSE", "why": "Past a size, lines wrap and reading slows."}),
  # ---- 收尾群 -------------------------------------------------------------------------------------------
- dict(id="cta", 名稱="行動卡", 群組="收尾", 角色=["結尾"], 用途="一個行動＋帳號", 字區={"x": [8.9, 91.1], "y": [30.0, 70.0]},
+ dict(id="cta", 名稱="行動卡", 群組="收尾", 角色=["結尾"], 用途="一個行動＋帳號", 字區={"x": [13.7, 88.9], "y": [21.9, 50.0]},
       欄位=[F("text", "字串陣列", True, "≤3 行"), F("sub", "字串"), F("handle", "字串")],
       字級="132px", 動態="逐行升起", 畫面層="必填（9:16）",
       範例={"layout": "cta", "seconds": 3, "text": ["Questions?", "Message us."], "handle": "@brand", "visual": {"type": "glow"}}),
