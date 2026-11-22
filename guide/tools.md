@@ -48,6 +48,7 @@
 | [Umless（jatinbishla）](https://github.com/jatinbishla/Umless)（T-98） | 待試 | 免費 | Apache-2.0（寬鬆） | 口述想法要直接變成乾淨文字時（寫腳本、交代 AI）；比一般聽寫多做去贅詞、自我更正、依 App 調語氣、個人詞庫 |
 | [Handy（cjpais）](https://github.com/cjpais/Handy)（T-99） | 待試 | 免費 | MIT（寬鬆） | 要一個跨平台、離線、免費的按鍵聽寫 App 時 |
 | [VoiceInk](https://github.com/Beingpax/VoiceInk)（T-101） | 未採用 | 免費 | GPL-3.0（特殊） | 只當參考：macOS 聽寫做法 |
+| [script2film（解說片整套流程）](https://github.com/notoriouslab/script2film)（T-153） | 未採用 | 免費 | MIT（寬鬆） | —（只拆它的檢查與規則來用） |
 | [Vyral content-skills](https://github.com/vyralcontent/content-skills)（T-39） | 未採用 | 免費 | MIT（寬鬆） | 找短影音鉤子和腳本的寫法（鉤子三層：畫面、口白、字卡） |
 | [digital-marketing-pro：video-script](https://github.com/indranilbanerjee/digital-marketing-pro)（T-40） | 未採用 | 免費 | MIT（寬鬆） | 需要含時間碼、畫面欄與聲音欄的腳本表格範本 |
 | [ClipForge](https://github.com/xixihhhh/clipforge)（T-43） | 未採用 | 免費 | AGPL-3.0（本機限定） | 實體商品的帶貨短片：商品圖 → 腳本 → 畫面、配音、字幕（AGPL，只在本機用） |
@@ -184,6 +185,7 @@
 
 | 工具 | 狀態 | 費用 | 授權 | 何時用 |
 |---|---|---|---|---|
+| [film_check.py（script2film 成片體檢）](https://github.com/notoriouslab/script2film/blob/main/tools/nightly/film_check.py)（T-154） | 已安裝 | 免費 | MIT（寬鬆） | 每支成片算完、給人看或上傳之前 |
 | [Real SFX（Clipwing）](https://github.com/Clipwing/skills)（T-66） | 待試 | 免費 | MIT（腳本）；內附 78 個 UI 音效為 CC0；自己的音效庫依各自授權（寬鬆） | 音效庫準備好、要把音效對到畫面時 |
 | [SFX Kit（wyzowl）](https://github.com/wyzowl/sfx-kit)（T-94） | 待試 | 免費 | CC0-1.0（寬鬆） | 需要基本音效庫並讓 AI 自己選、對齊、混音時 |
 
