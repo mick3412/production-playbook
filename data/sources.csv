@@ -87,3 +87,4 @@
 "S84","負責人要求：影片流程盤點，哪裡加 agent 複審、哪裡加人工決定方向（2026-11-20）","~/.claude/plans/1-ita-playbook-2-zippy-nest.md（計畫）；data/stages.json decision_windows","2026-11-20","新增決策窗 A–E、腳本與成片必做新代理兩輪、選圖與發佈文字一輪"
 "S85","script2film（notoriouslab，MIT）：解說片整套流程與檢查規則","https://github.com/notoriouslab/script2film；本機 clone：playbook-bench/production/refs/script2film","2026-11-22","docs/FLOW.md、tools/nightly/film_check.py、skills/ve-director/doc/scripts/doc_lint.py、references/styles/*.md；film_check 已在自家成片實跑"
 "S86","負責人提供的 4 支 FB Reels（張維峰，AI 主題 4:5 解說片）","playbook-bench/production/refs/fbreels/notes.md（媒體已刪，只留數值、逐字稿與筆記）","2026-11-22","reel 1024062114046801、1483961370549634、1830111384699914、1608066133899301；113–152 秒；整理出版型 A–D 與 5 個做法"
+"S87","負責人提供的 FB 片（張維峰，Modern Web Guidance 1.0 解說，114 秒）","playbook-bench/production/refs/fb1124/notes.md（媒體已刪，只留逐字稿與筆記）","2026-11-24","https://www.facebook.com/share/v/1KN5byELZG/ ；片中數字與官方不符，工具資料以網站手冊 T-48 為準；整理出 3 個手法（S5-40、S2-20、併入 S5-39）"
